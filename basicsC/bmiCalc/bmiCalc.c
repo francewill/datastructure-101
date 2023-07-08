@@ -2,7 +2,7 @@
 #include<stdlib.h>
 
 int main(){
-    int flag=1;
+    int flag=1;  // loop checker
     char choice;
 
     float weight,height,bmi;
@@ -15,24 +15,24 @@ int main(){
         printf("\n[0] Exit\n");
         printf(">>> ");
         scanf(" %c", &choice);
-        switch (choice)
+        switch (choice)  // switch case for user input
         {
-        case '1':
+        case '1':  // for metric system
             printf("\nEnter your weight (kg): ");
             scanf("%f", &weight);
             printf("\nEnter your height (cm): ");
             scanf("%f",&height);
-            height= (height*0.01)*(height*0.01);
-            bmi = weight/height;
+            height= (height*0.01)*(height*0.01);  // convert it to meter
+            bmi = weight/height;  // formula for getting bmi using metric system
             break;
-        case '2':
+        case '2': // for imperial system
             printf("Pounds and ft");
             printf("\nEnter your weight (lb): ");
             scanf("%f",&weight);
             printf("\nEnter your height (ft): ");
             scanf("%f", &height);
-            height = (height*12)*(height*12);
-            bmi = 703 * (weight/height);
+            height = (height*12)*(height*12);  // convert it to inches
+            bmi = 703 * (weight/height);  // formula for getting bmi using imperial system
 
             break;
         case '0':
@@ -44,6 +44,7 @@ int main(){
             printf("Invalid choice!");
             break;
         }
+        // conditions for category
         if(bmi <18.5){
             printf("\nYou're bmi is %f which is underweight\n", bmi);
         }else if(bmi >=18.5 && bmi <=24.99 ){
