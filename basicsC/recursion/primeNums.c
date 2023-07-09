@@ -40,6 +40,7 @@ int main()
         }
     }
     printf("\nGoodbye!\n");
+    return 0;
 }
 
 int primeCheck(int divisor, int num){
