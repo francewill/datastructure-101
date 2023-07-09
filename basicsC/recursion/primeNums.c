@@ -18,7 +18,9 @@ int main()
             printf("The prime numbers from 1 to %d are:", userInput);
             for (int startCounter = 2; startCounter <= userInput; startCounter++)
             {
-                printf(" %d", startCounter);
+                if(primeCheck(2,startCounter)==0){
+                       printf(" %d", startCounter);
+                }
             }
         }
         printf("\nDo you still want to continue?\n[1] Yes\n[2] No\n>>> ");
