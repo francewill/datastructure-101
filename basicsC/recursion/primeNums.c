@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+int primeCheck(int divisor, int num);
 int main()
 {
     int userInput;
@@ -37,4 +37,11 @@ int main()
         }
     }
     printf("\nGoodbye!\n");
+}
+
+int primeCheck(int divisor, int num){
+    if(divisor==num) return 0;
+    else if(num % divisor==0) return 1;
+    else primeCheck(divisor+1,num);
+
 }
