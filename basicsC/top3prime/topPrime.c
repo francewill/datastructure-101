@@ -2,11 +2,13 @@
 int primeCheck(int divisor, int num);
 void getInput(int *x, int *y);
 void swapValues(int *x, int *y);
+void getLargest(int *x,int *y, int *large1,int *large2, int *large3);
 
 int main(){
     int x, y, largest1, largest2, largest3;
     getInput(&x, &y);
     swapValues(&x,&y);
+    getLargest(&x, &y, &largest1, &largest2, &largest3);
 
 
 
@@ -32,7 +34,6 @@ void getInput(int *x, int *y){
     }else{
         *x = tempX;
         *y = tempY;
-        printf("\n here is your number x = %d y = %d", *x,*y);
     }
 
 }
@@ -46,5 +47,24 @@ void swapValues(int *x, int *y){
         *x = *y;
         *y=temp;
         //printf("\nUpdated x = %d and y = %d", *x,*y); 
+    }
+}
+
+void getLargest(int *x,int *y, int *large1,int *large2, int *large3){
+    int userX = *x, userY = *y, count = 0;
+    for(int end = userY; end<=userY;end--){
+
+        if(primeCheck(2, end)==0){
+            if(count == 0){
+                *large1 = end;
+            }else if(count == 1){
+                *large2 = end;
+            }else if(count == 2){
+                *large3 = end;
+            }else{
+                break;
+            }
+            count++;      
+        }
     }
 }
