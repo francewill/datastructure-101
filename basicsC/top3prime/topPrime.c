@@ -53,7 +53,7 @@ void getLargest(int *x,int *y, int *large1,int *large2, int *large3){
     *large2=0;
     *large3=0;
 
-    for(int end = userY; end<=userY;end--){
+    for(int end = userY; end>=userX;end--){
 
         if(primeCheck(2, end)==0){
             if(count == 0){
