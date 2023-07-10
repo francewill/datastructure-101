@@ -3,7 +3,7 @@ int primeCheck(int divisor, int num);
 void getInput(int *x, int *y);
 void swapValues(int *x, int *y);
 void getLargest(int *x,int *y, int *large1,int *large2, int *large3);
-void printLargest(int *large1,int *large2, int *large3);
+void printLargest(int large1,int large2, int large3);
 
 int main(){
     int x, y, largest1, largest2, largest3;
@@ -52,8 +52,9 @@ void getLargest(int *x,int *y, int *large1,int *large2, int *large3){
     *large1=0;
     *large2=0;
     *large3=0;
-    
+
     for(int end = userY; end<=userY;end--){
+
         if(primeCheck(2, end)==0){
             if(count == 0){
                 count++;   
@@ -72,19 +73,19 @@ void getLargest(int *x,int *y, int *large1,int *large2, int *large3){
         }
 
     }
-    printLargest(large1, large2, large3);
+    printLargest(*large1, *large2, *large3);
 }
 
-void printLargest(int *large1,int *large2, int *large3){
-    if(*large1 == 0 && *large2 == 0 && *large3 == 0){
+void printLargest(int large1,int large2, int large3){
+    if(large1 == 0 && large2 == 0 && large3 == 0){
         printf("\nNo prime numbers found.");
-    }else if(*large2 == 0 && *large3 == 0){
-        printf("\nThere are one prime numbers: %d", *large1);
+    }else if(large2 == 0 && large3 == 0){
+        printf("\nThere are one prime numbers: %d", large1);
        
-    }else if(*large3 == 0){
-        printf("\nThere are two prime numbers: %d %d", *large1, *large2);
+    }else if(large3 == 0){
+        printf("\nThere are two prime numbers: %d %d", large1, large2);
     }else{
-        printf("\nThe three largest prime numbers are: %d %d %d", *large1,*large2,*large3);
+        printf("\nThe three largest prime numbers are: %d %d %d", large1,large2,large3);
     }
     
     
