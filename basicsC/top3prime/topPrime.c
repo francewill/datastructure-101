@@ -1,15 +1,16 @@
 #include<stdio.h>
+#include<stdlib.h>
 int primeCheck(int divisor, int num);
 void getInput(int *x, int *y);
 void swapValues(int *x, int *y);
-void getLargest(int *x,int *y, int *large1,int *large2, int *large3);
+void getLargest(int x,int y, int *large1,int *large2, int *large3);
 void printLargest(int large1,int large2, int large3);
 
 int main(){
     int x, y, largest1, largest2, largest3;
     getInput(&x, &y);
     swapValues(&x,&y);
-    getLargest(&x, &y, &largest1, &largest2, &largest3);
+    getLargest(x, y, &largest1, &largest2, &largest3);
     return 0;
 }
 
@@ -27,7 +28,8 @@ void getInput(int *x, int *y){
     scanf("%d", &tempY); 
 
     if(tempX <=1 && tempY <=1){
-        printf("\nInvalid Range!");
+        printf("\nInvalid Range!\n");
+        exit(0);
     }else{
         *x = tempX;
         *y = tempY;
@@ -47,13 +49,16 @@ void swapValues(int *x, int *y){
     }
 }
 
-void getLargest(int *x,int *y, int *large1,int *large2, int *large3){
-    int userX = *x, userY = *y, count = 0;
+void getLargest(int x,int y, int *large1,int *large2, int *large3){
+    int count = 0;
     *large1=0;
     *large2=0;
     *large3=0;
+    if(x<1){
+        x = 2;
+    }
 
-    for(int end = userY; end>=userX;end--){
+    for(int end = y; end>=x;end--){
 
         if(primeCheck(2, end)==0){
             if(count == 0){
@@ -78,14 +83,14 @@ void getLargest(int *x,int *y, int *large1,int *large2, int *large3){
 
 void printLargest(int large1,int large2, int large3){
     if(large1 == 0 && large2 == 0 && large3 == 0){
-        printf("\nNo prime numbers found.");
+        printf("\nNo prime numbers found.\n");
     }else if(large2 == 0 && large3 == 0){
-        printf("\nThere are one prime numbers: %d", large1);
+        printf("\nThere is one prime number: %d\n", large1);
        
     }else if(large3 == 0){
-        printf("\nThere are two prime numbers: %d %d", large1, large2);
+        printf("\nThere are two prime numbers: %d %d\n", large1, large2);
     }else{
-        printf("\nThe three largest prime numbers are: %d %d %d", large1,large2,large3);
+        printf("\nThe three largest prime numbers are: %d %d %d\n", large1,large2,large3);
     }
     
     
