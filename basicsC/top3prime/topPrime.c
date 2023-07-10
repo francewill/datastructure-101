@@ -11,7 +11,6 @@ int main(){
 
 
   
-
     return 0;
 }
 
@@ -22,10 +21,20 @@ int primeCheck(int divisor, int num){
 }
 
 void getInput(int *x, int *y){
+    int tempX, tempY;
     printf("\nEnter a value for x: ");
-    scanf("%d", x);
+    scanf("%d", &tempX);
     printf("\nEnter a value for y: ");
-    scanf("%d", y);   
+    scanf("%d", &tempY); 
+
+    if(tempX <=1 && tempY <=1){
+        printf("\nInvalid Range!");
+    }else{
+        *x = tempX;
+        *y = tempY;
+        printf("\n here is your number x = %d y = %d", *x,*y);
+    }
+
 }
 
 void swapValues(int *x, int *y){
