@@ -14,20 +14,27 @@ int main()
         scanf("%s", userInput);
         for (int i = 0; i < strlen(userInput); i++)
         {
-            if (isupper(userInput[i]))
+            if (islower(userInput[i]))
             {
-                userInput[i] = tolower(userInput[i]);
+                userInput[i] = toupper(userInput[i]);
             }
         }
 
-        if (strcmp(userInput, "exit") == 0)
+        if (strcmp(userInput, "EXIT") == 0)
         {
             printf("Goodbye!\n");
             break;
         }
         else
         {
-            printf("\nResult : %d", isPalindrome(userInput));
+            if (isPalindrome(userInput))
+            {
+                printf("\n%s is a palindrome!\n",userInput);
+            }
+            else
+            {
+                printf("\n%s is not a palindrome!\n",userInput);
+            }
         }
     }
     return 0;
@@ -44,8 +51,8 @@ int isPalindrome(char *word)
             endTracker++;
             continue;
         }
-        else return 0;
- 
+        else
+            return 0;
     }
     return 1;
 }
