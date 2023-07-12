@@ -7,6 +7,8 @@ int isPalindrome(char *word);
 
 int main()
 {
+    char history[50][50];
+    int inputCounter = 0;
     char userInput[50];
     while (1)
     {
@@ -23,6 +25,10 @@ int main()
         if (strcmp(userInput, "EXIT") == 0)
         {
             printf("Goodbye!\n");
+            printf("\nPalindrome history: \n");
+            for(int i = 0; i<inputCounter;i++){
+                printf("%s\n",history[i]);
+            }
             break;
         }
         else
@@ -30,6 +36,10 @@ int main()
             if (isPalindrome(userInput))
             {
                 printf("\n%s is a palindrome!\n",userInput);
+                strcpy(history[inputCounter],userInput);
+                
+                inputCounter++;
+
             }
             else
             {
