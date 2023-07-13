@@ -17,7 +17,7 @@ typedef struct
 } playlist;
 
 char menu();
-void addPlaylist(playlist *set, int index);
+int addPlaylist(playlist *set, int index);
 
 int main()
 {
@@ -30,8 +30,14 @@ int main()
         switch (choice)
         {
         case '1':
-            addPlaylist(setOfPlaylist, countPlaylist);
-            countPlaylist++;
+            if(addPlaylist(setOfPlaylist, countPlaylist)){
+                printf("\nPlaylist successfully added!\n");
+                countPlaylist++;
+            }else{
+                printf("\nYou can't add a playlist with same name!\n");
+            }
+            
+
             break;
         case '2':
             printf("\nYou choose 2");
@@ -71,17 +77,17 @@ char menu()
     return choice;
 }
 
-void addPlaylist(playlist *set, int index)
+int addPlaylist(playlist *set, int index)
 {
     char userInput[30];
     printf("\nEnter your playlist name: ");
     scanf("%s", userInput);
     for(int i = 0; i<index; i++){
         if(strcmp(userInput, set[i].playlistName)==0){
-            printf("\nYou can't add a playlist with same name!\n");
-            return;
+            return 0;
         }
     }
     strcpy(set[index].playlistName, userInput);
+    return 1;
 
 }
