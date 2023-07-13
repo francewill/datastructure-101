@@ -30,8 +30,8 @@ int main()
         switch (choice)
         {
         case '1':
-            printf("\nEnter your playlist name: ");
-
+            addPlaylist(setOfPlaylist, countPlaylist);
+            countPlaylist++;
             break;
         case '2':
             printf("\nYou choose 2");
@@ -73,5 +73,15 @@ char menu()
 
 void addPlaylist(playlist *set, int index)
 {
-    
+    char userInput[30];
+    printf("\nEnter your playlist name: ");
+    scanf("%s", userInput);
+    for(int i = 0; i<index; i++){
+        if(strcmp(userInput, set[i].playlistName)==0){
+            printf("\nYou can't add a playlist with same name!\n");
+            return;
+        }
+    }
+    strcpy(set[index].playlistName, userInput);
+
 }
