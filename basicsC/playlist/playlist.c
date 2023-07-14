@@ -18,6 +18,7 @@ typedef struct
 char menu();
 int addPlaylist(playlist *set, int index);
 int addSong(playlist *set, int index);
+void removeSong(playlist *set, int index);
 void viweAll(playlist *set, int index);
 void viewOnePlaylist(playlist *set, int index);
 
@@ -64,7 +65,7 @@ int main()
 
             break;
         case '3':
-            printf("\nYou choose 3");
+            removeSong(setOfPlaylist, countPlaylist);
             break;
         case '4':
             viewOnePlaylist(setOfPlaylist, countPlaylist);
@@ -124,7 +125,6 @@ int addSong(playlist *set, int index)
 
     if (index == 0)
     {
-
         return 2;
     }
     else
@@ -165,6 +165,56 @@ int addSong(playlist *set, int index)
                 scanf("%s", set[playlistChoice].arraySong[set[playlistChoice].songCount].album);
                 set[playlistChoice].songCount++;
                 return 1;
+            }
+        }
+    }
+}
+
+void removeSong(playlist *set, int index)
+{
+    int playlistChoice;
+    int removeSongChoice;
+    char deletedSong[30];
+
+    if (index == 0)
+    {
+        printf("\nPlease add a playlist first!\n");
+    }
+    else
+    {
+        printf("\nHere are the available playlist:");
+        for (int i = 0; i < index; i++)
+        {
+            printf("\n\t[%d] %s", i, set[i].playlistName);
+        }
+        printf("\nEnter playlist number: ");
+        scanf("%d", &playlistChoice);
+        if (set[playlistChoice].songCount == 0)
+        {
+            printf("\nPlease add a song first!\n");
+        }
+        else
+        {
+            printf("\nHere are the songs in %s:", set[playlistChoice].playlistName);
+            for (int i = 0; i < set[playlistChoice].songCount; i++)
+            {
+                printf("\n[%d]", i);
+                printf("\n\tSONG TITLE: %s", set[playlistChoice].arraySong[i].songTitle);
+                printf("\n\tSONG ARTIST: %s", set[playlistChoice].arraySong[i].artist);
+                printf("\n\tSONG ALBUM: %s\n", set[playlistChoice].arraySong[i].album);
+            }
+            printf("\nEnter the number of the song you want to delete: ");
+            scanf("%d", &removeSongChoice);
+            if (removeSongChoice < 0 || removeSongChoice > set[playlistChoice].songCount - 1)
+            {
+                printf("\nPlease enter a valid song!\n");
+            }
+            else
+            {
+                strcpy(deletedSong,set[playlistChoice].arraySong[removeSongChoice].songTitle);
+  
+                set[playlistChoice].songCount--;
+                printf("\n%s is successfully deleted!\n", deletedSong);
             }
         }
     }
