@@ -22,13 +22,14 @@ void removeSong(playlist *set, int index);
 void viweAll(playlist *set, int index);
 void viewOnePlaylist(playlist *set, int index);
 void save(playlist *set, int index);
+void load(playlist *set, int *index);
 
 int main()
 {
     playlist setOfPlaylist[10];
     int countPlaylist = 0;
     int status;
-
+    load(setOfPlaylist,&countPlaylist);
     while (1)
     {
         char choice = menu();
@@ -299,4 +300,30 @@ void save(playlist *set, int index)
     }
     printf("\nSuccessfully saved the data!\n");
     fclose(fp);
+}
+
+void load(playlist *set, int *index)
+{
+    FILE *fp = fopen("myplaylist.txt", "r");
+    if (fp == NULL)
+    {
+        printf("\n\nNo saved data!\n");
+    }
+    else
+    {
+        fscanf(fp, "%d\n", index);
+        for (int i = 0; i < (*index); i++)
+        {
+            fscanf(fp, " %[^\n]s", set[i].playlistName);
+            fscanf(fp, "%d\n", &set[i].songCount);
+            for (int j = 0; j < set[i].songCount; j++)
+            {
+                fscanf(fp, " %[^\n]s", set[i].arraySong[j].songTitle);
+                fscanf(fp, " %[^\n]s", set[i].arraySong[j].artist);
+                fscanf(fp, " %[^\n]s", set[i].arraySong[j].album);
+            }
+        }
+        printf("\nSuccessfully load the data!\n");
+        fclose(fp);
+    }
 }
