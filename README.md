@@ -4,6 +4,7 @@ It includes basic exercises of C
 - Recursion (Prime number checker)
 - Getting the 3 largest prime numbers from x to y
 - Palindrome 
+- Playlist (Structures)
 
 Not yet done
 # Data Structure
