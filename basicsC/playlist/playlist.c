@@ -17,6 +17,7 @@ typedef struct
 
 char menu();
 int addPlaylist(playlist *set, int index);
+int addSong(playlist *set, int index);
 void viweAll(playlist *set, int index);
 void viewOnePlaylist(playlist *set, int index);
 
@@ -42,7 +43,15 @@ int main()
             }
             break;
         case '2':
-            printf("\nYou choose 2");
+            if (addSong(setOfPlaylist, countPlaylist))
+            {
+                printf("\nSong successfully added to the playlist!\n");
+            }
+            else
+            {
+                printf("\nSong already exist!\n");
+            }
+
             break;
         case '3':
             printf("\nYou choose 3");
@@ -96,6 +105,59 @@ int addPlaylist(playlist *set, int index)
     return 1;
 }
 
+int addSong(playlist *set, int index)
+{
+    int playlistChoice;
+    char title[30];
+    char artist[30];
+    char album[30];
+
+    if (index == 0)
+    {
+        printf("\nPlease add a playlist first!\n");
+    }
+    else
+    {
+        printf("\nHere are the available playlist:");
+        for (int i = 0; i < index; i++)
+        {
+            printf("\n\t[%d] %s", i, set[i].playlistName);
+        }
+        printf("\nEnter playlist number: ");
+        scanf("%d", &playlistChoice);
+        if (playlistChoice > index - 1 || playlistChoice < 0)
+        {
+            printf("\nPlease enter a valid playlist!\n");
+        }
+        else
+        {
+            if (set[playlistChoice].songCount == 10)
+            {
+                printf("\nYou already have 10 songs!\n");
+            }
+            else
+            {
+                printf("\nEnter song title: ");
+                scanf("%s", title);
+                for (int i = 0; i < set[playlistChoice].songCount; i++)
+                {
+                    if (strcmp(title, set[playlistChoice].arraySong[i].songTitle) == 0)
+                    {
+                        return 0;
+                    }
+                }
+                strcpy(set[playlistChoice].arraySong[set[playlistChoice].songCount].songTitle, title);
+                printf("\nEnter song artist: ");
+                scanf("%s", set[playlistChoice].arraySong[set[playlistChoice].songCount].artist);
+                printf("\nEnter song album: ");
+                scanf("%s", set[playlistChoice].arraySong[set[playlistChoice].songCount].album);
+                set[playlistChoice].songCount++;
+                return 1;
+            }
+        }
+    }
+}
+
 void viweAll(playlist *set, int index)
 {
     if (index == 0)
@@ -144,7 +206,7 @@ void viewOnePlaylist(playlist *set, int index)
             {
                 printf("\n\tSONG TITLE: %s", set[playlistChoice].arraySong[i].songTitle);
                 printf("\n\tSONG ARTIST: %s", set[playlistChoice].arraySong[i].artist);
-                printf("\n\tSONG ALBUM: %s", set[playlistChoice].arraySong[i].album);
+                printf("\n\tSONG ALBUM: %s\n", set[playlistChoice].arraySong[i].album);
             }
         }
     }
