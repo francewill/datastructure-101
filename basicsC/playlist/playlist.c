@@ -21,6 +21,7 @@ int addSong(playlist *set, int index);
 void removeSong(playlist *set, int index);
 void viweAll(playlist *set, int index);
 void viewOnePlaylist(playlist *set, int index);
+void save(playlist *set, int index);
 
 int main()
 {
@@ -74,6 +75,7 @@ int main()
             viweAll(setOfPlaylist, countPlaylist);
             break;
         case '6':
+            save(setOfPlaylist, countPlaylist);
             printf("\nThank you and goodbye!\n");
             exit(0);
         default:
@@ -214,9 +216,9 @@ void removeSong(playlist *set, int index)
 
                 for (int i = removeSongChoice; i < set[playlistChoice].songCount; i++)
                 {
-                    strcpy(set[playlistChoice].arraySong[i].songTitle, set[playlistChoice].arraySong[i+1].songTitle);
-                    strcpy(set[playlistChoice].arraySong[i].artist, set[playlistChoice].arraySong[i+1].artist);
-                    strcpy(set[playlistChoice].arraySong[i].album, set[playlistChoice].arraySong[i+1].album);
+                    strcpy(set[playlistChoice].arraySong[i].songTitle, set[playlistChoice].arraySong[i + 1].songTitle);
+                    strcpy(set[playlistChoice].arraySong[i].artist, set[playlistChoice].arraySong[i + 1].artist);
+                    strcpy(set[playlistChoice].arraySong[i].album, set[playlistChoice].arraySong[i + 1].album);
                 }
                 set[playlistChoice].songCount--;
                 printf("\n%s is successfully deleted!\n", deletedSong);
@@ -277,4 +279,24 @@ void viewOnePlaylist(playlist *set, int index)
             }
         }
     }
+}
+
+void save(playlist *set, int index)
+{
+    FILE *fp = fopen("myplaylist.txt", "w");
+
+    fprintf(fp, "%d\n", index);
+    for (int i = 0; i < index; i++)
+    {
+        fprintf(fp, "%s\n", set[i].playlistName);
+        fprintf(fp, "%d\n", set[i].songCount);
+        for (int j = 0; j < set[i].songCount; j++)
+        {
+            fprintf(fp, "%s\n", set[i].arraySong[j].songTitle);
+            fprintf(fp, "%s\n", set[i].arraySong[j].artist);
+            fprintf(fp, "%s\n", set[i].arraySong[j].album);
+        }
+    }
+    printf("\nSuccessfully saved the data!\n");
+    fclose(fp);
 }
