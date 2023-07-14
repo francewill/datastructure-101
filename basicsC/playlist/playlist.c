@@ -103,7 +103,7 @@ int addPlaylist(playlist *set, int index)
 {
     char userInput[30];
     printf("\nEnter your playlist name: ");
-    scanf("%s", userInput);
+    scanf(" %[^\n]s", userInput);
     for (int i = 0; i < index; i++)
     {
         if (strcmp(userInput, set[i].playlistName) == 0)
@@ -138,7 +138,6 @@ int addSong(playlist *set, int index)
         scanf("%d", &playlistChoice);
         if (playlistChoice > index - 1 || playlistChoice < 0)
         {
-
             return 3;
         }
         else
@@ -150,7 +149,7 @@ int addSong(playlist *set, int index)
             else
             {
                 printf("\nEnter song title: ");
-                scanf("%s", title);
+                scanf(" %[^\n]s", title);
                 for (int i = 0; i < set[playlistChoice].songCount; i++)
                 {
                     if (strcmp(title, set[playlistChoice].arraySong[i].songTitle) == 0)
@@ -160,9 +159,9 @@ int addSong(playlist *set, int index)
                 }
                 strcpy(set[playlistChoice].arraySong[set[playlistChoice].songCount].songTitle, title);
                 printf("\nEnter song artist: ");
-                scanf("%s", set[playlistChoice].arraySong[set[playlistChoice].songCount].artist);
+                scanf(" %[^\n]s", set[playlistChoice].arraySong[set[playlistChoice].songCount].artist);
                 printf("\nEnter song album: ");
-                scanf("%s", set[playlistChoice].arraySong[set[playlistChoice].songCount].album);
+                scanf(" %[^\n]s", set[playlistChoice].arraySong[set[playlistChoice].songCount].album);
                 set[playlistChoice].songCount++;
                 return 1;
             }
@@ -211,8 +210,14 @@ void removeSong(playlist *set, int index)
             }
             else
             {
-                strcpy(deletedSong,set[playlistChoice].arraySong[removeSongChoice].songTitle);
-  
+                strcpy(deletedSong, set[playlistChoice].arraySong[removeSongChoice].songTitle);
+
+                for (int i = removeSongChoice; i < set[playlistChoice].songCount; i++)
+                {
+                    strcpy(set[playlistChoice].arraySong[i].songTitle, set[playlistChoice].arraySong[i+1].songTitle);
+                    strcpy(set[playlistChoice].arraySong[i].artist, set[playlistChoice].arraySong[i+1].artist);
+                    strcpy(set[playlistChoice].arraySong[i].album, set[playlistChoice].arraySong[i+1].album);
+                }
                 set[playlistChoice].songCount--;
                 printf("\n%s is successfully deleted!\n", deletedSong);
             }
