@@ -18,6 +18,7 @@ typedef struct
 char menu();
 int addPlaylist(playlist *set, int index);
 void viweAll(playlist *set, int index);
+void viewOnePlaylist(playlist *set, int index);
 
 int main()
 {
@@ -47,14 +48,14 @@ int main()
             printf("\nYou choose 3");
             break;
         case '4':
-            printf("\nYou choose 4");
+            viewOnePlaylist(setOfPlaylist, countPlaylist);
             break;
         case '5':
             viweAll(setOfPlaylist, countPlaylist);
             break;
         case '6':
             printf("\nThank you and goodbye!\n");
-            break;
+            exit(0);
         default:
             printf("\nInvalid input!\n");
         }
@@ -100,11 +101,51 @@ void viweAll(playlist *set, int index)
     if (index == 0)
     {
         printf("\nPlease add a playlist first!\n");
-    }else{
-         for (int i = 0; i < index; i++)
+    }
+    else
+    {
+        for (int i = 0; i < index; i++)
         {
-            printf("\nPlaylist: %s", set[i].playlistName);
+            printf("\nPLAYLIST: %s", set[i].playlistName);
             printf("\nSONG COUNT: %d\n", set[i].songCount);
+        }
+    }
+}
+
+void viewOnePlaylist(playlist *set, int index)
+{
+    int playlistChoice;
+    if (index == 0)
+    {
+        printf("\nPlease add a playlist first!\n");
+    }
+    else
+    {
+        printf("\nPlease select a Playlist:");
+        for (int i = 0; i < index; i++)
+        {
+            printf("\n\t [%d] %s", i, set[i].playlistName);
+        }
+        printf("\n>>> ");
+        scanf("%d", &playlistChoice);
+        if (playlistChoice > index - 1 || playlistChoice < 0)
+        {
+            printf("\nPlease enter a valid playlist!\n");
+        }
+        else if (set[playlistChoice].songCount == 0)
+        {
+            printf("\nPlease add a song first for this playlist!\n");
+        }
+        else
+        {
+            printf("\nPLAYLIST: %s", set[playlistChoice].playlistName);
+            printf("\nSONG COUNT: %d\n", set[playlistChoice].songCount);
+            for (int i = 0; i < set[playlistChoice].songCount; i++)
+            {
+                printf("\n\tSONG TITLE: %s", set[playlistChoice].arraySong[i].songTitle);
+                printf("\n\tSONG ARTIST: %s", set[playlistChoice].arraySong[i].artist);
+                printf("\n\tSONG ALBUM: %s", set[playlistChoice].arraySong[i].album);
+            }
         }
     }
 }
