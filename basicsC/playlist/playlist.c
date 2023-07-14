@@ -13,11 +13,11 @@ typedef struct
     char playlistName[30];
     int songCount;
     song arraySong[10];
-
 } playlist;
 
 char menu();
 int addPlaylist(playlist *set, int index);
+void viweAll(playlist *set, int index);
 
 int main()
 {
@@ -30,14 +30,15 @@ int main()
         switch (choice)
         {
         case '1':
-            if(addPlaylist(setOfPlaylist, countPlaylist)){
+            if (addPlaylist(setOfPlaylist, countPlaylist))
+            {
                 printf("\nPlaylist successfully added!\n");
                 countPlaylist++;
-            }else{
+            }
+            else
+            {
                 printf("\nYou can't add a playlist with same name!\n");
             }
-            
-
             break;
         case '2':
             printf("\nYou choose 2");
@@ -49,7 +50,7 @@ int main()
             printf("\nYou choose 4");
             break;
         case '5':
-            printf("\nYou choose 5");
+            viweAll(setOfPlaylist, countPlaylist);
             break;
         case '6':
             printf("\nThank you and goodbye!\n");
@@ -82,12 +83,28 @@ int addPlaylist(playlist *set, int index)
     char userInput[30];
     printf("\nEnter your playlist name: ");
     scanf("%s", userInput);
-    for(int i = 0; i<index; i++){
-        if(strcmp(userInput, set[i].playlistName)==0){
+    for (int i = 0; i < index; i++)
+    {
+        if (strcmp(userInput, set[i].playlistName) == 0)
+        {
             return 0;
         }
     }
     strcpy(set[index].playlistName, userInput);
+    set[index].songCount = 0;
     return 1;
+}
 
+void viweAll(playlist *set, int index)
+{
+    if (index == 0)
+    {
+        printf("\nPlease add a playlist first!\n");
+    }else{
+         for (int i = 0; i < index; i++)
+        {
+            printf("\nPlaylist: %s", set[i].playlistName);
+            printf("\nSONG COUNT: %d\n", set[i].songCount);
+        }
+    }
 }
