@@ -25,6 +25,7 @@ int main()
 {
     playlist setOfPlaylist[10];
     int countPlaylist = 0;
+    int status;
 
     while (1)
     {
@@ -43,13 +44,22 @@ int main()
             }
             break;
         case '2':
-            if (addSong(setOfPlaylist, countPlaylist))
+            status = addSong(setOfPlaylist, countPlaylist);
+            if (status == 1)
             {
                 printf("\nSong successfully added to the playlist!\n");
             }
-            else
+            else if (status == 0)
             {
                 printf("\nSong already exist!\n");
+            }
+            else if (status == 2)
+            {
+                printf("\nPlease add a playlist first!\n");
+            }
+            else if (status == 3)
+            {
+                printf("\nPlease enter a valid playlist!\n");
             }
 
             break;
@@ -114,7 +124,8 @@ int addSong(playlist *set, int index)
 
     if (index == 0)
     {
-        printf("\nPlease add a playlist first!\n");
+
+        return 2;
     }
     else
     {
@@ -127,7 +138,8 @@ int addSong(playlist *set, int index)
         scanf("%d", &playlistChoice);
         if (playlistChoice > index - 1 || playlistChoice < 0)
         {
-            printf("\nPlease enter a valid playlist!\n");
+
+            return 3;
         }
         else
         {
