@@ -20,30 +20,35 @@ char menu();
 
 int main()
 {
-    char choice = menu();
-    switch (choice)
+    playlist *head = NULL;
+    while (1)
     {
-    case '1':
-        printf("\nThis is option 1");
-        break;
-    case '2':
-        printf("\nThis is option 2");
-        break;
-    case '3':
-        printf("\nThis is option 3");
-        break;
-    case '4':
-        printf("\nThis is option 4");
-        break;
-    case '5':
-        printf("\nThis is option 5");
-        break;
-    case '6':
-        printf("\nThis is option 6");
-        exit(0);
-    default:
-        printf("\nInvalid choice!\n");
+        char choice = menu();
+        switch (choice)
+        {
+        case '1':
+            printf("\nThis is option 1");
+            break;
+        case '2':
+            printf("\nThis is option 2");
+            break;
+        case '3':
+            printf("\nThis is option 3");
+            break;
+        case '4':
+            printf("\nThis is option 4");
+            break;
+        case '5':
+            printf("\nThis is option 5");
+            break;
+        case '6':
+            printf("\nThank you and goodbye!\n");
+            exit(0);
+        default:
+            printf("\nInvalid choice!\n");
+        }
     }
+
     return 0;
 }
 
