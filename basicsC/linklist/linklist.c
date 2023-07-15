@@ -17,10 +17,11 @@ typedef struct playlist_tag
 } playlist;
 
 char menu();
-
+void addPlaylist(playlist **head);
 int main()
 {
     playlist *head = NULL;
+
     while (1)
     {
         char choice = menu();
@@ -65,4 +66,12 @@ char menu()
     printf("\n\nEnter your choice: ");
     scanf(" %c", &choice);
     return choice;
+}
+
+void addPlaylist(playlist **head){
+    playlist *new = (playlist *) malloc(sizeof(playlist));
+    printf("\nEnter playlist name: ");
+    scanf(" %[^\n]s", new->name);
+    new->next = NULL;
+
 }
