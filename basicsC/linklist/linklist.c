@@ -17,7 +17,10 @@ typedef struct playlist_tag
 } playlist;
 
 char menu();
+int asciiCounter(char *word);
 void addPlaylist(playlist **head);
+void viweAll(playlist *head);
+
 int main()
 {
     playlist *head = NULL;
@@ -28,7 +31,7 @@ int main()
         switch (choice)
         {
         case '1':
-            printf("\nThis is option 1");
+            addPlaylist(&head);
             break;
         case '2':
             printf("\nThis is option 2");
@@ -40,7 +43,7 @@ int main()
             printf("\nThis is option 4");
             break;
         case '5':
-            printf("\nThis is option 5");
+            viweAll(head);
             break;
         case '6':
             printf("\nThank you and goodbye!\n");
@@ -68,10 +71,40 @@ char menu()
     return choice;
 }
 
-void addPlaylist(playlist **head){
-    playlist *new = (playlist *) malloc(sizeof(playlist));
+int asciiCounter(char *word)
+{
+    int total = 0;
+    for (int i = 0; i < strlen(word); i++)
+    {
+        total += (int)word[i];
+    }
+    return total;
+}
+
+void addPlaylist(playlist **head)
+{
+    playlist *new = (playlist *)malloc(sizeof(playlist));
     printf("\nEnter playlist name: ");
     scanf(" %[^\n]s", new->name);
-    new->next = NULL;
+    if ((*head) == NULL || asciiCounter(new->name) < asciiCounter((*head)->name))
+    {
+        new->next = (*head);
+        (*head) = new;
+    }
+}
 
+void viweAll(playlist *head)
+{
+    if (head == NULL)
+    {
+        printf("\nPlease add a playlist first!\n");
+    }
+    else
+    {
+        for (playlist *temp = head; temp != NULL; temp = temp->next)
+        {
+            printf("\nPLAYLIST: %s\n", temp->name);
+            printf("SONG COUNT: %d\n", temp->songCount);
+        }
+    }
 }
