@@ -17,7 +17,6 @@ typedef struct playlist_tag
 } playlist;
 
 char menu();
-int asciiCounter(char *word);
 void addPlaylist(playlist **head);
 void addSong(playlist **head);
 void viewOnePlaylist(playlist *head);
@@ -73,16 +72,6 @@ char menu() // menu function
     return choice;
 }
 
-int asciiCounter(char *word)
-{
-    int total = 0;
-    for (int i = 0; i < strlen(word); i++)
-    {
-        total += (int)word[i]; // add all ascii value of the string
-    }
-    return total;
-}
-
 void addPlaylist(playlist **head)
 {
     char userInput[50];
@@ -97,10 +86,10 @@ void addPlaylist(playlist **head)
             return; // don't continue if userinput already exist
         }
     }
-    strcpy(new->name, userInput);                                                 // if playlist is unique then copy it and pass the value to new
-    new->songCount = 0;                                                           // set songCount to 0
-    new->songHead = NULL;                                                         // song head to null since new playlist don't have any songs
-    if ((*head) == NULL || asciiCounter(new->name) < asciiCounter((*head)->name)) // add at head
+    strcpy(new->name, userInput);                                // if playlist is unique then copy it and pass the value to new
+    new->songCount = 0;                                          // set songCount to 0
+    new->songHead = NULL;                                        // song head to null since new playlist don't have any songs
+    if ((*head) == NULL || strcmp(new->name, (*head)->name) < 0) // add at head
     {
         new->next = (*head);
         (*head) = new;
@@ -110,7 +99,7 @@ void addPlaylist(playlist **head)
         playlist *temp;
         for (temp = (*head); temp->next != NULL; temp = temp->next)
         {
-            if (asciiCounter(temp->next->name) > asciiCounter(new->name))
+            if (strcmp(temp->next->name, new->name) > 0)
             {
                 break;
             }
@@ -156,10 +145,10 @@ void addSong(playlist **head)
             char userSong[20];
             char userArtist[20];
             char userAlbum[20];
-            song *new = (song *)malloc(sizeof(new));
+            song *new = (song *)malloc(sizeof(song));
             printf("\nEnter song title: ");
             scanf(" %[^\n]s", userSong);
-            for (song *tempSong = temp->songHead; tempSong != NULL; tempSong->nextSong)
+            for (song *tempSong = temp->songHead; tempSong != NULL; tempSong = tempSong->nextSong)
             {
                 if (strcmp(tempSong->title, userSong) == 0)
                 {
@@ -167,19 +156,33 @@ void addSong(playlist **head)
                     return;
                 }
             }
-            strcpy(new->title,userSong);
-            printf("\nEnter song artist: ");
+            strcpy(new->title, userSong);
+            printf("Enter song artist: ");
             scanf(" %[^\n]s", new->artist);
-            printf("\nEnter song album: ");
+            printf("Enter song album: ");
             scanf(" %[^\n]s", new->album);
-   
 
-            if (temp->songHead == NULL || asciiCounter(temp->songHead->title) > asciiCounter(new->title)){
+            if (temp->songHead == NULL || strcmp(temp->songHead->title, new->title) > 0)
+            {
                 new->nextSong = temp->songHead;
                 temp->songHead = new;
-            }else{
-                song *checker = (song *) malloc (sizeof(song));
-                
+                temp->songCount++;
+                printf("\n%s is successfully added!\n", userSong);
+            }
+            else
+            {
+                song *checker;
+                for (checker = temp->songHead; checker->nextSong != NULL; checker = checker->nextSong)
+                {
+                    if (strcmp(new->title, checker->nextSong->title) < 0)
+                    {
+                        break;
+                    }
+                }
+                new->nextSong = checker->nextSong;
+                checker->nextSong = new;
+                temp->songCount++;
+                printf("\n%s is successfully added!\n", userSong);
             }
         }
     }
@@ -202,7 +205,7 @@ void viewOnePlaylist(playlist *head)
             printf("\n\t[%d] %s", count, temp->name);
             count++;
         }
-        printf("\nEnter playlist name: ");
+        printf("\n\nEnter playlist name: ");
         scanf(" %[^\n]s", userInput);
 
         for (temp = head; temp != NULL; temp = temp->next) // check if user input does not exist
@@ -230,7 +233,7 @@ void viewOnePlaylist(playlist *head)
                 {
                     printf("\n\n\tSONG TITLE: %s", tempSong->title);
                     printf("\n\tSONG ARTIST: %s", tempSong->artist);
-                    printf("\n\tSONG ALBUM: %s", tempSong->album);
+                    printf("\n\tSONG ALBUM: %s\n", tempSong->album);
                 }
             }
         }
