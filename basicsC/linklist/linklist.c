@@ -138,7 +138,7 @@ void viewOnePlaylist(playlist *head)
             count++;
         }
         printf("\nEnter playlist name: ");
-        scanf("%s", userInput);
+        scanf(" %[^\n]s", userInput);
 
         for (temp = head; temp != NULL; temp = temp->next)  // check if user input does not exist
         {
