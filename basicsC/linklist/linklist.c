@@ -83,9 +83,17 @@ int asciiCounter(char *word)
 
 void addPlaylist(playlist **head)
 {
+    char userInput[50];
     playlist *new = (playlist *)malloc(sizeof(playlist));
     printf("\nEnter playlist name: ");
-    scanf(" %[^\n]s", new->name);
+    scanf(" %[^\n]s", userInput);
+    for(playlist *temp = (*head); temp!=NULL; temp = temp->next){
+        if(strcmp(temp->name,userInput)==0){
+            printf("\nThis playlist already exist!\n");
+            return;
+        }
+    }
+    strcpy(new->name,userInput);
     if ((*head) == NULL || asciiCounter(new->name) < asciiCounter((*head)->name))
     {
         new->next = (*head);
@@ -101,6 +109,7 @@ void addPlaylist(playlist **head)
         temp->next = new;
 
     }
+    printf("\nPlaylist successfully added!\n");
 }
 
 void viweAll(playlist *head)
