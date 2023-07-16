@@ -19,6 +19,7 @@ typedef struct playlist_tag
 char menu();
 void addPlaylist(playlist **head);
 void addSong(playlist **head);
+void removeSong(playlist **head);
 void viewOnePlaylist(playlist *head);
 void viweAll(playlist *head);
 
@@ -38,7 +39,7 @@ int main()
             addSong(&head);
             break;
         case '3':
-            printf("\nThis is option 3");
+            removeSong(&head);
             break;
         case '4':
             viewOnePlaylist(head);
@@ -114,18 +115,16 @@ void addSong(playlist **head)
 {
     char userChoicePlaylist[50];
     playlist *temp;
-    int count = 1;
     if ((*head) == NULL)
     {
         printf("\nPlease add a playlist first!\n");
     }
     else
     {
-        printf("\nWhere do you want to add your song:");
+        printf("\nChoose a Playlist: ");
         for (temp = (*head); temp != NULL; temp = temp->next)
         {
-            printf("\n\t[%d] %s", count, temp->name);
-            count++;
+            printf("\n\t>>> %s", temp->name);
         }
         printf("\n\nEnter the name of the playlist: ");
         scanf(" %[^\n]s", userChoicePlaylist);
@@ -188,11 +187,51 @@ void addSong(playlist **head)
     }
 }
 
+void removeSong(playlist **head)
+{
+    char userChoicePlaylist[50];
+    playlist *temp;
+  
+    if ((*head) == NULL)
+    {
+        printf("\nPlease add a playlist first!\n");
+    }
+    else
+    {
+        printf("\nChoose a Playlist: ");
+        for (temp = (*head); temp != NULL; temp = temp->next)
+        {
+            printf("\n\t>>> %s", temp->name);
+
+        }
+        printf("\n\nEnter the name of the playlist: ");
+        scanf(" %[^\n]s", userChoicePlaylist);
+        for (temp = (*head); temp != NULL; temp = temp->next)
+        {
+            if (strcmp(temp->name, userChoicePlaylist) == 0)
+            {
+                break;
+            }
+        }
+        if (temp == NULL)
+        {
+            printf("\n%s does not exist!\n", userChoicePlaylist);
+        }
+        else
+        {
+            if(temp->songHead == NULL){
+                printf("\nThis playlist don't have any songs!\n");
+            }else{
+                printf("\nThis playlist have songs\n");
+            }
+        }
+    }
+}
 void viewOnePlaylist(playlist *head)
 {
     char userInput[50];
     playlist *temp;
-    int count = 1;
+
     if (head == NULL)
     {
         printf("\nPlease add a playlist first!\n");
@@ -202,8 +241,8 @@ void viewOnePlaylist(playlist *head)
         printf("\nEnter the the Playlist name you want to view:");
         for (temp = head; temp != NULL; temp = temp->next)
         {
-            printf("\n\t[%d] %s", count, temp->name);
-            count++;
+            printf("\n\t>>> %s", temp->name);
+   
         }
         printf("\n\nEnter playlist name: ");
         scanf(" %[^\n]s", userInput);
