@@ -24,7 +24,7 @@ void viweAll(playlist *head);
 
 int main()
 {
-    playlist *head = NULL;
+    playlist *head = NULL; // always make it null 
 
     while (1)
     {
@@ -57,7 +57,7 @@ int main()
     return 0;
 }
 
-char menu()
+char menu()  // menu function
 {
     char choice;
     printf("\n======= MENU =======");
@@ -77,7 +77,7 @@ int asciiCounter(char *word)
     int total = 0;
     for (int i = 0; i < strlen(word); i++)
     {
-        total += (int)word[i];
+        total += (int)word[i];  // add all ascii value of the string
     }
     return total;
 }
@@ -88,23 +88,23 @@ void addPlaylist(playlist **head)
     playlist *new = (playlist *)malloc(sizeof(playlist));
     printf("\nEnter playlist name: ");
     scanf(" %[^\n]s", userInput);
-    for (playlist *temp = (*head); temp != NULL; temp = temp->next)
+    for (playlist *temp = (*head); temp != NULL; temp = temp->next)  // check if playlist already exist
     {
         if (strcmp(temp->name, userInput) == 0)
         {
             printf("\nThis playlist already exist!\n");
-            return;
+            return;  // don't continue if userinput already exist
         }
     }
-    strcpy(new->name, userInput);
-    new->songCount = 0;
-    new->songHead = NULL;
-    if ((*head) == NULL || asciiCounter(new->name) < asciiCounter((*head)->name))
+    strcpy(new->name, userInput); // if playlist is unique then copy it and pass the value to new
+    new->songCount = 0;  // set songCount to 0
+    new->songHead = NULL;  // song head to null since new playlist don't have any songs
+    if ((*head) == NULL || asciiCounter(new->name) < asciiCounter((*head)->name)) // add at head
     {
         new->next = (*head);
         (*head) = new;
     }
-    else
+    else  // add at middle or tail
     {
         playlist *temp;
         for (temp = (*head); temp->next != NULL; temp = temp->next)
@@ -122,7 +122,7 @@ void addPlaylist(playlist **head)
 
 void viewOnePlaylist(playlist *head)
 {
-    char userInput[50]; 
+    char userInput[50];
     playlist *temp;
     int count = 1;
     if (head == NULL)
@@ -132,38 +132,46 @@ void viewOnePlaylist(playlist *head)
     else
     {
         printf("\nEnter the the Playlist name you want to view:");
-        for(temp= head; temp!=NULL; temp = temp->next){
-            printf("\n\t[%d] %s",count, temp->name);
+        for (temp = head; temp != NULL; temp = temp->next)
+        {
+            printf("\n\t[%d] %s", count, temp->name);
             count++;
         }
         printf("\nEnter playlist name: ");
         scanf("%s", userInput);
-       
-        for(temp = head; temp!=NULL; temp = temp->next){
-            if(strcmp(temp->name,userInput)==0){
+
+        for (temp = head; temp != NULL; temp = temp->next)  // check if user input does not exist
+        {
+            if (strcmp(temp->name, userInput) == 0)
+            {
                 break;
             }
         }
-        if(temp == NULL){
+        if (temp == NULL)
+        {
             printf("\n%s does not exist!\n", userInput);
-        }else{
-            if(temp->songCount == 0){
+        }
+        else  // if userinput exist then print the specific playlist
+        {
+            if (temp->songCount == 0)
+            {
                 printf("\n%s currently don't have any songs!\n", temp->name);
-            }else{
-                printf("\nPLAYLIST: %s",temp->name);
+            }
+            else
+            {
+                printf("\nPLAYLIST: %s", temp->name);
                 printf("\nSONG COUNT: %d", temp->songCount);
-                for(song *tempSong = temp->songHead; tempSong!=NULL; tempSong = tempSong->nextSong){
-                    printf("\n\n\tSONG TITLE: %s",tempSong->title);
-                    printf("\n\tSONG ARTIST: %s",tempSong->artist);
-                    printf("\n\tSONG ALBUM: %s",tempSong->album);
+                for (song *tempSong = temp->songHead; tempSong != NULL; tempSong = tempSong->nextSong)
+                {
+                    printf("\n\n\tSONG TITLE: %s", tempSong->title);
+                    printf("\n\tSONG ARTIST: %s", tempSong->artist);
+                    printf("\n\tSONG ALBUM: %s", tempSong->album);
                 }
-                
             }
         }
-        
     }
 }
-void viweAll(playlist *head)
+void viweAll(playlist *head)  // show all playlist
 {
     if (head == NULL)
     {
