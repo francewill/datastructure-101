@@ -90,6 +90,16 @@ void addPlaylist(playlist **head)
     {
         new->next = (*head);
         (*head) = new;
+    }else{
+        playlist *temp;
+        for(temp = (*head); temp->next !=NULL; temp= temp->next){
+            if(asciiCounter(temp->next->name)>asciiCounter(new->name)){
+                break;
+            }
+        }
+        new->next =temp->next;
+        temp->next = new;
+
     }
 }
 
