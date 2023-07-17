@@ -22,6 +22,7 @@ void addSong(playlist **head);
 void removeSong(playlist **head);
 void viewOnePlaylist(playlist *head);
 void viweAll(playlist *head);
+void deleteAll(playlist **head);
 
 int main()
 {
@@ -331,5 +332,13 @@ void viweAll(playlist *head) // show all playlist
             printf("\nPLAYLIST: %s\n", temp->name);
             printf("SONG COUNT: %d\n", temp->songCount);
         }
+    }
+}
+
+void deleteAll(playlist **head){
+    playlist *temp;
+    song *tempSong;
+    while((*head)!=NULL){
+        temp = (*head);
     }
 }
