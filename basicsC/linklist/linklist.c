@@ -191,7 +191,7 @@ void removeSong(playlist **head)
 {
     char userChoicePlaylist[50];
     playlist *temp;
-  
+
     if ((*head) == NULL)
     {
         printf("\nPlease add a playlist first!\n");
@@ -202,7 +202,6 @@ void removeSong(playlist **head)
         for (temp = (*head); temp != NULL; temp = temp->next)
         {
             printf("\n\t>>> %s", temp->name);
-
         }
         printf("\n\nEnter the name of the playlist: ");
         scanf(" %[^\n]s", userChoicePlaylist);
@@ -219,10 +218,52 @@ void removeSong(playlist **head)
         }
         else
         {
-            if(temp->songHead == NULL){
+            char userSongInput[20];
+            char userArtistInput[20];
+            if (temp->songHead == NULL)
+            {
                 printf("\nThis playlist don't have any songs!\n");
-            }else{
-                printf("\nThis playlist have songs\n");
+            }
+            else
+            {
+                printf("\nHere are the songs available in %s:\n", temp->name);
+                for (song *tempSong = temp->songHead; tempSong != NULL; tempSong = tempSong->nextSong)
+                {
+                    printf("\n>>> %s", tempSong->title);
+                }
+                printf("\nEnter song title to delete: ");
+                scanf(" %[^\n]s", userSongInput);
+                printf("\nEnter song artist to delete: ");
+                scanf(" %[^\n]s", userArtistInput);
+                song *tempSongCheck;
+                for (tempSongCheck = temp->songHead; tempSongCheck != NULL; tempSongCheck = tempSongCheck->nextSong)
+                {
+                    if (strcmp(userSongInput, tempSongCheck->title) == 0 && strcmp(userArtistInput, tempSongCheck->artist) == 0)
+                    {
+                        break;
+                    }
+                }
+                if (tempSongCheck == NULL)
+                {
+                    printf("\nYour input does not exist!\n");
+                }
+                else
+                {
+                    if (tempSongCheck == temp->songHead)
+                    {
+                        temp->songHead = temp->songHead->nextSong;
+                    }
+                    else
+                    {
+                        song *p;
+                        for (p = temp->songHead; p->nextSong != tempSongCheck; p = p->nextSong)
+                            ;
+                        p->nextSong = tempSongCheck->nextSong;
+                    }
+                    free(tempSongCheck);
+                    temp->songCount--;
+                    printf("\n%s successfully deleted!\n", userSongInput);
+                }
             }
         }
     }
@@ -242,7 +283,6 @@ void viewOnePlaylist(playlist *head)
         for (temp = head; temp != NULL; temp = temp->next)
         {
             printf("\n\t>>> %s", temp->name);
-   
         }
         printf("\n\nEnter playlist name: ");
         scanf(" %[^\n]s", userInput);
