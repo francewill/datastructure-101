@@ -5,10 +5,9 @@ It includes basic exercises of C
 - Getting the 3 largest prime numbers from x to y
 - Palindrome 
 - Playlist (Structures)
+- Playlist (Linked List)
 
-Not yet done
 # Data Structure
-Currently working on basics of c but the coverage of this section is
 
 - Stack
 - Queues
