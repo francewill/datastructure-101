@@ -124,11 +124,11 @@ void addSong(playlist **head, int *checkChanges)
 {
     char userChoicePlaylist[50];
     playlist *temp;
-    if ((*head) == NULL)
+    if ((*head) == NULL) // check if head is null
     {
         printf("\nPlease add a playlist first!\n");
     }
-    else
+    else // if not null then get user input
     {
         printf("\nChoose a Playlist: ");
         for (temp = (*head); temp != NULL; temp = temp->next)
@@ -137,7 +137,7 @@ void addSong(playlist **head, int *checkChanges)
         }
         printf("\n\nEnter the name of the playlist: ");
         scanf(" %[^\n]s", userChoicePlaylist);
-        for (temp = (*head); temp != NULL; temp = temp->next)
+        for (temp = (*head); temp != NULL; temp = temp->next) // check if playlist exist
         {
             if (strcmp(temp->name, userChoicePlaylist) == 0)
             {
@@ -148,7 +148,7 @@ void addSong(playlist **head, int *checkChanges)
         {
             printf("\n%s does not exist!\n", userChoicePlaylist);
         }
-        else
+        else // incase temp is not null then playlist exist
         {
             char userSong[20];
             char userArtist[20];
@@ -156,26 +156,26 @@ void addSong(playlist **head, int *checkChanges)
             song *new = (song *)malloc(sizeof(song));
             printf("\nEnter song title: ");
             scanf(" %[^\n]s", userSong);
-            for (song *tempSong = temp->songHead; tempSong != NULL; tempSong = tempSong->nextSong)
+            for (song *tempSong = temp->songHead; tempSong != NULL; tempSong = tempSong->nextSong) // check if user input already exist
             {
-                if (strcmp(tempSong->title, userSong) == 0)
+                if (strcmp(tempSong->title, userSong) == 0) // if there is same title automatically return and end the function
                 {
                     printf("\nThis song already exist!\n");
                     return;
                 }
             }
-            strcpy(new->title, userSong);
+            strcpy(new->title, userSong); // else proceed
             printf("Enter song artist: ");
             scanf(" %[^\n]s", new->artist);
             printf("Enter song album: ");
             scanf(" %[^\n]s", new->album);
 
-            if (temp->songHead == NULL || strcmp(temp->songHead->title, new->title) > 0)
+            if (temp->songHead == NULL || strcmp(temp->songHead->title, new->title) > 0) // insert at head
             {
                 new->nextSong = temp->songHead;
                 temp->songHead = new;
             }
-            else
+            else // insert at tail or middle
             {
                 song *checker;
                 for (checker = temp->songHead; checker->nextSong != NULL; checker = checker->nextSong)
@@ -188,7 +188,7 @@ void addSong(playlist **head, int *checkChanges)
                 new->nextSong = checker->nextSong;
                 checker->nextSong = new;
             }
-            temp->songCount++;
+            temp->songCount++; // increment song count
             printf("\n%s is successfully added!\n", userSong);
             *checkChanges = 1;
         }
@@ -200,20 +200,20 @@ void removeSong(playlist **head, int *checkChanges)
     char userChoicePlaylist[50];
     playlist *temp;
 
-    if ((*head) == NULL)
+    if ((*head) == NULL) // check if playlists exist
     {
         printf("\nPlease add a playlist first!\n");
     }
     else
     {
-        printf("\nChoose a Playlist: ");
+        printf("\nChoose a Playlist: "); // get user input
         for (temp = (*head); temp != NULL; temp = temp->next)
         {
             printf("\n\t>>> %s", temp->name);
         }
         printf("\n\nEnter the name of the playlist: ");
         scanf(" %[^\n]s", userChoicePlaylist);
-        for (temp = (*head); temp != NULL; temp = temp->next)
+        for (temp = (*head); temp != NULL; temp = temp->next)  // check if the userinput exist
         {
             if (strcmp(temp->name, userChoicePlaylist) == 0)
             {
@@ -224,7 +224,7 @@ void removeSong(playlist **head, int *checkChanges)
         {
             printf("\n%s does not exist!\n", userChoicePlaylist);
         }
-        else
+        else  // if it exist check if the playlist have songs
         {
             char userSongInput[20];
             char userArtistInput[20];
@@ -232,7 +232,7 @@ void removeSong(playlist **head, int *checkChanges)
             {
                 printf("\nThis playlist don't have any songs!\n");
             }
-            else
+            else  // if there are songs then ask for title and artist
             {
                 printf("\nHere are the songs available in %s:\n", temp->name);
                 for (song *tempSong = temp->songHead; tempSong != NULL; tempSong = tempSong->nextSong)
@@ -246,9 +246,9 @@ void removeSong(playlist **head, int *checkChanges)
                 song *tempSongCheck;
                 for (tempSongCheck = temp->songHead; tempSongCheck != NULL; tempSongCheck = tempSongCheck->nextSong)
                 {
-                    if (strcmp(userSongInput, tempSongCheck->title) == 0 && strcmp(userArtistInput, tempSongCheck->artist) == 0)
+                    if (strcmp(userSongInput, tempSongCheck->title) == 0 && strcmp(userArtistInput, tempSongCheck->artist) == 0)  
                     {
-                        break;
+                        break;  // both artist and title must match
                     }
                 }
                 if (tempSongCheck == NULL)
@@ -257,11 +257,11 @@ void removeSong(playlist **head, int *checkChanges)
                 }
                 else
                 {
-                    if (tempSongCheck == temp->songHead)
+                    if (tempSongCheck == temp->songHead)  // delete at head
                     {
                         temp->songHead = temp->songHead->nextSong;
                     }
-                    else
+                    else  // delete at middle or tail
                     {
                         song *p;
                         for (p = temp->songHead; p->nextSong != tempSongCheck; p = p->nextSong)
@@ -343,7 +343,7 @@ void viweAll(playlist *head) // show all playlist
     }
 }
 
-void deleteAll(playlist **head)
+void deleteAll(playlist **head)  // delete all
 {
     playlist *temp;
     song *tempSong;
@@ -367,14 +367,14 @@ void save(playlist *head, int playlistNum, int checkChanges)
     if (checkChanges)
     {
         FILE *fp = fopen("myplaylist.txt", "w");
-        fprintf(fp, "%d\n", playlistNum);
+        fprintf(fp, "%d\n", playlistNum);  // print number of playlist
         for (playlist *temp = head; temp != NULL; temp = temp->next)
         {
-            fprintf(fp, "%s\n", temp->name);
-            fprintf(fp, "%d\n", temp->songCount);
+            fprintf(fp, "%s\n", temp->name);  // name of playlist
+            fprintf(fp, "%d\n", temp->songCount);   // it's song count
             for (song *tempSong = temp->songHead; tempSong != NULL; tempSong = tempSong->nextSong)
             {
-                fprintf(fp, "%s\n", tempSong->title);
+                fprintf(fp, "%s\n", tempSong->title); // details of song
                 fprintf(fp, "%s\n", tempSong->artist);
                 fprintf(fp, "%s\n", tempSong->album);
             }
@@ -396,9 +396,12 @@ void load(playlist **head, int *playlistNum)
         int num = fscanf(fp, "%d", *playlistNum);
         for (int i = 0; i < num; i++)
         {
-            if((*head)==NULL){
-
-            }else{}
+            if ((*head) == NULL)
+            {
+            }
+            else
+            {
+            }
         }
     }
     else
