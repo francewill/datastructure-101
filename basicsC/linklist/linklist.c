@@ -24,13 +24,14 @@ void viewOnePlaylist(playlist *head);
 void viweAll(playlist *head);
 void deleteAll(playlist **head);
 void save(playlist *head, int playlistNum, int checkChanges);
+void load(playlist **head, int *playlistNum);
 
 int main()
 {
     playlist *head = NULL; // always make it null
     int playlistNum = 0;
     int checkChanges = 0;
-
+    load(&head, &playlistNum);
     while (1)
     {
         char choice = menu();
@@ -384,5 +385,24 @@ void save(playlist *head, int playlistNum, int checkChanges)
     else
     {
         printf("\nThere are no changes in your data!\n");
+    }
+}
+
+void load(playlist **head, int *playlistNum)
+{
+    FILE *fp = fopen("myplaylist.txt", "r");
+    if (fp != NULL)
+    {
+        int num = fscanf(fp, "%d", *playlistNum);
+        for (int i = 0; i < num; i++)
+        {
+            if((*head)==NULL){
+
+            }else{}
+        }
+    }
+    else
+    {
+        printf("\nThere is no saved data!\n");
     }
 }
