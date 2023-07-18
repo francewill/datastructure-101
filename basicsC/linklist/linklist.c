@@ -412,8 +412,30 @@ void load(playlist **head, int *playlistNum)
                 new->next = temp->next;
                 temp->next = new;
             }
+
+            if(new->songCount){
+                for(int j = 0; j < new->songCount;j++){
+                    song *newSong = (song *) malloc (sizeof(song));
+                    fscanf(fp, " %[^\n]", newSong->title);
+                    fscanf(fp, " %[^\n]", newSong->artist);
+                    fscanf(fp, " %[^\n]", newSong->album);
+
+                    if(new->songHead==NULL){
+                        newSong->nextSong = new->songHead;
+                        new->songHead = newSong;
+                    }else{
+                        song *tempSong;
+                        for(tempSong = new->songHead; tempSong->nextSong!=NULL; tempSong = tempSong->nextSong);
+                        newSong->nextSong = tempSong->nextSong;
+                        tempSong->nextSong = newSong;
+                    }
+                
+                }
+            }
             
         }
+        printf("\nSuccessfully loaded the data!\n");
+        fclose(fp);
     }
     else
     {
