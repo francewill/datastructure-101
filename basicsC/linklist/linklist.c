@@ -50,6 +50,8 @@ int main()
             break;
         case '6':
             printf("\nThank you and goodbye!\n");
+            deleteAll(&head);
+            viweAll(head);
             exit(0);
         default:
             printf("\nInvalid choice!\n");
@@ -340,5 +342,12 @@ void deleteAll(playlist **head){
     song *tempSong;
     while((*head)!=NULL){
         temp = (*head);
+        while(temp->songHead!=NULL){
+            tempSong = temp->songHead;
+            temp->songHead = temp->songHead->nextSong;
+            free(tempSong);
+        }
+        (*head) = (*head)->next;
+        free(temp);
     }
 }
