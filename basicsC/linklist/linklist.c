@@ -17,18 +17,19 @@ typedef struct playlist_tag
 } playlist;
 
 char menu();
-void addPlaylist(playlist **head);
-void addSong(playlist **head);
-void removeSong(playlist **head);
+void addPlaylist(playlist **head, int *checkChanges);
+void addSong(playlist **head, int *checkChanges);
+void removeSong(playlist **head, int *checkChanges);
 void viewOnePlaylist(playlist *head);
 void viweAll(playlist *head);
 void deleteAll(playlist **head);
-void save(playlist *head, int playlistNum);
+void save(playlist *head, int playlistNum, int checkChanges);
 
 int main()
 {
     playlist *head = NULL; // always make it null
     int playlistNum = 0;
+    int checkChanges = 0;
 
     while (1)
     {
@@ -36,14 +37,14 @@ int main()
         switch (choice)
         {
         case '1':
-            addPlaylist(&head);
+            addPlaylist(&head, &checkChanges);
             playlistNum++;
             break;
         case '2':
-            addSong(&head);
+            addSong(&head, &checkChanges);
             break;
         case '3':
-            removeSong(&head);
+            removeSong(&head, &checkChanges);
             break;
         case '4':
             viewOnePlaylist(head);
@@ -52,7 +53,7 @@ int main()
             viweAll(head);
             break;
         case '6':
-            save(head, playlistNum);
+            save(head, playlistNum, checkChanges);
             deleteAll(&head);
             printf("\nThank you and goodbye!\n");
             exit(0);
@@ -79,7 +80,7 @@ char menu() // menu function
     return choice;
 }
 
-void addPlaylist(playlist **head)
+void addPlaylist(playlist **head, int *checkChanges)
 {
     char userInput[50];
     playlist *new = (playlist *)malloc(sizeof(playlist));
@@ -115,9 +116,10 @@ void addPlaylist(playlist **head)
         temp->next = new;
     }
     printf("\nPlaylist successfully added!\n");
+    *checkChanges = 1;
 }
 
-void addSong(playlist **head)
+void addSong(playlist **head, int *checkChanges)
 {
     char userChoicePlaylist[50];
     playlist *temp;
@@ -171,8 +173,6 @@ void addSong(playlist **head)
             {
                 new->nextSong = temp->songHead;
                 temp->songHead = new;
-                temp->songCount++;
-                printf("\n%s is successfully added!\n", userSong);
             }
             else
             {
@@ -186,14 +186,15 @@ void addSong(playlist **head)
                 }
                 new->nextSong = checker->nextSong;
                 checker->nextSong = new;
-                temp->songCount++;
-                printf("\n%s is successfully added!\n", userSong);
             }
+            temp->songCount++;
+            printf("\n%s is successfully added!\n", userSong);
+            *checkChanges = 1;
         }
     }
 }
 
-void removeSong(playlist **head)
+void removeSong(playlist **head, int *checkChanges)
 {
     char userChoicePlaylist[50];
     playlist *temp;
@@ -268,6 +269,7 @@ void removeSong(playlist **head)
                     }
                     free(tempSongCheck);
                     temp->songCount--;
+                    *checkChanges = 1;
                     printf("\n%s successfully deleted!\n", userSongInput);
                 }
             }
@@ -358,21 +360,29 @@ void deleteAll(playlist **head)
     }
 }
 
-void save(playlist *head, int playlistNum)
+void save(playlist *head, int playlistNum, int checkChanges)
 {
-    FILE *fp = fopen("myplaylist.txt", "w");
-    fprintf(fp, "%d\n", playlistNum);
-    for (playlist *temp = head; temp != NULL; temp = temp->next)
+
+    if (checkChanges)
     {
-        fprintf(fp, "%s\n", temp->name);
-        fprintf(fp, "%d\n", temp->songCount);
-        for (song *tempSong = temp->songHead; tempSong != NULL; tempSong = tempSong->nextSong)
+        FILE *fp = fopen("myplaylist.txt", "w");
+        fprintf(fp, "%d\n", playlistNum);
+        for (playlist *temp = head; temp != NULL; temp = temp->next)
         {
-            fprintf(fp, "%s\n", tempSong->title);
-            fprintf(fp, "%s\n", tempSong->artist);
-            fprintf(fp, "%s\n", tempSong->album);
+            fprintf(fp, "%s\n", temp->name);
+            fprintf(fp, "%d\n", temp->songCount);
+            for (song *tempSong = temp->songHead; tempSong != NULL; tempSong = tempSong->nextSong)
+            {
+                fprintf(fp, "%s\n", tempSong->title);
+                fprintf(fp, "%s\n", tempSong->artist);
+                fprintf(fp, "%s\n", tempSong->album);
+            }
         }
+        printf("\nYour data is successfully saved!\n");
+        fclose(fp);
     }
-    printf("\nYour data is successfully saved!\n");
-    fclose(fp);
+    else
+    {
+        printf("\nThere are no changes in your data!\n");
+    }
 }
