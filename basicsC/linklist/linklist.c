@@ -23,10 +23,12 @@ void removeSong(playlist **head);
 void viewOnePlaylist(playlist *head);
 void viweAll(playlist *head);
 void deleteAll(playlist **head);
+void save(playlist *head, int playlistNum);
 
 int main()
 {
     playlist *head = NULL; // always make it null
+    int playlistNum = 0;
 
     while (1)
     {
@@ -35,6 +37,7 @@ int main()
         {
         case '1':
             addPlaylist(&head);
+            playlistNum++;
             break;
         case '2':
             addSong(&head);
@@ -49,8 +52,9 @@ int main()
             viweAll(head);
             break;
         case '6':
-            printf("\nThank you and goodbye!\n");
+            save(head, playlistNum);
             deleteAll(&head);
+            printf("\nThank you and goodbye!\n");
             exit(0);
         default:
             printf("\nInvalid choice!\n");
@@ -336,12 +340,15 @@ void viweAll(playlist *head) // show all playlist
     }
 }
 
-void deleteAll(playlist **head){
+void deleteAll(playlist **head)
+{
     playlist *temp;
     song *tempSong;
-    while((*head)!=NULL){
+    while ((*head) != NULL)
+    {
         temp = (*head);
-        while(temp->songHead!=NULL){
+        while (temp->songHead != NULL)
+        {
             tempSong = temp->songHead;
             temp->songHead = temp->songHead->nextSong;
             free(tempSong);
@@ -349,4 +356,23 @@ void deleteAll(playlist **head){
         (*head) = (*head)->next;
         free(temp);
     }
+}
+
+void save(playlist *head, int playlistNum)
+{
+    FILE *fp = fopen("myplaylist.txt", "w");
+    fprintf(fp, "%d\n", playlistNum);
+    for (playlist *temp = head; temp != NULL; temp = temp->next)
+    {
+        fprintf(fp, "%s\n", temp->name);
+        fprintf(fp, "%d\n", temp->songCount);
+        for (song *tempSong = temp->songHead; tempSong != NULL; tempSong = tempSong->nextSong)
+        {
+            fprintf(fp, "%s\n", tempSong->title);
+            fprintf(fp, "%s\n", tempSong->artist);
+            fprintf(fp, "%s\n", tempSong->album);
+        }
+    }
+    printf("\nYour data is successfully saved!\n");
+    fclose(fp);
 }
