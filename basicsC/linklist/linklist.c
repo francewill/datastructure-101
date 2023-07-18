@@ -51,7 +51,6 @@ int main()
         case '6':
             printf("\nThank you and goodbye!\n");
             deleteAll(&head);
-            viweAll(head);
             exit(0);
         default:
             printf("\nInvalid choice!\n");
