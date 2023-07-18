@@ -416,14 +416,14 @@ void load(playlist **head, int *playlistNum)
             if(new->songCount){
                 for(int j = 0; j < new->songCount;j++){
                     song *newSong = (song *) malloc (sizeof(song));
-                    fscanf(fp, " %[^\n]", newSong->title);
+                    fscanf(fp, " %[^\n]", newSong->title);  // get the information for song
                     fscanf(fp, " %[^\n]", newSong->artist);
                     fscanf(fp, " %[^\n]", newSong->album);
 
-                    if(new->songHead==NULL){
+                    if(new->songHead==NULL){  // add at head 
                         newSong->nextSong = new->songHead;
                         new->songHead = newSong;
-                    }else{
+                    }else{  // add at tail
                         song *tempSong;
                         for(tempSong = new->songHead; tempSong->nextSong!=NULL; tempSong = tempSong->nextSong);
                         newSong->nextSong = tempSong->nextSong;
