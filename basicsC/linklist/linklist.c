@@ -393,20 +393,19 @@ void load(playlist **head, int *playlistNum)
     FILE *fp = fopen("myplaylist.txt", "r");
     if (fp != NULL)
     {
-        fscanf(fp, " %d\n", playlistNum);
-        printf("\n>>%d\n",*playlistNum);
+        fscanf(fp, " %d\n", playlistNum);  // get the number of playlist
         for (int i = 0; i < *playlistNum; i++)
         {
             playlist *new = (playlist *)malloc(sizeof(playlist));
-            fscanf(fp, " %[^\n]s", new->name);
-            fscanf(fp, "%d", &new->songCount);
-            new->songHead = NULL;
-            if ((*head) == NULL)
+            fscanf(fp, " %[^\n]s", new->name);  // transfer name of playlist to new
+            fscanf(fp, "%d", &new->songCount);  // transfer song count to new
+            new->songHead = NULL;  // set songhead to null
+            if ((*head) == NULL)  // add at head
             {
                 new->next = (*head);
                 (*head) = new;
             }
-            else
+            else  // add at tail
             {
                 playlist *temp;
                 for(temp = (*head); temp->next!=NULL;temp=temp->next);
