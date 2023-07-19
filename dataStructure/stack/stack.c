@@ -24,7 +24,6 @@ void printStack(LIST *L);
 */
 NODE* createNode(int data){
     NODE *node = (NODE *) malloc (sizeof(NODE));
-    node->next =NULL;
     node->value = data;
     return node;
 }
@@ -71,7 +70,10 @@ int isEmpty(LIST *L){
 ** results:
 	inserts `node` before the current `head` of the list
 */
-void push(LIST *L, NODE* node);
+void push(LIST *L, NODE* node){
+    node->next = L->head;
+    L->head = node;
+}
 
 
 
