@@ -7,7 +7,7 @@ It includes basic exercises of C
 - Playlist (Structures)
 - Playlist (Linked List)
 
-# Data Structure
+# Data Structure and Algorithm
 
 - Stack
 - Queues
