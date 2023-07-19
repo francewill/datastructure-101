@@ -134,6 +134,7 @@ int isBalanced(char *expr)
         {
             if (isEmpty(L))
             {
+                free(L);
                 return 0;
             }
             else
@@ -144,35 +145,25 @@ int isBalanced(char *expr)
     }
     if (isEmpty(L))
     {
+        free(L);
         return 1;
     }
 }
 
 int main()
 {
-    // LIST *L= createStack();
-    // push(L,createNode(1));
-    // push(L,createNode(2));
-    // push(L,createNode(3));
-    // push(L,createNode(4));
-    // push(L,createNode(5));
-    // printStack(L);
     char userInput[50];
-    while (1)
+
+    printf("\nEnter expression: ");
+    scanf("%s", userInput);
+
+    if (isBalanced(userInput))
     {
-
-        printf("\nEnter expression: ");
-        scanf("%s", userInput);
-
-        if (isBalanced(userInput))
-        {
-            printf("\nThe parenthesis are balance.\n");
-        }
-        else
-        {
-            printf("\nThe parenthesis are not balance.\n");
-        }
-      }
-
+        printf("\nThe parenthesis are balance.\n");
+    }
+    else
+    {
+        printf("\nThe parenthesis are not balance.\n");
+    }
     return 0;
 }
