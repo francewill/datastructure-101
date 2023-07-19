@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "isBalanced.h"
 
 /*
@@ -17,8 +18,9 @@ void printStack(LIST *L)
     }
     else
     {
-        for(NODE *temp = L->head; temp!=NULL;temp=temp->next){
-            printf("%d ",temp->value);
+        for (NODE *temp = L->head; temp != NULL; temp = temp->next)
+        {
+            printf("%d ", temp->value);
         }
     }
 }
@@ -117,17 +119,60 @@ int pop(LIST *L)
     returns 1 if the parentheses are balanced
     otherwise returns 0
 */
-int isBalanced(char *expr);
+int isBalanced(char *expr)
+{
+    LIST *L = createStack();
+    int val;
+
+    for (int i = 0; i < strlen(expr); i++)
+    {
+        if ((int)expr[i] == 40)
+        {
+            push(L, createNode((int)expr[i]));
+        }
+        else if ((int)expr[i] == 41)
+        {
+            if (isEmpty(L))
+            {
+                return 0;
+            }
+            else
+            {
+                val = pop(L);
+            }
+        }
+    }
+    if (isEmpty(L))
+    {
+        return 1;
+    }
+}
 
 int main()
 {
-    LIST *L= createStack();
-    push(L,createNode(1));
-    push(L,createNode(2));
-    push(L,createNode(3));
-    push(L,createNode(4));
-    push(L,createNode(5));
-    printStack(L);
+    // LIST *L= createStack();
+    // push(L,createNode(1));
+    // push(L,createNode(2));
+    // push(L,createNode(3));
+    // push(L,createNode(4));
+    // push(L,createNode(5));
+    // printStack(L);
+    char userInput[50];
+    while (1)
+    {
+
+        printf("\nEnter expression: ");
+        scanf("%s", userInput);
+
+        if (isBalanced(userInput))
+        {
+            printf("\nThe parenthesis are balance.\n");
+        }
+        else
+        {
+            printf("\nThe parenthesis are not balance.\n");
+        }
+      }
 
     return 0;
 }
