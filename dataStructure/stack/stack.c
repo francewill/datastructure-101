@@ -18,7 +18,7 @@ void printStack(LIST *L)
     }
     else
     {
-        for (NODE *temp = L->head; temp != NULL; temp = temp->next)
+        for (NODE *temp = L->head; temp != NULL; temp = temp->next) // printing value in stack
         {
             printf("%d ", temp->value);
         }
@@ -50,8 +50,7 @@ NODE *createNode(int data)
 */
 LIST *createStack()
 {
-    LIST *L = NULL;
-    L = (LIST *)malloc(sizeof(LIST));
+    LIST *L = (LIST *)malloc(sizeof(LIST));
     L->head = NULL;
     return L;
 }
@@ -65,7 +64,7 @@ LIST *createStack()
 */
 int isEmpty(LIST *L)
 {
-    if (L->head == NULL)
+    if (L->head == NULL) // check if null
     {
         return 1;
     }
@@ -81,7 +80,7 @@ int isEmpty(LIST *L)
 ** results:
     inserts `node` before the current `head` of the list
 */
-void push(LIST *L, NODE *node)
+void push(LIST *L, NODE *node)  //add at head
 {
     node->next = L->head;
     L->head = node;
@@ -94,7 +93,7 @@ void push(LIST *L, NODE *node)
     deletes the `head` node of the list
     returns the value of the deleted node
 */
-int pop(LIST *L)
+int pop(LIST *L)  // delete at head
 {
     if (isEmpty(L))
     {
@@ -121,16 +120,16 @@ int pop(LIST *L)
 */
 int isBalanced(char *expr)
 {
-    LIST *L = createStack();
+    LIST *L = createStack(); // create a stack
     int val;
 
-    for (int i = 0; i < strlen(expr); i++)
+    for (int i = 0; i < strlen(expr); i++)  // check the whole expression
     {
-        if ((int)expr[i] == 40)
+        if ((int)expr[i] == 40)  // if "(" push it to stack
         {
             push(L, createNode((int)expr[i]));
         }
-        else if ((int)expr[i] == 41)
+        else if ((int)expr[i] == 41) // if ")" pop stack
         {
             if (isEmpty(L))
             {
@@ -146,7 +145,7 @@ int isBalanced(char *expr)
     if (isEmpty(L))
     {
         free(L);
-        return 1;
+        return 1; // return 1 if empty
     }
 }
 
