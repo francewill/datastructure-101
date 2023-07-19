@@ -55,7 +55,13 @@ LIST* createStack(){
 	returns 1 if the list is empty
 	otherwise returns 0
 */
-int isEmpty(LIST *L);
+int isEmpty(LIST *L){
+    if(L->head==NULL){
+        return 1;
+    }else{
+        return 0;
+    }
+}
 
 
 
