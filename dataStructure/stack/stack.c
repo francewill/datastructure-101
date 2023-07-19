@@ -22,7 +22,12 @@ void printStack(LIST *L);
 	initializes fields of the structure
 	returns the created node
 */
-NODE* createNode(int data);
+NODE* createNode(int data){
+    NODE *node = (NODE *) malloc (sizeof(NODE));
+    node->next =NULL;
+    node->value = data;
+    return node;
+}
 
 
 
