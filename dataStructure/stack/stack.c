@@ -84,7 +84,18 @@ void push(LIST *L, NODE* node){
 	deletes the `head` node of the list
 	returns the value of the deleted node
 */
-int pop(LIST *L);
+int pop(LIST *L){
+    if(isEmpty(L)){
+        printf("\nStack is empty!\n");
+    }else{
+        int val;
+        NODE *temp = L->head;
+        L->head = L->head->next;
+        val = temp->value;
+        free(temp);
+        return val;
+    }
+}
 
 
 
