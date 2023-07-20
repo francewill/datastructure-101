@@ -118,6 +118,9 @@ int dequeue(LIST *L)
         NODE *temp = L->head;
         L->head = L->head->next;
         val = temp->value;
+        if(isEmpty(L)){  // if head is empty then tail must also be empty
+			L->tail = L->head;
+		}
         free(temp);
         return val;
     }
