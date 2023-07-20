@@ -10,7 +10,17 @@
 	if list is empty, prints "*empty*"
 	otherwise, prints the contents of a list
 */
-void printQueue(LIST *L);
+void printQueue(LIST *L){
+    if(isEmpty(L)){
+        printf("\nList is empty!\n");
+    }else{
+        NODE *temp;
+        printf("\nLIST = ");
+        for(temp = L->head;temp!=NULL; temp = temp->next){
+            printf("%d ", temp->value);
+        }
+    }
+}
 
 
 
@@ -106,6 +116,6 @@ int dequeue(LIST *L){
 
 
 int main(){
-
+    return 0;
 
 }
