@@ -91,7 +91,18 @@ void enqueue(LIST *L, NODE* node){
 	deletes the `head` node of the list
 	returns the value of the deleted node
 */
-int dequeue(LIST *L);
+int dequeue(LIST *L){
+    int val;
+    if(isEmpty(L)){
+        printf("\nList is empty!\n");
+    }else{
+        NODE *temp = L->head;
+        L->head = L->head->next;
+        val = temp->value;
+        free(temp);
+        return val;
+    }
+}
 
 
 int main(){
