@@ -105,6 +105,7 @@ int dequeue(LIST *L){
     int val;
     if(isEmpty(L)){
         printf("\nList is empty!\n");
+        return -1;
     }else{
         NODE *temp = L->head;
         L->head = L->head->next;
@@ -116,6 +117,20 @@ int dequeue(LIST *L){
 
 
 int main(){
+    LIST *L = createQueue();
+    enqueue(L,createNode(1));
+    enqueue(L,createNode(2));
+    enqueue(L,createNode(3));
+    enqueue(L,createNode(4));
+    enqueue(L,createNode(5));
+    dequeue(L);
+    dequeue(L);
+    dequeue(L);
+    enqueue(L,createNode(10));  
+    dequeue(L);
+  
+ 
+    printQueue(L);
     return 0;
 
 }
