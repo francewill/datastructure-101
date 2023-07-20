@@ -25,6 +25,7 @@ void printQueue(LIST *L);
 NODE* createNode(int data){
     NODE *new = (NODE *) malloc(sizeof(NODE));
     new->value = data;
+    new->next = NULL;
     return new;
 }
 
@@ -54,7 +55,13 @@ LIST* createQueue(){
 	returns 1 if the list is empty
 	otherwise return 0
 */
-int isEmpty(LIST *L);
+int isEmpty(LIST *L){
+    if(L->head ==NULL){
+        return 1;
+    }else{
+        return 0;
+    }
+}
 
 
 
@@ -64,7 +71,16 @@ int isEmpty(LIST *L);
 ** results:
 	inserts `node` at the `tail` of the list
 */
-void enqueue(LIST *L, NODE* node);
+void enqueue(LIST *L, NODE* node){
+    if(L->head==NULL&& L->tail==NULL){
+        L->head = node;
+        L->tail = node;
+    }else{
+        NODE *temp = L->tail;
+        L->tail = node;
+        temp->next = node;
+    }
+}
 
 
 
