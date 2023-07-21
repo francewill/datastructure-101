@@ -105,11 +105,16 @@ int isFull(BST* B){
         i.e. node->height = max(L->height, R->height) + 1
     if there are no subtrees i.e L==R==NULL, then node->height = 0
 */
+void heightAdjuster(BST_NODE *node){
+    int height = 0;
+    printf("\n%d\n",node->key);
+}
 void recursionInsert(BST_NODE *node, BST_NODE *new){
     if(node->key>new->key){
         if(node->left==NULL){
             node->left = new;
             new->parent = node;
+            heightAdjuster(new);
             return;
         }
         recursionInsert(node->left,new);
@@ -117,6 +122,7 @@ void recursionInsert(BST_NODE *node, BST_NODE *new){
         if(node->right==NULL){
             node->right = new;
             new->parent = node;
+            heightAdjuster(new);
             return;
         }
         recursionInsert(node->right,new);
@@ -126,7 +132,6 @@ void recursionInsert(BST_NODE *node, BST_NODE *new){
 void insert(BST* B, BST_NODE* node){
     if(isEmpty(B)){
         B->root = node;
-        node->parent = B->root;
     }else{
         recursionInsert(B->root,node);
         
