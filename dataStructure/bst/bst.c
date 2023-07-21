@@ -32,7 +32,7 @@ void showTree(BST* B){
     returns a pointer of this instance
 */
 BST_NODE* createBSTNode(int key, BST_NODE* L, BST_NODE* R, BST_NODE* P){
-    BST_NODE *node = (BST_NODE *) malloc(sizeof(node));
+    BST_NODE *node = (BST_NODE *) malloc(sizeof(BST_NODE));
     node->height = 0;
     node->key = key;
     node->left = L;
@@ -105,7 +105,34 @@ int isFull(BST* B){
         i.e. node->height = max(L->height, R->height) + 1
     if there are no subtrees i.e L==R==NULL, then node->height = 0
 */
-void insert(BST* B, BST_NODE* node);
+void recursionInsert(BST_NODE *node, BST_NODE *new){
+    if(node->key>new->key){
+        if(node->left==NULL){
+            node->left = new;
+            new->parent = node;
+            return;
+        }
+        recursionInsert(node->left,new);
+    }else{
+        if(node->right==NULL){
+            node->right = new;
+            new->parent = node;
+            return;
+        }
+        recursionInsert(node->right,new);
+    }
+
+}
+void insert(BST* B, BST_NODE* node){
+    if(isEmpty(B)){
+        B->root = node;
+        node->parent = B->root;
+    }else{
+        recursionInsert(B->root,node);
+        
+    }
+
+}
 
 /*
 ** function: search
@@ -117,7 +144,9 @@ void insert(BST* B, BST_NODE* node);
     finds `key` from BST `B` and returns its node pointer if found, 
         otherwise, return `NULL`
 */
-BST_NODE* search(BST* B, int key);
+BST_NODE* search(BST* B, int key){
+
+}
 
 
 int main(){
