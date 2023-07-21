@@ -19,6 +19,85 @@ void showTree(BST* B){
 	showTreeHelper(B->root, 0);
 }
 
+/*
+** function: createBSTNode
+** requirements:
+    an integer indicating the key of the node
+    an initial value for the left pointer (L)
+    an initial value for the right pointer (R)
+    an initial value for the parent pointer (P)
+    if L, R, or P is unknown, pass `NULL`
+** results:
+    creates a BST node with fields initialized
+    returns a pointer of this instance
+*/
+BST_NODE* createBSTNode(int key, BST_NODE* L, BST_NODE* R, BST_NODE* P);
+
+
+/*
+** function: createBST
+** requirements:
+    an integer indicating the maximum size of the BST
+        i.e. the maximum number of elements that can be stored
+** results:
+    creates an empty BST with fields initialized
+    returns a pointer of this instance
+*/
+BST* createBST(int max){
+    BST *B = (BST *) malloc(sizeof(BST));
+    B->maxSize = max;
+    B->root =NULL;
+    B->size =0;
+    return B;
+}
+
+/*
+** function: isEmpty
+** requirements:
+    a non-null BST pointer
+** results:
+    returns 1 if BST is empty;
+    otherwise, return 0
+*/
+int isEmpty(BST* B);
+
+/*
+** function: isFull
+** requirements:
+    a non-null BST pointer
+** results:
+    returns 1 if BST is full;
+    otherwise, return 0
+*/
+int isFull(BST* B);
+
+/*
+** function: insert
+** requirements:
+    a non-null BST pointer
+    a non-empty BST
+    a non-null BST_NODE pointer
+** results:
+    inserts the given `node` to the BST `B`
+    update the height of the affected nodes
+** notes:
+    a node's height can be derived from left and right subtrees
+        i.e. node->height = max(L->height, R->height) + 1
+    if there are no subtrees i.e L==R==NULL, then node->height = 0
+*/
+void insert(BST* B, BST_NODE* node);
+
+/*
+** function: search
+** requirements:
+    a non-null BST pointer
+    a non-empty BST
+    an integer `key`
+** results:
+    finds `key` from BST `B` and returns its node pointer if found, 
+        otherwise, return `NULL`
+*/
+BST_NODE* search(BST* B, int key);
 
 
 int main(){
