@@ -31,7 +31,15 @@ void showTree(BST* B){
     creates a BST node with fields initialized
     returns a pointer of this instance
 */
-BST_NODE* createBSTNode(int key, BST_NODE* L, BST_NODE* R, BST_NODE* P);
+BST_NODE* createBSTNode(int key, BST_NODE* L, BST_NODE* R, BST_NODE* P){
+    BST_NODE *node = (BST_NODE *) malloc(sizeof(node));
+    node->height = 0;
+    node->key = key;
+    node->left = L;
+    node->right = R;
+    node->parent = P;
+    return node;
+}
 
 
 /*
@@ -75,7 +83,13 @@ int isEmpty(BST* B){
     returns 1 if BST is full;
     otherwise, return 0
 */
-int isFull(BST* B);
+int isFull(BST* B){
+    if(B->maxSize==B->size){
+        return 1;
+    }else{
+        return 0;
+    }
+}
 
 /*
 ** function: insert
