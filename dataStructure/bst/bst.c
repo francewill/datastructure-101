@@ -59,7 +59,13 @@ BST* createBST(int max){
     returns 1 if BST is empty;
     otherwise, return 0
 */
-int isEmpty(BST* B);
+int isEmpty(BST* B){
+    if(B->root == NULL){
+        return 1;
+    }else{
+        return 0;
+    }
+}
 
 /*
 ** function: isFull
