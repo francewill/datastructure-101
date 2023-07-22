@@ -2,6 +2,8 @@
 #include "BST.h"
 #include <stdio.h>
 #include <stdlib.h>
+#define max(a, b) ((a) > (b) ? (a) : (b))
+
 
 // a recursive subroutine to display the BST in tree mode
 void showTreeHelper(BST_NODE* node, int tabs){
@@ -106,9 +108,26 @@ int isFull(BST* B){
     if there are no subtrees i.e L==R==NULL, then node->height = 0
 */
 void heightAdjuster(BST_NODE *node){
-    int height = 0;
-    printf("\n%d\n",node->key);
+    BST_NODE *ptr = node;
+    int left,right,maxHeight;
+    while(ptr!=NULL){
+        if(ptr->left == NULL){
+            left = -1;
+        }else{
+            left = ptr->left->height;
+        }
+        
+        if(ptr->right == NULL){
+            right = -1;
+        }else{
+            right = ptr->right->height;
+        }
+        maxHeight = max(left, right);
+        ptr->height = maxHeight+1;
+        ptr = ptr->parent;
+    }
 }
+
 void recursionInsert(BST_NODE *node, BST_NODE *new){
     if(node->key>new->key){
         if(node->left==NULL){
