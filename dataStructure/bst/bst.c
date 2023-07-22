@@ -168,8 +168,28 @@ void insert(BST* B, BST_NODE* node){
     finds `key` from BST `B` and returns its node pointer if found, 
         otherwise, return `NULL`
 */
+BST_NODE* serachRecursion(BST_NODE *node, int key){
+    if(node==NULL){
+        return NULL;
+    }
+    if(node->key>key){
+        serachRecursion(node->left,key);
+    }else if(node->key == key){
+        return node;
+    }
+    else{
+        serachRecursion(node->right,key);
+    }
+}
 BST_NODE* search(BST* B, int key){
-
+    BST_NODE *ptr = B->root;
+    BST_NODE *result = serachRecursion(ptr, key);
+    if(result ==NULL){
+        printf("\nNot found!\n");
+    }else{
+        printf("\nNode found: %p\n", result);
+    }
+    
 }
 
 
@@ -205,6 +225,15 @@ int main(){
 			case 'F':
 				printf("BST %s full.\n", isFull(B)?"is":"is not");
 				break;
+            case 'S':
+                if(isEmpty(B)){
+                    printf("\nTree is empty!\n");
+                }else{
+                    printf("Enter number to search: ");
+                    scanf("%d", &key);
+                    search(B, key);
+                }
+                break;
 			/* for the postlab, uncomment this
 			case '<':
 				printf("Pre-order Traversal: ");
