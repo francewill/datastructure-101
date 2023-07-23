@@ -140,4 +140,67 @@ void inorderWalk(BST* B);
 */
 void postorderWalk(BST* B);
 
+/*
+** function: minimum
+** requirements:
+    a non-null BST_NODE pointer
+** results:
+    finds the leftmost node of the subtree rooted at node n and returns its node pointer if found, 
+        otherwise, return `NULL`
+*/
+BST_NODE* minimum(BST_NODE* n);
+
+
+/*
+** function: maximum
+** requirements:
+    a non-null BST_NODE pointer
+** results:
+    finds the rightmost node of the subtree rooted at node n and returns its node pointer if found, 
+        otherwise, return `NULL`
+*/
+BST_NODE* maximum(BST_NODE* n);
+/*
+** function: remove
+** requirements:
+    a non-null BST pointer
+    a non-empty BST
+    an integer `key`
+** results:
+    finds `key` and delete's it node from the BST `B`
+    if found, delete then, return key
+    otherwise, return 0
+
+*/
+int delete(BST* B, int key);
+
+/*
+** function: predecessor
+** requirements:
+    a non-null BST_NODE pointer
+** results:
+    returns the node pointer of this node's predecessor, if it exists
+    otherwis, return `NULL`
+*/
+BST_NODE* predecessor(BST_NODE* node);
+
+/*
+** function: successor
+** requirements:
+    a non-null BST_NODE pointer
+** results:
+    returns the node pointer of this node's successor, if it exists
+    otherwis, return `NULL`
+*/
+BST_NODE* successor(BST_NODE* node);
+
+/*
+** function: clear
+** requirements:
+    a non-null BST pointer
+** results:
+    removes all data items in the BST
+*/
+void clear(BST* B);
+
 #endif

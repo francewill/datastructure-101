@@ -246,6 +246,80 @@ void postorderWalk(BST* B){
     recursivePostorder(B->root);
 }
 
+/*
+** function: minimum
+** requirements:
+    a non-null BST_NODE pointer
+** results:
+    finds the leftmost node of the subtree rooted at node n and returns its node pointer if found, 
+        otherwise, return `NULL`
+*/
+BST_NODE* minimum(BST_NODE* n){
+
+}
+
+
+/*
+** function: maximum
+** requirements:
+    a non-null BST_NODE pointer
+** results:
+    finds the rightmost node of the subtree rooted at node n and returns its node pointer if found, 
+        otherwise, return `NULL`
+*/
+BST_NODE* maximum(BST_NODE* n){
+    
+}
+/*
+** function: remove
+** requirements:
+    a non-null BST pointer
+    a non-empty BST
+    an integer `key`
+** results:
+    finds `key` and delete's it node from the BST `B`
+    if found, delete then, return key
+    otherwise, return 0
+
+*/
+int delete(BST* B, int key){
+
+}
+
+/*
+** function: predecessor
+** requirements:
+    a non-null BST_NODE pointer
+** results:
+    returns the node pointer of this node's predecessor, if it exists
+    otherwis, return `NULL`
+*/
+BST_NODE* predecessor(BST_NODE* node){
+
+}
+
+/*
+** function: successor
+** requirements:
+    a non-null BST_NODE pointer
+** results:
+    returns the node pointer of this node's successor, if it exists
+    otherwis, return `NULL`
+*/
+BST_NODE* successor(BST_NODE* node){
+
+}
+
+/*
+** function: clear
+** requirements:
+    a non-null BST pointer
+** results:
+    removes all data items in the BST
+*/
+void clear(BST* B){
+
+}
 
 int main(){
 
@@ -263,10 +337,10 @@ int main(){
 				printf("Inserting key: %d\n", key);
 				insert(B, createBSTNode(key, NULL, NULL, NULL));
 				break;
-			case '?':
+            case '-':
 				scanf("%d", &key);
-				printf("Searching node with key: %d. Location: %p\n", key, search(B, key));
-				// (nil) means NULL pointer
+				printf("Removing node with key: %d\n", key);
+				result = delete(B, key); // result is unused. print if u want
 				break;
 			case 'p':
 				printf("Tree (rotated +90 degrees): \n");
@@ -279,7 +353,7 @@ int main(){
 			case 'F':
 				printf("BST %s full.\n", isFull(B)?"is":"is not");
 				break;
-            case 'S':
+            case '?':
                 if(isEmpty(B)){
                     printf("\nTree is empty!\n");
                 }else{
@@ -319,6 +393,30 @@ int main(){
                 }
 				
 				break;
+            /* uncomment this for postlab
+			case '[':
+				scanf("%d", &key);
+				node = search(B, key);
+				if(!node){
+					printf("%d not found\n", key);
+				}else{
+					node = predecessor(node);
+					if(node)printf("Predecessor of %d is %d.\n", key, node->key);
+					else printf("No predecessor for %d\n", key);
+				}
+				break;
+			case ']':
+				scanf("%d", &key);
+				node = search(B, key);
+				if(!node){
+					printf("%d not found\n", key);
+				}else{
+					node = successor(node);
+					if(node)printf("Successor of %d is %d.\n", key, node->key);
+					else printf("No successor for %d\n", key);
+				}
+				break;
+			*/
 		
 			case 'Q':
 				return 0;
