@@ -235,8 +235,15 @@ void inorderWalk(BST* B){
 ** results:
     displays a list of elements of the BST using `post-order traversal`
 */
+void recursivePostorder (BST_NODE *node){
+    if(node ==NULL) return;
+    recursivePostorder(node->left); 
+    recursivePostorder(node->right);  
+    printf("%d ",node->key);
+
+}
 void postorderWalk(BST* B){
-    
+    recursivePostorder(B->root);
 }
 
 
