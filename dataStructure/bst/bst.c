@@ -220,7 +220,7 @@ BST_NODE *search(BST *B, int key)
     BST_NODE *result = serachRecursion(ptr, key);
     if (result == NULL)
     {
-        printf("\nNot found!\n");
+        printf("\nSearch result: %p\n",result);
     }
     else
     {
@@ -431,7 +431,6 @@ int main()
             }
             else
             {
-                printf("Enter number to search: ");
                 scanf("%d", &key);
                 search(B, key);
             }
