@@ -4,21 +4,22 @@
 #include <stdlib.h>
 #define max(a, b) ((a) > (b) ? (a) : (b))
 
-
 // a recursive subroutine to display the BST in tree mode
-void showTreeHelper(BST_NODE* node, int tabs){
+void showTreeHelper(BST_NODE *node, int tabs)
+{
 
-	if(!node) return; // node is null, do nothing
-	showTreeHelper(node->right, tabs + 1);
-	for(int i=0; i<tabs; i++) printf("\t");
-	printf("%d(%d)\n", node->key, node->height);
-	showTreeHelper(node->left, tabs + 1);
-
+    if (!node)
+        return; // node is null, do nothing
+    showTreeHelper(node->right, tabs + 1);
+    for (int i = 0; i < tabs; i++)
+        printf("\t");
+    printf("%d(%d)\n", node->key, node->height);
+    showTreeHelper(node->left, tabs + 1);
 }
 
-
-void showTree(BST* B){
-	showTreeHelper(B->root, 0);
+void showTree(BST *B)
+{
+    showTreeHelper(B->root, 0);
 }
 
 /*
@@ -33,8 +34,9 @@ void showTree(BST* B){
     creates a BST node with fields initialized
     returns a pointer of this instance
 */
-BST_NODE* createBSTNode(int key, BST_NODE* L, BST_NODE* R, BST_NODE* P){
-    BST_NODE *node = (BST_NODE *) malloc(sizeof(BST_NODE));
+BST_NODE *createBSTNode(int key, BST_NODE *L, BST_NODE *R, BST_NODE *P)
+{
+    BST_NODE *node = (BST_NODE *)malloc(sizeof(BST_NODE));
     node->height = 0;
     node->key = key;
     node->left = L;
@@ -42,7 +44,6 @@ BST_NODE* createBSTNode(int key, BST_NODE* L, BST_NODE* R, BST_NODE* P){
     node->parent = P;
     return node;
 }
-
 
 /*
 ** function: createBST
@@ -53,11 +54,12 @@ BST_NODE* createBSTNode(int key, BST_NODE* L, BST_NODE* R, BST_NODE* P){
     creates an empty BST with fields initialized
     returns a pointer of this instance
 */
-BST* createBST(int max){
-    BST *B = (BST *) malloc(sizeof(BST));
+BST *createBST(int max)
+{
+    BST *B = (BST *)malloc(sizeof(BST));
     B->maxSize = max;
-    B->root =NULL;
-    B->size =0;
+    B->root = NULL;
+    B->size = 0;
     return B;
 }
 
@@ -69,10 +71,14 @@ BST* createBST(int max){
     returns 1 if BST is empty;
     otherwise, return 0
 */
-int isEmpty(BST* B){
-    if(B->root == NULL){
+int isEmpty(BST *B)
+{
+    if (B->root == NULL)
+    {
         return 1;
-    }else{
+    }
+    else
+    {
         return 0;
     }
 }
@@ -85,10 +91,14 @@ int isEmpty(BST* B){
     returns 1 if BST is full;
     otherwise, return 0
 */
-int isFull(BST* B){
-    if(B->maxSize==B->size){
+int isFull(BST *B)
+{
+    if (B->maxSize == B->size)
+    {
         return 1;
-    }else{
+    }
+    else
+    {
         return 0;
     }
 }
@@ -107,55 +117,71 @@ int isFull(BST* B){
         i.e. node->height = max(L->height, R->height) + 1
     if there are no subtrees i.e L==R==NULL, then node->height = 0
 */
-void heightAdjuster(BST_NODE *node){
+void heightAdjuster(BST_NODE *node)
+{
     BST_NODE *ptr = node;
-    int left,right,maxHeight;
-    while(ptr!=NULL){
-        if(ptr->left == NULL){
+    int left, right, maxHeight;
+    while (ptr != NULL)
+    { // loop until ptr is not null
+        if (ptr->left == NULL)
+        { // null means -1
             left = -1;
-        }else{
-            left = ptr->left->height;
         }
-        
-        if(ptr->right == NULL){
+        else
+        {
+            left = ptr->left->height; // else their height will represent the left
+        }
+
+        if (ptr->right == NULL)
+        { // null means -1
             right = -1;
-        }else{
-            right = ptr->right->height;
         }
-        maxHeight = max(left, right);
-        ptr->height = maxHeight+1;
-        ptr = ptr->parent;
+        else
+        {
+            right = ptr->right->height; // else their height will represent the right
+        }
+        maxHeight = max(left, right); // get the maximum numbere between left and right
+        ptr->height = maxHeight + 1;  // height = max height +1
+        ptr = ptr->parent;            // traverse upwards
     }
 }
 
-void recursionInsert(BST_NODE *node, BST_NODE *new){
-    if(node->key>new->key){
-        if(node->left==NULL){
+void recursionInsert(BST_NODE *node, BST_NODE *new)
+{
+    if (node->key > new->key)
+    { // traverse left and right until we reach the leaf node
+        if (node->left == NULL)
+        { // if we reached the leaf node means we will insert the data
             node->left = new;
             new->parent = node;
-            heightAdjuster(new);
-            return;
+            heightAdjuster(new); // adjust its height
+            return;              // then end the function
         }
-        recursionInsert(node->left,new);
-    }else{
-        if(node->right==NULL){
+        recursionInsert(node->left, new); // if not null then we will call the recursive function again and evaluate with the given condition
+    }
+    else
+    { // this is for the right child
+        if (node->right == NULL)
+        {
             node->right = new;
             new->parent = node;
             heightAdjuster(new);
             return;
         }
-        recursionInsert(node->right,new);
+        recursionInsert(node->right, new);
     }
-
 }
-void insert(BST* B, BST_NODE* node){
-    if(isEmpty(B)){
-        B->root = node;
-    }else{
-        recursionInsert(B->root,node);
-        
-    }
 
+void insert(BST *B, BST_NODE *node)
+{ // insert function
+    if (isEmpty(B))
+    { // this is for adding our root
+        B->root = node;
+    }
+    else
+    {
+        recursionInsert(B->root, node);
+    }
 }
 
 /*
@@ -165,31 +191,41 @@ void insert(BST* B, BST_NODE* node){
     a non-empty BST
     an integer `key`
 ** results:
-    finds `key` from BST `B` and returns its node pointer if found, 
+    finds `key` from BST `B` and returns its node pointer if found,
         otherwise, return `NULL`
 */
-BST_NODE* serachRecursion(BST_NODE *node, int key){
-    if(node==NULL){
+BST_NODE *serachRecursion(BST_NODE *node, int key)  // recursive function for search
+{
+    if (node == NULL)  // if null means not found and just return null
+    {
         return NULL;
     }
-    if(node->key>key){
-        serachRecursion(node->left,key);
-    }else if(node->key == key){
+    if (node->key > key)  // traverse downwards by evaluating left and right child
+    {
+        serachRecursion(node->left, key);
+    }
+    else if (node->key == key)  // if found then return that noud
+    {
         return node;
     }
-    else{
-        serachRecursion(node->right,key);
+    else
+    {
+        serachRecursion(node->right, key);
     }
 }
-BST_NODE* search(BST* B, int key){
+
+BST_NODE *search(BST *B, int key)
+{
     BST_NODE *ptr = B->root;
     BST_NODE *result = serachRecursion(ptr, key);
-    if(result ==NULL){
+    if (result == NULL)
+    {
         printf("\nNot found!\n");
-    }else{
+    }
+    else
+    {
         printf("\nNode found: %p\n", result);
     }
-    
 }
 
 /*
@@ -199,14 +235,16 @@ BST_NODE* search(BST* B, int key){
 ** results:
     displays a list of elements of the BST using `pre-order traversal`
 */
-void recursivePreorder (BST_NODE *node){
-    if(node ==NULL) return;
-    printf("%d ",node->key);
+void recursivePreorder(BST_NODE *node)  // root left right traversal
+{
+    if (node == NULL)
+        return;
+    printf("%d ", node->key);
     recursivePreorder(node->left);
     recursivePreorder(node->right);
-
 }
-void preorderWalk(BST* B){
+void preorderWalk(BST *B)
+{
     recursivePreorder(B->root);
 }
 
@@ -217,14 +255,16 @@ void preorderWalk(BST* B){
 ** results:
     displays a list of elements of the BST using `in-order traversal`
 */
-void recursiveInorder (BST_NODE *node){
-    if(node ==NULL) return;
-    recursiveInorder(node->left); 
-    printf("%d ",node->key);
+void recursiveInorder(BST_NODE *node)  // left root right traversal
+{
+    if (node == NULL)
+        return;
+    recursiveInorder(node->left);
+    printf("%d ", node->key);
     recursiveInorder(node->right);
-
 }
-void inorderWalk(BST* B){
+void inorderWalk(BST *B)
+{
     recursiveInorder(B->root);
 }
 
@@ -235,14 +275,16 @@ void inorderWalk(BST* B){
 ** results:
     displays a list of elements of the BST using `post-order traversal`
 */
-void recursivePostorder (BST_NODE *node){
-    if(node ==NULL) return;
-    recursivePostorder(node->left); 
-    recursivePostorder(node->right);  
-    printf("%d ",node->key);
-
+void recursivePostorder(BST_NODE *node)  // left right root traversal
+{
+    if (node == NULL)
+        return;
+    recursivePostorder(node->left);
+    recursivePostorder(node->right);
+    printf("%d ", node->key);
 }
-void postorderWalk(BST* B){
+void postorderWalk(BST *B)
+{
     recursivePostorder(B->root);
 }
 
@@ -251,24 +293,23 @@ void postorderWalk(BST* B){
 ** requirements:
     a non-null BST_NODE pointer
 ** results:
-    finds the leftmost node of the subtree rooted at node n and returns its node pointer if found, 
+    finds the leftmost node of the subtree rooted at node n and returns its node pointer if found,
         otherwise, return `NULL`
 */
-BST_NODE* minimum(BST_NODE* n){
-
+BST_NODE *minimum(BST_NODE *n)
+{
 }
-
 
 /*
 ** function: maximum
 ** requirements:
     a non-null BST_NODE pointer
 ** results:
-    finds the rightmost node of the subtree rooted at node n and returns its node pointer if found, 
+    finds the rightmost node of the subtree rooted at node n and returns its node pointer if found,
         otherwise, return `NULL`
 */
-BST_NODE* maximum(BST_NODE* n){
-    
+BST_NODE *maximum(BST_NODE *n)
+{
 }
 /*
 ** function: remove
@@ -282,8 +323,8 @@ BST_NODE* maximum(BST_NODE* n){
     otherwise, return 0
 
 */
-int delete(BST* B, int key){
-
+int delete(BST *B, int key)
+{
 }
 
 /*
@@ -294,8 +335,8 @@ int delete(BST* B, int key){
     returns the node pointer of this node's predecessor, if it exists
     otherwis, return `NULL`
 */
-BST_NODE* predecessor(BST_NODE* node){
-
+BST_NODE *predecessor(BST_NODE *node)
+{
 }
 
 /*
@@ -306,8 +347,8 @@ BST_NODE* predecessor(BST_NODE* node){
     returns the node pointer of this node's successor, if it exists
     otherwis, return `NULL`
 */
-BST_NODE* successor(BST_NODE* node){
-
+BST_NODE *successor(BST_NODE *node)
+{
 }
 
 /*
@@ -317,113 +358,128 @@ BST_NODE* successor(BST_NODE* node){
 ** results:
     removes all data items in the BST
 */
-void clear(BST* B){
-
+void clear(BST *B)
+{
 }
 
-int main(){
+int main()
+{
 
-	char command;
-	int key, result;
+    char command;
+    int key, result;
 
-	BST *B = createBST(100);
-	BST_NODE* node;
-	while(1){
-		scanf(" %c", &command);
+    BST *B = createBST(100);
+    BST_NODE *node;
+    while (1)
+    {
+        scanf(" %c", &command);
 
-		switch(command){
-			case '+':
-				scanf("%d", &key);
-				printf("Inserting key: %d\n", key);
-				insert(B, createBSTNode(key, NULL, NULL, NULL));
-				break;
-            case '-':
-				scanf("%d", &key);
-				printf("Removing node with key: %d\n", key);
-				result = delete(B, key); // result is unused. print if u want
-				break;
-			case 'p':
-				printf("Tree (rotated +90 degrees): \n");
-				showTree(B);
-				printf("\n");
-				break;
-			case 'E':
-				printf("BST %s empty.\n", isEmpty(B)?"is":"is not");
-				break;
-			case 'F':
-				printf("BST %s full.\n", isFull(B)?"is":"is not");
-				break;
-            case '?':
-                if(isEmpty(B)){
-                    printf("\nTree is empty!\n");
+        switch (command)
+        {
+        case '+':
+            scanf("%d", &key);
+            printf("Inserting key: %d\n", key);
+            insert(B, createBSTNode(key, NULL, NULL, NULL));
+            break;
+        case '-':
+            scanf("%d", &key);
+            printf("Removing node with key: %d\n", key);
+            result = delete (B, key); // result is unused. print if u want
+            break;
+        case 'p':
+            printf("Tree (rotated +90 degrees): \n");
+            showTree(B);
+            printf("\n");
+            break;
+        case 'E':
+            printf("BST %s empty.\n", isEmpty(B) ? "is" : "is not");
+            break;
+        case 'F':
+            printf("BST %s full.\n", isFull(B) ? "is" : "is not");
+            break;
+        case '?':
+            if (isEmpty(B))
+            {
+                printf("\nTree is empty!\n");
+            }
+            else
+            {
+                printf("Enter number to search: ");
+                scanf("%d", &key);
+                search(B, key);
+            }
+            break;
+
+        case '<':
+            if (B->root == NULL)
+            {
+                printf("\nTree is empty!\n");
+            }
+            else
+            {
+                printf("Pre-order Traversal: ");
+                preorderWalk(B);
+                printf("\n");
+            }
+
+            break;
+        case '>':
+            if (B->root == NULL)
+            {
+                printf("\nTree is empty!\n");
+            }
+            else
+            {
+                printf("Post-order Traversal: ");
+                postorderWalk(B);
+                printf("\n");
+            }
+
+            break;
+        case '/':
+            if (B->root == NULL)
+            {
+                printf("\nTree is empty!\n");
+            }
+            else
+            {
+                printf("In-order Traversal: ");
+                inorderWalk(B);
+                printf("\n");
+            }
+
+            break;
+            /* uncomment this for postlab
+            case '[':
+                scanf("%d", &key);
+                node = search(B, key);
+                if(!node){
+                    printf("%d not found\n", key);
                 }else{
-                    printf("Enter number to search: ");
-                    scanf("%d", &key);
-                    search(B, key);
+                    node = predecessor(node);
+                    if(node)printf("Predecessor of %d is %d.\n", key, node->key);
+                    else printf("No predecessor for %d\n", key);
                 }
                 break;
-		
-			case '<':
-                if(B->root==NULL){
-                    printf("\nTree is empty!\n");
+            case ']':
+                scanf("%d", &key);
+                node = search(B, key);
+                if(!node){
+                    printf("%d not found\n", key);
                 }else{
-                    printf("Pre-order Traversal: ");
-				    preorderWalk(B);
-				    printf("\n");
+                    node = successor(node);
+                    if(node)printf("Successor of %d is %d.\n", key, node->key);
+                    else printf("No successor for %d\n", key);
                 }
-			
-				break;
-			case '>':
-                if(B->root==NULL){
-                    printf("\nTree is empty!\n");
-                }else{
-                    printf("Post-order Traversal: ");
-                    postorderWalk(B);
-                    printf("\n");  
-                }
-	
-				break;
-			case '/':
-                if(B->root==NULL){
-                    printf("\nTree is empty!\n");
-                }else{
-                    printf("In-order Traversal: ");
-				    inorderWalk(B);
-				    printf("\n");
-                }
-				
-				break;
-            /* uncomment this for postlab
-			case '[':
-				scanf("%d", &key);
-				node = search(B, key);
-				if(!node){
-					printf("%d not found\n", key);
-				}else{
-					node = predecessor(node);
-					if(node)printf("Predecessor of %d is %d.\n", key, node->key);
-					else printf("No predecessor for %d\n", key);
-				}
-				break;
-			case ']':
-				scanf("%d", &key);
-				node = search(B, key);
-				if(!node){
-					printf("%d not found\n", key);
-				}else{
-					node = successor(node);
-					if(node)printf("Successor of %d is %d.\n", key, node->key);
-					else printf("No successor for %d\n", key);
-				}
-				break;
-			*/
-		
-			case 'Q':
-				return 0;
-			default:
-				printf("Unknown command: %c\n", command);
-		}
-	}
+                break;
+            */
 
-	return 0;
+        case 'Q':
+            return 0;
+        default:
+            printf("Unknown command: %c\n", command);
+        }
+    }
+
+    return 0;
 }
