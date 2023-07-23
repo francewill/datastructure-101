@@ -346,15 +346,14 @@ int delete(BST *B, int key)
 */
 BST_NODE *predecessor(BST_NODE *node)
 {
-    BST_NODE *ptr = node;
-    BST_NODE *temp = node->left;
+    BST_NODE *ptr = node, *temp = node->left;
     
     if(temp==NULL){
-        while(ptr->parent!=NULL){
+        while(ptr->parent!=NULL && ptr->parent->left == ptr){
             ptr = ptr->parent;
         }
-        if(node!=minimum(ptr)){
-            return node->parent;
+        if(ptr->parent!=NULL){
+            return ptr->parent;
         }
         return NULL;
     }else{
