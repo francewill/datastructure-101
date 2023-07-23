@@ -375,6 +375,22 @@ BST_NODE *predecessor(BST_NODE *node)
 */
 BST_NODE *successor(BST_NODE *node)
 {
+    BST_NODE *temp = node->right, *ptr = node;;
+    if(temp == NULL){
+        while(ptr->parent!=NULL && ptr->parent->right == ptr){
+            ptr = ptr->parent;
+        }
+        if(ptr->parent==NULL){
+            return NULL;
+        }
+        return ptr->parent;
+        
+    }else{
+        while(temp->left!=NULL){
+            temp = temp->left;
+        }
+        return temp;
+    }
 
 }
 
