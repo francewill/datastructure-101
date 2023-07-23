@@ -438,9 +438,21 @@ int main()
             insert(B, createBSTNode(key, NULL, NULL, NULL));
             break;
         case '-':
-            scanf("%d", &key);
-            printf("Removing node with key: %d\n", key);
-            result = delete (B, key); // result is unused. print if u want
+            if (isEmpty(B))
+            {
+                printf("\nTree is empty!\n");
+            }
+            else
+            {
+                scanf("%d", &key);
+                if (search(B, key) != NULL)
+                {
+                    printf("Removing node with key: %d\n", key);
+                    result = delete (B, key); // result is unused. print if u want
+                }else{
+                    printf("Not found!\n");
+                }
+            }
             break;
         case 'p':
             printf("Tree (rotated +90 degrees): \n");
