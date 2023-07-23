@@ -194,17 +194,17 @@ void insert(BST *B, BST_NODE *node)
     finds `key` from BST `B` and returns its node pointer if found,
         otherwise, return `NULL`
 */
-BST_NODE *serachRecursion(BST_NODE *node, int key)  // recursive function for search
+BST_NODE *serachRecursion(BST_NODE *node, int key) // recursive function for search
 {
-    if (node == NULL)  // if null means not found and just return null
+    if (node == NULL) // if null means not found and just return null
     {
         return NULL;
     }
-    if (node->key > key)  // traverse downwards by evaluating left and right child
+    if (node->key > key) // traverse downwards by evaluating left and right child
     {
         serachRecursion(node->left, key);
     }
-    else if (node->key == key)  // if found then return that noud
+    else if (node->key == key) // if found then return that noud
     {
         return node;
     }
@@ -220,7 +220,7 @@ BST_NODE *search(BST *B, int key)
     BST_NODE *result = serachRecursion(ptr, key);
     if (result == NULL)
     {
-        printf("\nSearch result: %p\n",result);
+        printf("\nSearch result: %p\n", result);
     }
     else
     {
@@ -236,7 +236,7 @@ BST_NODE *search(BST *B, int key)
 ** results:
     displays a list of elements of the BST using `pre-order traversal`
 */
-void recursivePreorder(BST_NODE *node)  // root left right traversal
+void recursivePreorder(BST_NODE *node) // root left right traversal
 {
     if (node == NULL)
         return;
@@ -256,7 +256,7 @@ void preorderWalk(BST *B)
 ** results:
     displays a list of elements of the BST using `in-order traversal`
 */
-void recursiveInorder(BST_NODE *node)  // left root right traversal
+void recursiveInorder(BST_NODE *node) // left root right traversal
 {
     if (node == NULL)
         return;
@@ -276,7 +276,7 @@ void inorderWalk(BST *B)
 ** results:
     displays a list of elements of the BST using `post-order traversal`
 */
-void recursivePostorder(BST_NODE *node)  // left right root traversal
+void recursivePostorder(BST_NODE *node) // left right root traversal
 {
     if (node == NULL)
         return;
@@ -299,7 +299,8 @@ void postorderWalk(BST *B)
 */
 BST_NODE *minimum(BST_NODE *n)
 {
-    while(n->left!=NULL){
+    while (n->left != NULL)
+    {
         n = n->left;
     }
     return n;
@@ -315,7 +316,8 @@ BST_NODE *minimum(BST_NODE *n)
 */
 BST_NODE *maximum(BST_NODE *n)
 {
-    while(n->right!=NULL){
+    while (n->right != NULL)
+    {
         n = n->right;
     }
     return n;
@@ -347,22 +349,27 @@ int delete(BST *B, int key)
 BST_NODE *predecessor(BST_NODE *node)
 {
     BST_NODE *ptr = node, *temp = node->left;
-    
-    if(temp==NULL){
-        while(ptr->parent!=NULL && ptr->parent->left == ptr){
+    // two cases to check
+    if (temp == NULL)
+    { // if temp does not have left child
+        while (ptr->parent != NULL && ptr->parent->left == ptr)
+        { // check if parent is null and parent left child is the current node
             ptr = ptr->parent;
         }
-        if(ptr->parent!=NULL){
+        if (ptr->parent != NULL)
+        { // if not null then just return the parent (ancestor type)
             return ptr->parent;
         }
-        return NULL;
-    }else{
-        while(temp->right!=NULL){
+        return NULL; // means the node your chosen is the minimum of that tree
+    }
+    else
+    { // if it has left child then go to the rightmost node
+        while (temp->right != NULL)
+        {
             temp = temp->right;
         }
         return temp;
     }
-
 }
 
 /*
@@ -375,23 +382,29 @@ BST_NODE *predecessor(BST_NODE *node)
 */
 BST_NODE *successor(BST_NODE *node)
 {
-    BST_NODE *temp = node->right, *ptr = node;;
-    if(temp == NULL){
-        while(ptr->parent!=NULL && ptr->parent->right == ptr){
+    BST_NODE *temp = node->right, *ptr = node;
+    ;
+    // two cases
+    if (temp == NULL)
+    { // if the node doesn't have right child
+        while (ptr->parent != NULL && ptr->parent->right == ptr)
+        {
             ptr = ptr->parent;
         }
-        if(ptr->parent==NULL){
+        if (ptr->parent == NULL)
+        { // it means that the node chosen is the highest number of that tree
             return NULL;
         }
-        return ptr->parent;
-        
-    }else{
-        while(temp->left!=NULL){
+        return ptr->parent; // ancestor type
+    }
+    else
+    { // if node has right child then go to the leftmost node of temp
+        while (temp->left != NULL)
+        {
             temp = temp->left;
         }
         return temp;
     }
-
 }
 
 /*
@@ -492,45 +505,60 @@ int main()
 
             break;
         case 'm':
-            if(B->root == NULL){
+            if (B->root == NULL)
+            {
                 printf("\nTree is empty!\n");
-            }else{
+            }
+            else
+            {
                 BST_NODE *min = minimum(B->root);
                 printf("\nMinimum of the tree: %d\n", min->key);
             }
             break;
         case 'M':
-            if(B->root == NULL){
+            if (B->root == NULL)
+            {
                 printf("\nTree is empty!\n");
-            }else{
+            }
+            else
+            {
                 BST_NODE *min = maximum(B->root);
                 printf("\nMaximum of the tree: %d\n", min->key);
             }
             break;
-         
+
         case '[':
             scanf("%d", &key);
             node = search(B, key);
-            if(!node){
+            if (!node)
+            {
                 printf("%d not found\n", key);
-            }else{
+            }
+            else
+            {
                 node = predecessor(node);
-                if(node)printf("Predecessor of %d is %d.\n", key, node->key);
-                else printf("No predecessor for %d\n", key);
+                if (node)
+                    printf("Predecessor of %d is %d.\n", key, node->key);
+                else
+                    printf("No predecessor for %d\n", key);
             }
             break;
         case ']':
             scanf("%d", &key);
             node = search(B, key);
-            if(!node){
+            if (!node)
+            {
                 printf("%d not found\n", key);
-            }else{
+            }
+            else
+            {
                 node = successor(node);
-                if(node)printf("Successor of %d is %d.\n", key, node->key);
-                else printf("No successor for %d\n", key);
+                if (node)
+                    printf("Successor of %d is %d.\n", key, node->key);
+                else
+                    printf("No successor for %d\n", key);
             }
             break;
-   
 
         case 'Q':
             return 0;
