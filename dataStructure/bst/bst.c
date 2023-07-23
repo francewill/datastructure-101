@@ -226,6 +226,7 @@ BST_NODE *search(BST *B, int key)
     {
         printf("\nNode found: %p\n", result);
     }
+    return result;
 }
 
 /*
@@ -345,6 +346,24 @@ int delete(BST *B, int key)
 */
 BST_NODE *predecessor(BST_NODE *node)
 {
+    BST_NODE *ptr = node;
+    BST_NODE *temp = node->left;
+    
+    if(temp==NULL){
+        while(ptr->parent!=NULL){
+            ptr = ptr->parent;
+        }
+        if(node!=minimum(ptr)){
+            return node->parent;
+        }
+        return NULL;
+    }else{
+        while(temp->right!=NULL){
+            temp = temp->right;
+        }
+        return temp;
+    }
+
 }
 
 /*
@@ -357,6 +376,7 @@ BST_NODE *predecessor(BST_NODE *node)
 */
 BST_NODE *successor(BST_NODE *node)
 {
+
 }
 
 /*
@@ -473,30 +493,30 @@ int main()
                 printf("\nMaximum of the tree: %d\n", min->key);
             }
             break;
-            /* uncomment this for postlab
-            case '[':
-                scanf("%d", &key);
-                node = search(B, key);
-                if(!node){
-                    printf("%d not found\n", key);
-                }else{
-                    node = predecessor(node);
-                    if(node)printf("Predecessor of %d is %d.\n", key, node->key);
-                    else printf("No predecessor for %d\n", key);
-                }
-                break;
-            case ']':
-                scanf("%d", &key);
-                node = search(B, key);
-                if(!node){
-                    printf("%d not found\n", key);
-                }else{
-                    node = successor(node);
-                    if(node)printf("Successor of %d is %d.\n", key, node->key);
-                    else printf("No successor for %d\n", key);
-                }
-                break;
-            */
+         
+        case '[':
+            scanf("%d", &key);
+            node = search(B, key);
+            if(!node){
+                printf("%d not found\n", key);
+            }else{
+                node = predecessor(node);
+                if(node)printf("Predecessor of %d is %d.\n", key, node->key);
+                else printf("No predecessor for %d\n", key);
+            }
+            break;
+        case ']':
+            scanf("%d", &key);
+            node = search(B, key);
+            if(!node){
+                printf("%d not found\n", key);
+            }else{
+                node = successor(node);
+                if(node)printf("Successor of %d is %d.\n", key, node->key);
+                else printf("No successor for %d\n", key);
+            }
+            break;
+   
 
         case 'Q':
             return 0;
