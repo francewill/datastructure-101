@@ -314,6 +314,10 @@ BST_NODE *minimum(BST_NODE *n)
 */
 BST_NODE *maximum(BST_NODE *n)
 {
+    while(n->right!=NULL){
+        n = n->right;
+    }
+    return n;
 }
 /*
 ** function: remove
@@ -459,6 +463,14 @@ int main()
             }else{
                 BST_NODE *min = minimum(B->root);
                 printf("\nMinimum of the tree: %d\n", min->key);
+            }
+            break;
+        case 'M':
+            if(B->root == NULL){
+                printf("\nTree is empty!\n");
+            }else{
+                BST_NODE *min = maximum(B->root);
+                printf("\nMaximum of the tree: %d\n", min->key);
             }
             break;
             /* uncomment this for postlab
