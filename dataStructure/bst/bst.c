@@ -217,8 +217,15 @@ void preorderWalk(BST* B){
 ** results:
     displays a list of elements of the BST using `in-order traversal`
 */
-void inorderWalk(BST* B){
+void recursiveInorder (BST_NODE *node){
+    if(node ==NULL) return;
+    recursiveInorder(node->left); 
+    printf("%d ",node->key);
+    recursiveInorder(node->right);
 
+}
+void inorderWalk(BST* B){
+    recursiveInorder(B->root);
 }
 
 /*
@@ -296,9 +303,14 @@ int main(){
 	
 				break;
 			case '/':
-				printf("In-order Traversal: ");
-				inorderWalk(B);
-				printf("\n");
+                if(B->root==NULL){
+                    printf("\nTree is empty!\n");
+                }else{
+                    printf("In-order Traversal: ");
+				    inorderWalk(B);
+				    printf("\n");
+                }
+				
 				break;
 		
 			case 'Q':
