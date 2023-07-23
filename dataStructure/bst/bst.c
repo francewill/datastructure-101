@@ -192,6 +192,46 @@ BST_NODE* search(BST* B, int key){
     
 }
 
+/*
+** function: preorderWalk
+** requirements:
+    a non-null BST pointer
+** results:
+    displays a list of elements of the BST using `pre-order traversal`
+*/
+void recursivePreorder (BST_NODE *node){
+    if(node ==NULL) return;
+    printf("%d ",node->key);
+    recursivePreorder(node->left);
+    recursivePreorder(node->right);
+
+}
+void preorderWalk(BST* B){
+    recursivePreorder(B->root);
+}
+
+/*
+** function: inorderWalk
+** requirements:
+    a non-null BST pointer
+** results:
+    displays a list of elements of the BST using `in-order traversal`
+*/
+void inorderWalk(BST* B){
+
+}
+
+/*
+** function: postorderWalk
+** requirements:
+    a non-null BST pointer
+** results:
+    displays a list of elements of the BST using `post-order traversal`
+*/
+void postorderWalk(BST* B){
+    
+}
+
 
 int main(){
 
@@ -234,23 +274,33 @@ int main(){
                     search(B, key);
                 }
                 break;
-			/* for the postlab, uncomment this
+		
 			case '<':
-				printf("Pre-order Traversal: ");
-				preorderWalk(B);
-				printf("\n");
+                if(B->root==NULL){
+                    printf("\nTree is empty!\n");
+                }else{
+                    printf("Pre-order Traversal: ");
+				    preorderWalk(B);
+				    printf("\n");
+                }
+			
 				break;
 			case '>':
-				printf("Post-order Traversal: ");
-				postorderWalk(B);
-				printf("\n");
+                if(B->root==NULL){
+                    printf("\nTree is empty!\n");
+                }else{
+                    printf("Post-order Traversal: ");
+                    postorderWalk(B);
+                    printf("\n");  
+                }
+	
 				break;
 			case '/':
 				printf("In-order Traversal: ");
 				inorderWalk(B);
 				printf("\n");
 				break;
-			*/
+		
 			case 'Q':
 				return 0;
 			default:
