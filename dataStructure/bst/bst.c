@@ -298,6 +298,10 @@ void postorderWalk(BST *B)
 */
 BST_NODE *minimum(BST_NODE *n)
 {
+    while(n->left!=NULL){
+        n = n->left;
+    }
+    return n;
 }
 
 /*
@@ -448,6 +452,14 @@ int main()
                 printf("\n");
             }
 
+            break;
+        case 'm':
+            if(B->root == NULL){
+                printf("\nTree is empty!\n");
+            }else{
+                BST_NODE *min = minimum(B->root);
+                printf("\nMinimum of the tree: %d\n", min->key);
+            }
             break;
             /* uncomment this for postlab
             case '[':
