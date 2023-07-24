@@ -350,6 +350,22 @@ int delete(BST *B, int key)
             return val;
         }
         printf("Removing node with key: %d\n", key);
+        if(node == node->parent->left){
+            val = node->key;
+            node->parent->left = NULL;
+            B->size--;
+            heightAdjuster(node->parent);
+            free(node);
+            return val;
+            
+        }else{
+            val = node->key;
+            node->parent->right = NULL;
+            B->size--;
+            heightAdjuster(node->parent);
+            free(node);
+            return val;
+        }
        
     }
     else
