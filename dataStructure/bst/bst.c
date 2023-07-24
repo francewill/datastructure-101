@@ -181,7 +181,9 @@ void insert(BST *B, BST_NODE *node)
     else
     {
         recursionInsert(B->root, node);
+        
     }
+    B->size++;
 }
 
 /*
@@ -336,6 +338,24 @@ BST_NODE *maximum(BST_NODE *n)
 */
 int delete(BST *B, int key)
 {
+    BST_NODE *node = search(B, key);
+    int val;
+    if (node != NULL)
+    {
+        if(node == B->root){
+            val = node->key;
+            B->root = NULL;
+            B->size--;
+            free(node);
+            return val;
+        }
+        printf("Removing node with key: %d\n", key);
+       
+    }
+    else
+    {
+        printf("Not found!\n");
+    }
 }
 
 /*
@@ -445,13 +465,7 @@ int main()
             else
             {
                 scanf("%d", &key);
-                if (search(B, key) != NULL)
-                {
-                    printf("Removing node with key: %d\n", key);
-                    result = delete (B, key); // result is unused. print if u want
-                }else{
-                    printf("Not found!\n");
-                }
+                delete(B,key);
             }
             break;
         case 'p':
