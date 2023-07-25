@@ -374,6 +374,14 @@ int delete(BST *B, int key)
         {
             if (del->right != NULL && del->left == NULL)
             {
+                if(del == B->root){
+                    val = del->key;
+                    B->root = del->right;
+                    del->right->parent = B->root;
+                    free(del);
+                    B->size--;
+                    return val;
+                }
                 if (del->parent->right == del)
                 {
                     val = del->key;
@@ -394,6 +402,14 @@ int delete(BST *B, int key)
             }
             else if (del->right == NULL && del->left != NULL)
             {
+                if(del == B->root){
+                    val = del->key;
+                    B->root = del->left;
+                    del->left->parent = B->root;
+                    free(del);
+                    B->size--;
+                    return val;
+                }
                 if (del->parent->right == del)
                 {
                     val = del->key;
