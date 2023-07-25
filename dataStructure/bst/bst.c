@@ -354,12 +354,13 @@ BST_NODE *successor(BST_NODE *node)
         return temp;
     }
 }
-int deleteRecursive(BST *B, BST_NODE *del)
+
+int deleteRecursive(BST *B, BST_NODE *del) // recursive delete function
 {
     int val;
-    if (del == NULL)
+    if (del == NULL) // not found if NULL
     {
-        printf("\nNode not found!\n");
+        return -1;
     }
     else
     {
@@ -458,7 +459,7 @@ int deleteRecursive(BST *B, BST_NODE *del)
             {
                 BST_NODE *suc = successor(del);
                 del->key = suc->key;
-                deleteRecursive(B,suc);
+                deleteRecursive(B, suc);
             }
         }
     }
@@ -475,10 +476,18 @@ int deleteRecursive(BST *B, BST_NODE *del)
     otherwise, return 0
 
 */
-int delete(BST *B, int key)
+int delete(BST *B, int key) // delete function
 {
     BST_NODE *del = search(B, key);
-    int deletedVal = deleteRecursive(B,del);
+    int deletedVal = deleteRecursive(B, del);
+    if (deletedVal == -1)
+    {
+        printf("\nNode not found!\n");
+    }
+    else
+    {
+        printf("\nSuccessfully deleted %d\n", key);
+    }
 }
 
 /*
@@ -525,15 +534,18 @@ BST_NODE *predecessor(BST_NODE *node)
 void clear(BST *B)
 {
     int val;
-    if(isEmpty(B)){
+    if (isEmpty(B))
+    {
         printf("\nTree is clean!\n");
-    }else{
-        while(B->root!=NULL){
+    }
+    else
+    {
+        while (B->root != NULL)
+        {
             val = B->root->key;
-            delete(B,val);
+            delete (B, val);
         }
     }
-
 }
 
 int main()
@@ -586,9 +598,12 @@ int main()
             {
                 scanf("%d", &key);
                 BST_NODE *temp = search(B, key);
-                if(temp==NULL){
+                if (temp == NULL)
+                {
                     printf("\nNot found!\n");
-                }else{
+                }
+                else
+                {
                     printf("Node found: %p", temp);
                 }
             }
@@ -691,7 +706,7 @@ int main()
 
         case 'Q':
             clear(B);
-            return(0);
+            return (0);
         default:
             printf("Unknown command: %c\n", command);
         }
