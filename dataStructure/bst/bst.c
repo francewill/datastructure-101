@@ -369,9 +369,48 @@ int delete(BST *B, int key)
             free(del);
             B->size--;
             return val;
-        }else if(del->right != NULL || del->left!=NULL){
-            if(del->right!=NULL && del->left==NULL){
-                
+        }
+        else if (del->right != NULL || del->left != NULL)
+        {
+            if (del->right != NULL && del->left == NULL)
+            {
+                if (del->parent->right == del)
+                {
+                    val = del->key;
+                    del->parent->right = del->right;
+                    del->right->parent = del->parent;
+                    free(del);
+                    B->size--;
+                    return val;
+                }
+                else
+                {
+                    val = del->key;
+                    del->parent->left = del->right;
+                    del->right->parent = del->parent;
+                    free(del);
+                    return val;
+                }
+            }
+            else if (del->right == NULL && del->left != NULL)
+            {
+                if (del->parent->right == del)
+                {
+                    val = del->key;
+                    del->parent->right = del->left;
+                    del->left->parent = del->parent;
+                    free(del);
+                    B->size--;
+                    return val;
+                }
+                else
+                {
+                    val = del->key;
+                    del->parent->left = del->left;
+                    del->left->parent = del->parent;
+                    free(del);
+                    return val;
+                }
             }
         }
         printf("\n%d is deleted!\n", key);
