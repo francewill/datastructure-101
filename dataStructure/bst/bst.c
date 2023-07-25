@@ -378,6 +378,7 @@ int delete(BST *B, int key)
                     val = del->key;
                     B->root = del->right;
                     del->right->parent = B->root;
+                    heightAdjuster(del->right);
                     free(del);
                     B->size--;
                     return val;
@@ -387,6 +388,7 @@ int delete(BST *B, int key)
                     val = del->key;
                     del->parent->right = del->right;
                     del->right->parent = del->parent;
+                    heightAdjuster(del->right);
                     free(del);
                     B->size--;
                     return val;
@@ -396,6 +398,7 @@ int delete(BST *B, int key)
                     val = del->key;
                     del->parent->left = del->right;
                     del->right->parent = del->parent;
+                    heightAdjuster(del->right);
                     free(del);
                     return val;
                 }
@@ -406,6 +409,7 @@ int delete(BST *B, int key)
                     val = del->key;
                     B->root = del->left;
                     del->left->parent = B->root;
+                    heightAdjuster(del->left);
                     free(del);
                     B->size--;
                     return val;
@@ -415,6 +419,7 @@ int delete(BST *B, int key)
                     val = del->key;
                     del->parent->right = del->left;
                     del->left->parent = del->parent;
+                    heightAdjuster(del->left);
                     free(del);
                     B->size--;
                     return val;
@@ -424,6 +429,7 @@ int delete(BST *B, int key)
                     val = del->key;
                     del->parent->left = del->left;
                     del->left->parent = del->parent;
+                    heightAdjuster(del->left);
                     free(del);
                     return val;
                 }
