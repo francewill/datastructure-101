@@ -364,9 +364,9 @@ int deleteRecursive(BST *B, BST_NODE *del) // recursive delete function
     }
     else
     {
-        if (del->right == NULL && del->left == NULL)
+        if (del->right == NULL && del->left == NULL)  // deleting a node with no child
         {
-            if (del == B->root)
+            if (del == B->root)  // deleting root with no child
             {
                 val = del->key;
                 B->root = NULL;
@@ -374,12 +374,12 @@ int deleteRecursive(BST *B, BST_NODE *del) // recursive delete function
                 B->size--;
                 return val;
             }
-            if (del == del->parent->left)
+            if (del == del->parent->left)  // deleting left node with no child
             {
                 val = del->key;
                 del->parent->left = NULL;
             }
-            else
+            else  // deleting right node with no child
             {
                 val = del->key;
                 del->parent->right = NULL;
@@ -389,11 +389,11 @@ int deleteRecursive(BST *B, BST_NODE *del) // recursive delete function
             B->size--;
             return val;
         }
-        else if (del->right != NULL || del->left != NULL)
+        else if (del->right != NULL || del->left != NULL)  
         {
-            if (del->right != NULL && del->left == NULL)
+            if (del->right != NULL && del->left == NULL)  // deleting node with right child
             {
-                if (del == B->root)
+                if (del == B->root)  // deleting root with right child only
                 {
                     val = del->key;
                     B->root = del->right;
@@ -403,7 +403,7 @@ int deleteRecursive(BST *B, BST_NODE *del) // recursive delete function
                     B->size--;
                     return val;
                 }
-                if (del->parent->right == del)
+                if (del->parent->right == del)  // deleting right node with right child
                 {
                     val = del->key;
                     del->parent->right = del->right;
@@ -413,7 +413,7 @@ int deleteRecursive(BST *B, BST_NODE *del) // recursive delete function
                     B->size--;
                     return val;
                 }
-                else
+                else  // deleting left node with right child
                 {
                     val = del->key;
                     del->parent->left = del->right;
@@ -425,7 +425,7 @@ int deleteRecursive(BST *B, BST_NODE *del) // recursive delete function
             }
             else if (del->right == NULL && del->left != NULL)
             {
-                if (del == B->root)
+                if (del == B->root)  // deleting root with left child
                 {
                     val = del->key;
                     B->root = del->left;
@@ -435,7 +435,7 @@ int deleteRecursive(BST *B, BST_NODE *del) // recursive delete function
                     B->size--;
                     return val;
                 }
-                if (del->parent->right == del)
+                if (del->parent->right == del)  // deleting  right node with left child
                 {
                     val = del->key;
                     del->parent->right = del->left;
@@ -445,7 +445,7 @@ int deleteRecursive(BST *B, BST_NODE *del) // recursive delete function
                     B->size--;
                     return val;
                 }
-                else
+                else  // deleting left node with left child
                 {
                     val = del->key;
                     del->parent->left = del->left;
@@ -455,7 +455,7 @@ int deleteRecursive(BST *B, BST_NODE *del) // recursive delete function
                     return val;
                 }
             }
-            else
+            else  // deleting node with two children
             {
                 BST_NODE *suc = successor(del);
                 del->key = suc->key;
