@@ -223,10 +223,6 @@ BST_NODE *search(BST *B, int key)
     {
         printf("\nSearch result: %p\n", result);
     }
-    else
-    {
-        printf("\nNode found: %p\n", result);
-    }
     return result;
 }
 
@@ -528,6 +524,16 @@ BST_NODE *predecessor(BST_NODE *node)
 */
 void clear(BST *B)
 {
+    int val;
+    if(isEmpty(B)){
+        printf("\nTree is clean!\n");
+    }else{
+        while(B->root!=NULL){
+            val = B->root->key;
+            delete(B,val);
+        }
+    }
+
 }
 
 int main()
@@ -579,7 +585,12 @@ int main()
             else
             {
                 scanf("%d", &key);
-                search(B, key);
+                BST_NODE *temp = search(B, key);
+                if(temp==NULL){
+                    printf("\nNot found!\n");
+                }else{
+                    printf("Node found: %p", temp);
+                }
             }
             break;
 
@@ -679,7 +690,8 @@ int main()
             break;
 
         case 'Q':
-            return 0;
+            clear(B);
+            return(0);
         default:
             printf("Unknown command: %c\n", command);
         }
