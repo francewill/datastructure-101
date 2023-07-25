@@ -181,7 +181,6 @@ void insert(BST *B, BST_NODE *node)
     else
     {
         recursionInsert(B->root, node);
-        
     }
     B->size++;
 }
@@ -338,39 +337,44 @@ BST_NODE *maximum(BST_NODE *n)
 */
 int delete(BST *B, int key)
 {
-    BST_NODE *node = search(B, key);
+    BST_NODE *del = search(B, key);
     int val;
-    if (node != NULL)
+    if (del == NULL)
     {
-        if(node == B->root){
-            val = node->key;
-            B->root = NULL;
-            B->size--;
-            free(node);
-            return val;
-        }
-        printf("Removing node with key: %d\n", key);
-        if(node == node->parent->left){
-            val = node->key;
-            node->parent->left = NULL;
-            B->size--;
-            heightAdjuster(node->parent);
-            free(node);
-            return val;
-            
-        }else{
-            val = node->key;
-            node->parent->right = NULL;
-            B->size--;
-            heightAdjuster(node->parent);
-            free(node);
-            return val;
-        }
-       
+        printf("\nNode not found!\n");
     }
     else
     {
-        printf("Not found!\n");
+        if (del->right == NULL && del->left == NULL)
+        {
+            if (del == B->root)
+            {
+                val = del->key;
+                B->root = NULL;
+                free(del);
+                B->size--;
+                return val;
+            }
+            if (del == del->parent->left)
+            {
+                val = del->key;
+                del->parent->left = NULL;
+            }
+            else
+            {
+                val = del->key;
+                del->parent->right = NULL;
+            }
+            heightAdjuster(del->parent);
+            free(del);
+            B->size--;
+            return val;
+        }else if(del->right != NULL || del->left!=NULL){
+            if(del->right!=NULL && del->left==NULL){
+                
+            }
+        }
+        printf("\n%d is deleted!\n", key);
     }
 }
 
@@ -481,7 +485,7 @@ int main()
             else
             {
                 scanf("%d", &key);
-                delete(B,key);
+                delete (B, key);
             }
             break;
         case 'p':
