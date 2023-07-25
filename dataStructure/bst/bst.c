@@ -323,21 +323,43 @@ BST_NODE *maximum(BST_NODE *n)
     }
     return n;
 }
-/*
-** function: remove
-** requirements:
-    a non-null BST pointer
-    a non-empty BST
-    an integer `key`
-** results:
-    finds `key` and delete's it node from the BST `B`
-    if found, delete then, return key
-    otherwise, return 0
 
+/*
+** function: successor
+** requirements:
+    a non-null BST_NODE pointer
+** results:
+    returns the node pointer of this node's successor, if it exists
+    otherwis, return `NULL`
 */
-int delete(BST *B, int key)
+BST_NODE *successor(BST_NODE *node)
 {
-    BST_NODE *del = search(B, key);
+    BST_NODE *temp = node->right, *ptr = node;
+    ;
+    // two cases
+    if (temp == NULL)
+    { // if the node doesn't have right child
+        while (ptr->parent != NULL && ptr->parent->right == ptr)
+        {
+            ptr = ptr->parent;
+        }
+        if (ptr->parent == NULL)
+        { // it means that the node chosen is the highest number of that tree
+            return NULL;
+        }
+        return ptr->parent; // ancestor type
+    }
+    else
+    { // if node has right child then go to the leftmost node of temp
+        while (temp->left != NULL)
+        {
+            temp = temp->left;
+        }
+        return temp;
+    }
+}
+int deleteRecursive(BST *B, BST_NODE *del)
+{
     int val;
     if (del == NULL)
     {
@@ -374,10 +396,11 @@ int delete(BST *B, int key)
         {
             if (del->right != NULL && del->left == NULL)
             {
-                if(del == B->root){
+                if (del == B->root)
+                {
                     val = del->key;
                     B->root = del->right;
-                    del->right->parent = B->root;
+                    del->right->parent = NULL;
                     heightAdjuster(del->right);
                     free(del);
                     B->size--;
@@ -405,10 +428,11 @@ int delete(BST *B, int key)
             }
             else if (del->right == NULL && del->left != NULL)
             {
-                if(del == B->root){
+                if (del == B->root)
+                {
                     val = del->key;
                     B->root = del->left;
-                    del->left->parent = B->root;
+                    del->left->parent = NULL;
                     heightAdjuster(del->left);
                     free(del);
                     B->size--;
@@ -434,9 +458,31 @@ int delete(BST *B, int key)
                     return val;
                 }
             }
+            else
+            {
+                BST_NODE *suc = successor(del);
+                del->key = suc->key;
+                deleteRecursive(B,suc);
+            }
         }
-        printf("\n%d is deleted!\n", key);
     }
+}
+/*
+** function: remove
+** requirements:
+    a non-null BST pointer
+    a non-empty BST
+    an integer `key`
+** results:
+    finds `key` and delete's it node from the BST `B`
+    if found, delete then, return key
+    otherwise, return 0
+
+*/
+int delete(BST *B, int key)
+{
+    BST_NODE *del = search(B, key);
+    int deletedVal = deleteRecursive(B,del);
 }
 
 /*
@@ -468,41 +514,6 @@ BST_NODE *predecessor(BST_NODE *node)
         while (temp->right != NULL)
         {
             temp = temp->right;
-        }
-        return temp;
-    }
-}
-
-/*
-** function: successor
-** requirements:
-    a non-null BST_NODE pointer
-** results:
-    returns the node pointer of this node's successor, if it exists
-    otherwis, return `NULL`
-*/
-BST_NODE *successor(BST_NODE *node)
-{
-    BST_NODE *temp = node->right, *ptr = node;
-    ;
-    // two cases
-    if (temp == NULL)
-    { // if the node doesn't have right child
-        while (ptr->parent != NULL && ptr->parent->right == ptr)
-        {
-            ptr = ptr->parent;
-        }
-        if (ptr->parent == NULL)
-        { // it means that the node chosen is the highest number of that tree
-            return NULL;
-        }
-        return ptr->parent; // ancestor type
-    }
-    else
-    { // if node has right child then go to the leftmost node of temp
-        while (temp->left != NULL)
-        {
-            temp = temp->left;
         }
         return temp;
     }
