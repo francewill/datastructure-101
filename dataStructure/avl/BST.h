@@ -60,5 +60,8 @@ void clear(BST* B);
 /********************************************************************/
 
 //other function prototypes below !!!
+void heightAdjuster(BST_NODE *node);
+void recursionInsert(BST_NODE *node, BST_NODE *new);
+int deleteRecursive(BST *B, BST_NODE *del);
 
 #endif
