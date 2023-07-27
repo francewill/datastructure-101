@@ -21,6 +21,73 @@ AVL * createAVL(int max){
 /**** PUT YOUR FUNCTIONS HERE ******************************/
 
 
+/*
+** function: createAVLNode
+** requirements:
+    an integer indicating the key of the node
+** results:
+    creates an AVL node with fields initialized
+    returns a pointer of this instance
+*/
+AVL_NODE * createAVLNode(int key){
+	
+}
+
+/*
+** function: createAVL
+** requirements:
+    an integer indicating the maximum size of the AVL
+        i.e. the maximum number of elements that can be stored
+** results:
+    creates an empty AVL with fields initialized
+    returns a pointer of this instance
+*/
+AVL * createAVL(int max){
+	
+}
+
+/*
+** function: leftRotate
+** requirements:
+    a non-null AVL pointer and a non-null node pointer
+** results:
+    rotates the tree (or subtree) rooted at `node` to the left
+*/
+void leftRotate(AVL* A, AVL_NODE * node){
+	
+}
+
+/*
+** function: rightRotate
+** requirements:
+    a non-null AVL pointer and a non-null node pointer
+** results:
+    rotates the tree (or subtree) rooted at `node` to the right
+*/
+void rightRotate(AVL* A, AVL_NODE * node);
+
+/*
+** function: AVLInsert
+** requirements:
+    a non-null AVL pointer and a non null node pointer
+** results:
+    inserts the given node, `node`, to the AVL tree described by `A`
+*/
+void AVLInsert(AVL* A, AVL_NODE* node){
+	
+}
+
+/*
+** function: heightOf
+** requirements:
+    a non-null node pointer
+** results:
+    returns -1 if node is NULL
+    otherwirse, return the height of node
+*/
+int heightOf(AVL_NODE * node){
+	
+}
 
 
 
