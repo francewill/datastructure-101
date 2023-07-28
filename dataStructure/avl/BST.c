@@ -10,6 +10,7 @@
 #include "BST.h"
 #include <stdio.h>
 #include <stdlib.h>
+#define max(a, b) ((a) > (b) ? (a) : (b))
 
 // a recursive subroutine to display the BST in tree mode
 void showTreeHelper(BST_NODE *node, int tabs)
@@ -84,6 +85,49 @@ int isFull(BST *B)
 	}
 }
 
+
+/*
+** function: search
+** requirements:
+    a non-null BST pointer
+    a non-empty BST
+    an integer `key`
+** results:
+    finds `key` from BST `B` and returns its node pointer if found,
+        otherwise, return `NULL`
+*/
+BST_NODE *serachRecursion(BST_NODE *node, int key) // recursive function for search
+{
+    if (node == NULL) // if null means not found and just return null
+    {
+        return NULL;
+    }
+    if (node->key > key) // traverse downwards by evaluating left and right child
+    {
+        serachRecursion(node->left, key);
+    }
+    else if (node->key == key) // if found then return that noud
+    {
+        return node;
+    }
+    else
+    {
+        serachRecursion(node->right, key);
+    }
+}
+
+BST_NODE *search(BST *B, int key)
+{
+    BST_NODE *ptr = B->root;
+    BST_NODE *result = serachRecursion(ptr, key);
+    if (result == NULL)
+    {
+        printf("\nSearch result: %p\n", result);
+    }
+    return result;
+}
+
+
 void heightAdjuster(BST_NODE *node)
 {
 	BST_NODE *ptr = node;
@@ -151,6 +195,41 @@ void insert(BST *B, BST_NODE *node)
 		recursionInsert(B->root, node);
 	}
 	B->size++;
+}
+
+/*
+** function: successor
+** requirements:
+    a non-null BST_NODE pointer
+** results:
+    returns the node pointer of this node's successor, if it exists
+    otherwis, return `NULL`
+*/
+BST_NODE *successor(BST_NODE *node)
+{
+    BST_NODE *temp = node->right, *ptr = node;
+    ;
+    // two cases
+    if (temp == NULL)
+    { // if the node doesn't have right child
+        while (ptr->parent != NULL && ptr->parent->right == ptr)
+        {
+            ptr = ptr->parent;
+        }
+        if (ptr->parent == NULL)
+        { // it means that the node chosen is the highest number of that tree
+            return NULL;
+        }
+        return ptr->parent; // ancestor type
+    }
+    else
+    { // if node has right child then go to the leftmost node of temp
+        while (temp->left != NULL)
+        {
+            temp = temp->left;
+        }
+        return temp;
+    }
 }
 
 int deleteRecursive(BST *B, BST_NODE *del)
