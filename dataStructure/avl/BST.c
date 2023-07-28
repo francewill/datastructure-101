@@ -360,7 +360,21 @@ int delete(BST *B, int key)
 // deletes all the nodes from tree `B`
 void clear(BST *B)
 {
+    int val;
+    if (isEmpty(B))
+    {
+        printf("\nTree is clean!\n");
+    }
+    else
+    {
+        while (B->root != NULL)
+        {
+            val = B->root->key;
+            delete (B, val);
+        }
+    }
 }
+
 
 /********************************************************************/
 /* If your implementation to the functions above requires another   */

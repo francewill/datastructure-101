@@ -54,6 +54,7 @@ void rightRotate(AVL *A, AVL_NODE *node){
 */
 void AVLInsert(AVL *A, AVL_NODE *node)
 {
+	insert(A, node);
 }
 
 /*
