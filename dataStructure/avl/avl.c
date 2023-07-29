@@ -32,6 +32,13 @@ AVL *createAVL(int max)
 */
 void leftRotate(AVL *A, AVL_NODE *node)
 {
+	AVL_NODE *pivot = node->left;
+	if(node == A->root){
+		A->root = pivot;
+		pivot->parent = NULL;
+		node->parent = pivot;
+		heightAdjuster(node);
+	}
 }
 
 /*
