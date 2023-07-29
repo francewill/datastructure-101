@@ -53,9 +53,37 @@ int heightOf(AVL_NODE *node)
 void rightRotate(AVL *A, AVL_NODE *node)
 {
 	AVL_NODE *pivot = node->left; // pivot will always be the node left
-	if (node == A->root)		  // right rotate with the root
+	int left, right;
+	left = heightOf(node->left);
+	right = heightOf(node->right);
+	if (abs(left - right) <= 1)
 	{
-		if (node->right != NULL && node->left->right != NULL) // rotate if root right child is not null
+
+		if (node->left->right == NULL)
+		{
+			node->left->parent = node->parent;
+			node->parent->right = node->left;
+			node->parent = node->left;
+			node->left->right = node;
+			node->right = NULL;
+			heightAdjuster(node);
+		}
+		else
+		{
+			AVL_NODE *pivot2 = node->right;
+
+			pivot2->parent = node->parent;
+			node->parent->left = pivot2;
+			node->right = pivot2->left;
+			node->parent = pivot2;
+			pivot2->left->parent = node;
+			pivot2->left = node;
+		}
+		return;
+	}
+	if (node == A->root) // right rotate with the root
+	{
+		if (node->right != NULL && pivot->right != NULL) // rotate if root right child is not null
 		{
 			printf("\nA\n");
 			A->root = pivot;
@@ -135,17 +163,12 @@ void leftRotate(AVL *A, AVL_NODE *node)
 			node->parent = pivot2;
 			pivot2->left->parent = node;
 			pivot2->left = node;
-			// node->parent = node->right;
-			// node->right = ptr;
-			// ptr = node;
-			// // node->right = NULL;
-			// heightAdjuster(node);
 		}
 		return;
 	}
 	if (node == A->root) // rotating when critical node is root
 	{
-		if (node->left != NULL) // switching parent case
+		if (node->left != NULL && pivot->left != NULL) // switching parent case
 		{
 			A->root = pivot;
 			pivot->parent = NULL;
@@ -167,7 +190,7 @@ void leftRotate(AVL *A, AVL_NODE *node)
 	}
 	else // rotating a subtree (critical node is not the root)
 	{
-		if (node->left != NULL)
+		if (node->left != NULL && pivot->left != NULL)
 		{
 			node->parent->right = pivot;
 			pivot->parent = node->parent;
@@ -213,10 +236,10 @@ void AVLInsert(AVL *A, AVL_NODE *node)
 		}
 		else
 		{
+			int l, r;
 			ans = left - right;
 			if (ans > 0)
 			{
-				int l, r;
 				if (temp->left->left == NULL)
 				{
 					printf("\nLeft right crit at %d\n", temp->key);
@@ -238,7 +261,6 @@ void AVLInsert(AVL *A, AVL_NODE *node)
 						printf("\nLeft right crit at %d\n", temp->key);
 						AVL_NODE *pivot = temp->left;
 						leftRotate(A, pivot);
-						printf("\nHalo\n");
 						rightRotate(A, temp);
 					}
 				}
@@ -252,8 +274,15 @@ void AVLInsert(AVL *A, AVL_NODE *node)
 				}
 				else
 				{
-					printf("\nRight right\n");
-					leftRotate(A, temp);
+					l = heightOf(temp->right->left);
+					r = heightOf(temp->right->right);
+					if(r>l){
+						printf("\nRight right\n");
+						leftRotate(A, temp);
+					}else{
+						printf("\nRight left crit at %d\n", temp->key);
+					}
+					
 				}
 				break;
 			}
