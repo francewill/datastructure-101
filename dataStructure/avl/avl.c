@@ -67,6 +67,11 @@ void AVLInsert(AVL *A, AVL_NODE *node)
 */
 int heightOf(AVL_NODE *node)
 {
+	if(node == NULL){
+		return -1;
+	}else{
+		return node->height;
+	}
 }
 
 /**** FUNCTIONS ABOVE **************************************/
