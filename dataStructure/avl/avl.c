@@ -29,13 +29,35 @@ AVL *createAVL(int max)
 ** results:
 	rotates the tree (or subtree) rooted at `node` to the left
 */
-void leftRotate(AVL *A, AVL_NODE *node)
+/*
+** function: heightOf
+** requirements:
+	a non-null node pointer
+** results:
+	returns -1 if node is NULL
+	otherwirse, return the height of node
+*/
+
+int heightOf(AVL_NODE *node)
+{
+	if (node == NULL)
+	{
+		return -1;
+	}
+	else
+	{
+		return node->height;
+	}
+}
+
+void rightRotate(AVL *A, AVL_NODE *node)
 {
 	AVL_NODE *pivot = node->left; // pivot will always be the node left
-	if (node == A->root)		  // left rotate with the root
+	if (node == A->root)		  // right rotate with the root
 	{
-		if (node->right != NULL) // rotate if root right child is not null
+		if (node->right != NULL && node->left->right != NULL) // rotate if root right child is not null
 		{
+			printf("\nA\n");
 			A->root = pivot;
 			pivot->parent = NULL;
 			pivot->right->parent = node; // the node will be the parent of the pivot right child
@@ -56,7 +78,7 @@ void leftRotate(AVL *A, AVL_NODE *node)
 	}
 	else
 	{
-		if (node->right != NULL)
+		if (node->right != NULL && node->left->right != NULL)
 		{
 			node->parent->left = pivot;
 			pivot->parent = node->parent;
@@ -85,12 +107,45 @@ void leftRotate(AVL *A, AVL_NODE *node)
 ** results:
 	rotates the tree (or subtree) rooted at `node` to the right
 */
-void rightRotate(AVL *A, AVL_NODE *node)
+void leftRotate(AVL *A, AVL_NODE *node)
 {
-	AVL_NODE *pivot = node->right; 
-	if (node == A->root)		   // rotating when critical node is root
+	AVL_NODE *pivot = node->right;
+	int left, right;
+	left = heightOf(node->left);
+	right = heightOf(node->right);
+	if (abs(left - right) <= 1)
 	{
-		if (node->left != NULL)   // switching parent case
+
+		if (node->right->left == NULL)
+		{
+			node->right->parent = node->parent;
+			node->parent->left = node->right;
+			node->parent = node->right;
+			node->right->left = node;
+			node->right = NULL;
+			heightAdjuster(node);
+		}
+		else
+		{
+			AVL_NODE *pivot2 = node->right;
+
+			pivot2->parent = node->parent;
+			node->parent->left = pivot2;
+			node->right = pivot2->left;
+			node->parent = pivot2;
+			pivot2->left->parent = node;
+			pivot2->left = node;
+			// node->parent = node->right;
+			// node->right = ptr;
+			// ptr = node;
+			// // node->right = NULL;
+			// heightAdjuster(node);
+		}
+		return;
+	}
+	if (node == A->root) // rotating when critical node is root
+	{
+		if (node->left != NULL) // switching parent case
 		{
 			A->root = pivot;
 			pivot->parent = NULL;
@@ -110,7 +165,7 @@ void rightRotate(AVL *A, AVL_NODE *node)
 			heightAdjuster(node);
 		}
 	}
-	else  // rotating a subtree (critical node is not the root)
+	else // rotating a subtree (critical node is not the root)
 	{
 		if (node->left != NULL)
 		{
@@ -141,17 +196,6 @@ void rightRotate(AVL *A, AVL_NODE *node)
 ** results:
 	inserts the given node, `node`, to the AVL tree described by `A`
 */
-int heightOf(AVL_NODE *node)
-{
-	if (node == NULL)
-	{
-		return -1;
-	}
-	else
-	{
-		return node->height;
-	}
-}
 
 void AVLInsert(AVL *A, AVL_NODE *node)
 {
@@ -172,14 +216,31 @@ void AVLInsert(AVL *A, AVL_NODE *node)
 			ans = left - right;
 			if (ans > 0)
 			{
+				int l, r;
 				if (temp->left->left == NULL)
 				{
 					printf("\nLeft right crit at %d\n", temp->key);
+					AVL_NODE *pivot = temp->left;
+					leftRotate(A, pivot);
+					rightRotate(A, temp);
 				}
 				else
 				{
-					printf("\nLeft left crit at %d\n", temp->key);
-					leftRotate(A, temp);
+					l = heightOf(temp->left->left);
+					r = heightOf(temp->left->right);
+					if (l > r)
+					{
+						printf("\nLeft left crit at %d\n", temp->key);
+						rightRotate(A, temp);
+					}
+					else
+					{
+						printf("\nLeft right crit at %d\n", temp->key);
+						AVL_NODE *pivot = temp->left;
+						leftRotate(A, pivot);
+						printf("\nHalo\n");
+						rightRotate(A, temp);
+					}
 				}
 				break;
 			}
@@ -191,7 +252,8 @@ void AVLInsert(AVL *A, AVL_NODE *node)
 				}
 				else
 				{
-					rightRotate(A,temp);
+					printf("\nRight right\n");
+					leftRotate(A, temp);
 				}
 				break;
 			}
@@ -199,15 +261,6 @@ void AVLInsert(AVL *A, AVL_NODE *node)
 		temp = temp->parent;
 	}
 }
-
-/*
-** function: heightOf
-** requirements:
-	a non-null node pointer
-** results:
-	returns -1 if node is NULL
-	otherwirse, return the height of node
-*/
 
 /**** FUNCTIONS ABOVE **************************************/
 
