@@ -88,19 +88,19 @@ void leftRotate(AVL *A, AVL_NODE *node)
 void rightRotate(AVL *A, AVL_NODE *node)
 {
 	AVL_NODE *pivot = node->right; 
-	if (node == A->root)		 
+	if (node == A->root)		   // rotating when critical node is root
 	{
-		if (node->left != NULL) 
+		if (node->left != NULL)   // switching parent case
 		{
 			A->root = pivot;
 			pivot->parent = NULL;
-			pivot->left->parent = node; 
-			node->right = pivot->left;	
+			pivot->left->parent = node; // the parent of the left child of the pivot will be the node
+			node->right = pivot->left;	// the pivot left child will be the right child of the node
 			pivot->left = node;
 			node->parent = pivot;
 			heightAdjuster(node);
 		}
-		else 
+		else // basic right rotate
 		{
 			A->root = pivot;
 			pivot->parent = NULL;
@@ -110,7 +110,7 @@ void rightRotate(AVL *A, AVL_NODE *node)
 			heightAdjuster(node);
 		}
 	}
-	else
+	else  // rotating a subtree (critical node is not the root)
 	{
 		if (node->left != NULL)
 		{
