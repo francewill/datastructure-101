@@ -59,9 +59,44 @@ void rightRotate(AVL *A, AVL_NODE *node){
 ** results:
 	inserts the given node, `node`, to the AVL tree described by `A`
 */
+int heightOf(AVL_NODE *node)
+{
+	if(node == NULL){
+		return -1;
+	}else{
+		return node->height;
+	}
+}
+
 void AVLInsert(AVL *A, AVL_NODE *node)
 {
 	insert(A, node);
+	AVL_NODE *temp = node;
+	int left, right, ans;
+	while(temp!=NULL){
+		left = heightOf(temp->left);
+		right = heightOf(temp->right);
+		if(abs(left - right)<=1){
+			temp = temp->parent;
+			continue;
+		}else{
+			ans = left-right;
+			if(ans>0){
+				if(temp->left->left==NULL){
+					printf("\nLeft right crit at %d\n", temp->key);
+				}else{
+					printf("\nLeft left crit at %d\n", temp->key);
+				}
+			}else{
+				if(temp->right->right==NULL){
+					printf("\nRight left crit at %d\n", temp->key);
+				}else{
+					printf("\nRight r crit at %d\n", temp->key);
+				}
+			}
+		}
+		temp = temp->parent;
+	}
 }
 
 /*
@@ -72,14 +107,6 @@ void AVLInsert(AVL *A, AVL_NODE *node)
 	returns -1 if node is NULL
 	otherwirse, return the height of node
 */
-int heightOf(AVL_NODE *node)
-{
-	if(node == NULL){
-		return -1;
-	}else{
-		return node->height;
-	}
-}
 
 /**** FUNCTIONS ABOVE **************************************/
 
