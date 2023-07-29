@@ -36,7 +36,9 @@ void leftRotate(AVL *A, AVL_NODE *node)
 	if(node == A->root){
 		A->root = pivot;
 		pivot->parent = NULL;
+		pivot->right = node;
 		node->parent = pivot;
+		node->left = NULL;
 		heightAdjuster(node);
 	}
 }
@@ -86,13 +88,16 @@ void AVLInsert(AVL *A, AVL_NODE *node)
 					printf("\nLeft right crit at %d\n", temp->key);
 				}else{
 					printf("\nLeft left crit at %d\n", temp->key);
+					leftRotate(A,temp);
 				}
+				break;
 			}else{
 				if(temp->right->right==NULL){
 					printf("\nRight left crit at %d\n", temp->key);
 				}else{
 					printf("\nRight r crit at %d\n", temp->key);
 				}
+				break;
 			}
 		}
 		temp = temp->parent;
