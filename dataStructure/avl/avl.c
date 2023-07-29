@@ -22,7 +22,6 @@ AVL *createAVL(int max)
 
 /**** PUT YOUR FUNCTIONS HERE ******************************/
 
-
 /*
 ** function: leftRotate
 ** requirements:
@@ -33,13 +32,47 @@ AVL *createAVL(int max)
 void leftRotate(AVL *A, AVL_NODE *node)
 {
 	AVL_NODE *pivot = node->left;
-	if(node == A->root){
-		A->root = pivot;
-		pivot->parent = NULL;
-		pivot->right = node;
-		node->parent = pivot;
-		node->left = NULL;
-		heightAdjuster(node);
+	if (node == A->root)
+	{
+		if (node->right != NULL)
+		{
+			A->root = pivot;
+			pivot->parent = NULL;
+			pivot->right->parent = node;
+			node->left = pivot->right;
+			pivot->right = node;
+			node->parent = pivot;
+			heightAdjuster(node);
+		}
+		else
+		{
+			A->root = pivot;
+			pivot->parent = NULL;
+			pivot->right = node;
+			node->parent = pivot;
+			node->left = NULL;
+			heightAdjuster(node);
+		}
+	}
+	else
+	{
+		if(node->right!=NULL){
+			node->parent->left = pivot;
+			pivot->parent = node->parent;
+			node->left = pivot->right;
+			pivot->right->parent = node;
+			pivot->right = node;
+			node->parent = pivot;
+			heightAdjuster(node);
+		}else{
+			node->parent->left = pivot;
+			pivot->parent = node->parent;
+			pivot->right = node;
+			node->parent = pivot;
+			node->left = NULL;
+			heightAdjuster(node);
+		}
+		
 	}
 }
 
@@ -50,8 +83,8 @@ void leftRotate(AVL *A, AVL_NODE *node)
 ** results:
 	rotates the tree (or subtree) rooted at `node` to the right
 */
-void rightRotate(AVL *A, AVL_NODE *node){
-
+void rightRotate(AVL *A, AVL_NODE *node)
+{
 }
 
 /*
@@ -63,9 +96,12 @@ void rightRotate(AVL *A, AVL_NODE *node){
 */
 int heightOf(AVL_NODE *node)
 {
-	if(node == NULL){
+	if (node == NULL)
+	{
 		return -1;
-	}else{
+	}
+	else
+	{
 		return node->height;
 	}
 }
@@ -75,26 +111,39 @@ void AVLInsert(AVL *A, AVL_NODE *node)
 	insert(A, node);
 	AVL_NODE *temp = node;
 	int left, right, ans;
-	while(temp!=NULL){
+	while (temp != NULL)
+	{
 		left = heightOf(temp->left);
 		right = heightOf(temp->right);
-		if(abs(left - right)<=1){
+		if (abs(left - right) <= 1)
+		{
 			temp = temp->parent;
 			continue;
-		}else{
-			ans = left-right;
-			if(ans>0){
-				if(temp->left->left==NULL){
+		}
+		else
+		{
+			ans = left - right;
+			if (ans > 0)
+			{
+				if (temp->left->left == NULL)
+				{
 					printf("\nLeft right crit at %d\n", temp->key);
-				}else{
+				}
+				else
+				{
 					printf("\nLeft left crit at %d\n", temp->key);
-					leftRotate(A,temp);
+					leftRotate(A, temp);
 				}
 				break;
-			}else{
-				if(temp->right->right==NULL){
+			}
+			else
+			{
+				if (temp->right->right == NULL)
+				{
 					printf("\nRight left crit at %d\n", temp->key);
-				}else{
+				}
+				else
+				{
 					printf("\nRight r crit at %d\n", temp->key);
 				}
 				break;
