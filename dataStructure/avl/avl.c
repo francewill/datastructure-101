@@ -29,22 +29,22 @@ AVL *createAVL(int max)
 ** results:
 	rotates the tree (or subtree) rooted at `node` to the left
 */
-void leftRotate(AVL *A, AVL_NODE *node)
+void leftRotate(AVL *A, AVL_NODE *node)  
 {
-	AVL_NODE *pivot = node->left;
-	if (node == A->root)
+	AVL_NODE *pivot = node->left;  // pivot will always be the node left
+	if (node == A->root)  // left rotate with the root
 	{
-		if (node->right != NULL)
+		if (node->right != NULL)  // rotate if root right child is not null
 		{
 			A->root = pivot;
 			pivot->parent = NULL;
-			pivot->right->parent = node;
-			node->left = pivot->right;
+			pivot->right->parent = node;  // the node will be the parent of the pivot right child 
+			node->left = pivot->right;  // the left child of the node will point to the right child of the pivot 
 			pivot->right = node;
 			node->parent = pivot;
 			heightAdjuster(node);
 		}
-		else
+		else  // rotate if root right child is null
 		{
 			A->root = pivot;
 			pivot->parent = NULL;
@@ -85,6 +85,7 @@ void leftRotate(AVL *A, AVL_NODE *node)
 */
 void rightRotate(AVL *A, AVL_NODE *node)
 {
+
 }
 
 /*
