@@ -29,22 +29,22 @@ AVL *createAVL(int max)
 ** results:
 	rotates the tree (or subtree) rooted at `node` to the left
 */
-void leftRotate(AVL *A, AVL_NODE *node)  
+void leftRotate(AVL *A, AVL_NODE *node)
 {
-	AVL_NODE *pivot = node->left;  // pivot will always be the node left
-	if (node == A->root)  // left rotate with the root
+	AVL_NODE *pivot = node->left; // pivot will always be the node left
+	if (node == A->root)		  // left rotate with the root
 	{
-		if (node->right != NULL)  // rotate if root right child is not null
+		if (node->right != NULL) // rotate if root right child is not null
 		{
 			A->root = pivot;
 			pivot->parent = NULL;
-			pivot->right->parent = node;  // the node will be the parent of the pivot right child 
-			node->left = pivot->right;  // the left child of the node will point to the right child of the pivot 
+			pivot->right->parent = node; // the node will be the parent of the pivot right child
+			node->left = pivot->right;	 // the left child of the node will point to the right child of the pivot
 			pivot->right = node;
 			node->parent = pivot;
 			heightAdjuster(node);
 		}
-		else  // rotate if root right child is null
+		else // rotate if root right child is null
 		{
 			A->root = pivot;
 			pivot->parent = NULL;
@@ -56,7 +56,8 @@ void leftRotate(AVL *A, AVL_NODE *node)
 	}
 	else
 	{
-		if(node->right!=NULL){
+		if (node->right != NULL)
+		{
 			node->parent->left = pivot;
 			pivot->parent = node->parent;
 			node->left = pivot->right;
@@ -64,7 +65,9 @@ void leftRotate(AVL *A, AVL_NODE *node)
 			pivot->right = node;
 			node->parent = pivot;
 			heightAdjuster(node);
-		}else{
+		}
+		else
+		{
 			node->parent->left = pivot;
 			pivot->parent = node->parent;
 			pivot->right = node;
@@ -72,7 +75,6 @@ void leftRotate(AVL *A, AVL_NODE *node)
 			node->left = NULL;
 			heightAdjuster(node);
 		}
-		
 	}
 }
 
@@ -85,7 +87,51 @@ void leftRotate(AVL *A, AVL_NODE *node)
 */
 void rightRotate(AVL *A, AVL_NODE *node)
 {
-
+	AVL_NODE *pivot = node->right; 
+	if (node == A->root)		 
+	{
+		if (node->left != NULL) 
+		{
+			A->root = pivot;
+			pivot->parent = NULL;
+			pivot->left->parent = node; 
+			node->right = pivot->left;	
+			pivot->left = node;
+			node->parent = pivot;
+			heightAdjuster(node);
+		}
+		else 
+		{
+			A->root = pivot;
+			pivot->parent = NULL;
+			pivot->left = node;
+			node->parent = pivot;
+			node->right = NULL;
+			heightAdjuster(node);
+		}
+	}
+	else
+	{
+		if (node->left != NULL)
+		{
+			node->parent->right = pivot;
+			pivot->parent = node->parent;
+			node->right = pivot->left;
+			pivot->left->parent = node;
+			pivot->left = node;
+			node->parent = pivot;
+			heightAdjuster(node);
+		}
+		else
+		{
+			node->parent->right = pivot;
+			pivot->parent = node->parent;
+			pivot->left = node;
+			node->parent = pivot;
+			node->right = NULL;
+			heightAdjuster(node);
+		}
+	}
 }
 
 /*
@@ -145,7 +191,7 @@ void AVLInsert(AVL *A, AVL_NODE *node)
 				}
 				else
 				{
-					printf("\nRight r crit at %d\n", temp->key);
+					rightRotate(A,temp);
 				}
 				break;
 			}
