@@ -96,7 +96,7 @@ int isFull(BST *B)
     finds `key` from BST `B` and returns its node pointer if found,
         otherwise, return `NULL`
 */
-BST_NODE *serachRecursion(BST_NODE *node, int key) // recursive function for search
+BST_NODE *searchRecursion(BST_NODE *node, int key) // recursive function for search
 {
     if (node == NULL) // if null means not found and just return null
     {
@@ -104,7 +104,7 @@ BST_NODE *serachRecursion(BST_NODE *node, int key) // recursive function for sea
     }
     if (node->key > key) // traverse downwards by evaluating left and right child
     {
-        serachRecursion(node->left, key);
+        searchRecursion(node->left, key);
     }
     else if (node->key == key) // if found then return that noud
     {
@@ -112,14 +112,14 @@ BST_NODE *serachRecursion(BST_NODE *node, int key) // recursive function for sea
     }
     else
     {
-        serachRecursion(node->right, key);
+        searchRecursion(node->right, key);
     }
 }
 
 BST_NODE *search(BST *B, int key)
 {
     BST_NODE *ptr = B->root;
-    BST_NODE *result = serachRecursion(ptr, key);
+    BST_NODE *result = searchRecursion(ptr, key);
     if (result == NULL)
     {
         printf("\nSearch result: %p\n", result);

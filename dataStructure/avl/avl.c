@@ -118,13 +118,27 @@ void rightRotate(AVL *A, AVL_NODE *node)
 		}
 		else
 		{
-			// printf("\nnode = %d pivot = %d\n", node->key, pivot->key);
-			node->parent->right = pivot;
-			pivot->parent = node->parent;
-			pivot->right = node;
-			node->parent = pivot;
-			node->left = NULL;
-			heightAdjuster(node);
+			if (node->parent->left == node)
+			{
+				printf("\nzzz\n");
+				printf("\nnode = %d pivot = %d\n parent = %d", node->key, pivot->key,node->parent->key);
+				node->parent->left = pivot;
+				pivot->parent = node->parent;
+				pivot->right = node;
+				node->parent = pivot;
+				node->left = NULL;
+				heightAdjuster(node);
+			}
+			else
+			{
+				printf("\nnode = %d pivot = %d\n", node->key, pivot->key);
+				node->parent->right = pivot;
+				pivot->parent = node->parent;
+				pivot->right = node;
+				node->parent = pivot;
+				node->left = NULL;
+				heightAdjuster(node);
+			}
 		}
 	}
 }
@@ -204,13 +218,25 @@ void leftRotate(AVL *A, AVL_NODE *node)
 		}
 		else
 		{
-			printf("\nLEFT ROT\nnode = %d pivot = %d\n", node->key, pivot->key);
-			node->parent->right = pivot;
-			pivot->parent = node->parent;
-			pivot->left = node;
-			node->parent = pivot;
-			node->right = NULL;
-			heightAdjuster(node);
+			if (node->parent->left == node)
+			{
+				node->parent->left = pivot;
+				pivot->parent = node->parent;
+				pivot->left = node;
+				node->parent = pivot;
+				node->right = NULL;
+				heightAdjuster(node);
+			}
+			else
+			{
+				// printf("\nLEFT ROT\nnode = %d pivot = %d\n", node->key, pivot->key);
+				node->parent->right = pivot;
+				pivot->parent = node->parent;
+				pivot->left = node;
+				node->parent = pivot;
+				node->right = NULL;
+				heightAdjuster(node);
+			}
 		}
 	}
 }
@@ -245,6 +271,7 @@ void AVLInsert(AVL *A, AVL_NODE *node)
 			{
 				if (temp->left->left == NULL)
 				{
+					printf("\nAAAAA\n");
 					printf("\nLeft right crit at %d\n", temp->key);
 					AVL_NODE *pivot = temp->left;
 					leftRotate(A, pivot);
