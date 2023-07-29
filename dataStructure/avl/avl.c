@@ -72,12 +72,12 @@ void rightRotate(AVL *A, AVL_NODE *node)
 		{
 			AVL_NODE *pivot2 = node->left;
 
-			pivot2->parent = node->parent;
-			node->parent->left = pivot2;
-			node->left = pivot2->right;
-			node->parent = pivot2;
-			pivot2->right->parent = node;
-			pivot2->right = node;
+			// pivot2->parent = node->parent;
+			// node->parent->right = pivot2;
+			// node->left = pivot2->right;
+			// node->parent = pivot2;
+			// pivot2->right->parent = node;
+			// pivot2->right = node;
 		}
 		return;
 	}
