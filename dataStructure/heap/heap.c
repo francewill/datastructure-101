@@ -155,7 +155,7 @@ int deleteM(HEAP *H)
             }
             else
             {
-                int l, r;
+                int l, r, i = 1,indexCheck;
                 if (H->size == 3)
                 {
                     if (array[left(1)] < array[1])
@@ -168,13 +168,43 @@ int deleteM(HEAP *H)
                 }
                 else
                 {
-                    array[1] = array[H->size];
-                    array[H->size] = val;
-                    H->size--;
-                    while(array[1]>l ||)
-                    l = array[left(1)];
-                    r = array[right(1)];
 
+                    H->size--;
+                    l = array[left(i)];
+                    r = array[right(i)];
+                    printf("\nleft= %d right = %d\n array[i] = %d", l, r, array[i]);
+                    while (i < H->size)
+                    {
+                        l = array[left(i)];
+                        r = array[right(i)];
+                        if (l > array[i])
+                        {
+                            indexCheck = right(i);
+                            if (indexCheck < H->size && r < array[i])
+                            { // if there is right child and r < array[i] then switch
+                                array[right(i)] = array[i];
+                                array[i] = r;
+                                i = right(i);
+                            }
+                            break;
+                        }
+                        else
+                        {
+                            if (l > r)
+                            {
+                                array[right(i)] = array[i];
+                                array[i] = r;
+                                i = right(i);
+                            }
+                            else
+                            {
+                                printf("\nB\n");
+                                array[left(i)] = array[i];
+                                array[i] = l;
+                                i = left(i);
+                            }
+                        }
+                    }
                 }
             }
         }
