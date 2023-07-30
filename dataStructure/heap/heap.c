@@ -102,7 +102,7 @@ void insert(HEAP *H, int key)
         int *array = H->heap;
         int i = H->size + 1;
         array[i] = key;
-        for (i; i != 0; i = parent(i))
+        for (i; i != 1; i = parent(i))
         {
             if(H->size==0){
                 continue;
