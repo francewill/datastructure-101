@@ -104,10 +104,12 @@ void insert(HEAP *H, int key)
         array[i] = key;
         for (i; i != 1; i = parent(i))
         {
-            if(H->size==0){
+            if (H->size == 0)
+            {
                 continue;
             }
-            if(key<array[parent(i)]){
+            if (key < array[parent(i)])
+            {
                 array[i] = array[parent(i)];
                 array[parent(i)] = key;
             }
@@ -127,6 +129,58 @@ void insert(HEAP *H, int key)
 */
 int deleteM(HEAP *H)
 {
+    int val;
+    if (isEmpty(H))
+    {
+        printf("\nHeap is empty!\n");
+        return 0;
+    }
+    else
+    {
+        val = H->heap[1];
+        int *array = H->heap;
+        if (H->size == 1)
+        {
+            array[1] = 0;
+            H->size--;
+            return val;
+        }
+        else
+        {
+            array[1] = array[H->size];
+            array[H->size] = val;
+            if (H->size == 2)
+            {
+                H->size--;
+            }
+            else
+            {
+                int l, r;
+                if (H->size == 3)
+                {
+                    if (array[left(1)] < array[1])
+                    {
+                        H->size--;
+                        l = array[left(1)];
+                        array[left(1)] = array[1];
+                        array[1] = l;
+                    }
+                }
+                else
+                {
+                    array[1] = array[H->size];
+                    array[H->size] = val;
+                    H->size--;
+                    while(array[1]>l ||)
+                    l = array[left(1)];
+                    r = array[right(1)];
+
+                }
+            }
+        }
+    }
+
+    return val;
 }
 
 /*
