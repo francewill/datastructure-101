@@ -58,6 +58,11 @@ int isFull(HEAP *H)
 */
 int isEmpty(HEAP *H)
 {
+    if(H->size == 0){
+        return 1;
+    }else{
+        return 0;
+    }
 }
 
 /*
