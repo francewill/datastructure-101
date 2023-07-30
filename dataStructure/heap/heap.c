@@ -164,6 +164,8 @@ int deleteM(HEAP *H)
                         l = array[left(1)];
                         array[left(1)] = array[1];
                         array[1] = l;
+                    }else{
+                        H->size--;
                     }
                 }
                 else
@@ -172,9 +174,10 @@ int deleteM(HEAP *H)
                     H->size--;
                     l = array[left(i)];
                     r = array[right(i)];
-                    printf("\nleft= %d right = %d\n array[i] = %d", l, r, array[i]);
-                    while (i < H->size)
+                    // printf("\nleft= %d right = %d array[i] = %d\n", l, r, array[i]);
+                    while (left(i) <= H->size)
                     {
+                        printf("\nI = %d size = %d\n",left(i),H->size);
                         l = array[left(i)];
                         r = array[right(i)];
                         if (l > array[i])
@@ -190,15 +193,16 @@ int deleteM(HEAP *H)
                         }
                         else
                         {
-                            if (l > r)
+                            indexCheck = right(i);
+                            if (indexCheck < H->size&&l > r)
                             {
                                 array[right(i)] = array[i];
                                 array[i] = r;
                                 i = right(i);
+                                printf("\n>>>I = %d size = %d\n",left(i),H->size);
                             }
                             else
                             {
-                                printf("\nB\n");
                                 array[left(i)] = array[i];
                                 array[i] = l;
                                 i = left(i);
@@ -277,6 +281,7 @@ int main()
         case '-':
             printf("Removing root from tree...\n");
             result = deleteM(H); // result is unused
+            printf("\nDeleted: %d\n", result);
             break;
         case 'p':
             printf("Printing the heap (rotated +90 degrees)...\n");
