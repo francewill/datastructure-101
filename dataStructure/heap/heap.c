@@ -26,10 +26,10 @@ int parent(int index)
 */
 HEAP *createHeap(int maxSize)
 {
-    HEAP *H = (HEAP *) malloc(sizeof(HEAP));
+    HEAP *H = (HEAP *)malloc(sizeof(HEAP));
     H->maxSize = maxSize;
     H->size = 0;
-    H->heap = (int *) malloc (sizeof(int)*(maxSize+1));
+    H->heap = (int *)malloc(sizeof(int) * (maxSize + 1));
     return H;
 }
 
@@ -42,9 +42,12 @@ HEAP *createHeap(int maxSize)
 */
 int isFull(HEAP *H)
 {
-    if(H->size == H->maxSize){
+    if (H->size == H->maxSize)
+    {
         return 1;
-    }else{
+    }
+    else
+    {
         return 0;
     }
 }
@@ -58,9 +61,12 @@ int isFull(HEAP *H)
 */
 int isEmpty(HEAP *H)
 {
-    if(H->size == 0){
+    if (H->size == 0)
+    {
         return 1;
-    }else{
+    }
+    else
+    {
         return 0;
     }
 }
@@ -87,6 +93,27 @@ void clear(HEAP *H)
 */
 void insert(HEAP *H, int key)
 {
+    if (isFull(H))
+    {
+        printf("\nHeap is full!\n");
+    }
+    else
+    {
+        int *array = H->heap;
+        int i = H->size + 1;
+        array[i] = key;
+        for (i; i != 0; i = parent(i))
+        {
+            if(H->size==0){
+                continue;
+            }
+            if(key<array[parent(i)]){
+                array[i] = array[parent(i)];
+                array[parent(i)] = key;
+            }
+        }
+        H->size++;
+    }
 }
 
 /*
