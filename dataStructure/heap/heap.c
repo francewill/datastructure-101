@@ -81,7 +81,7 @@ int isEmpty(HEAP *H)
 */
 void clear(HEAP *H)
 {
-    for (int i = H->size;i!=0; i--)
+    for (int i = H->size; i != 0; i--)
     {
         deleteM(H);
     }
@@ -145,7 +145,6 @@ int deleteM(HEAP *H)
         int *array = H->heap;
         if (H->size == 1)
         {
-            array[1] = 0;
             H->size--;
             return val;
         }
@@ -234,6 +233,26 @@ int deleteM(HEAP *H)
 */
 int *heapSort(HEAP *H)
 {
+    if (isEmpty(H))
+    {
+        printf("\nHeap is empty!\n");
+        return NULL;
+    }
+    else
+    {
+        HEAP *temp = createHeap(30);
+
+        for (int i = 1; i <= H->size; i++) // Copy values of heap
+        {
+            insert(temp, H->heap[i]);
+        }
+
+        while (temp->size != 0)
+        {
+            deleteM(temp);
+        }
+        return temp->heap;
+    }
 }
 
 void printHeapHelper(HEAP *H, int index, int tabs)
@@ -304,16 +323,16 @@ int main()
             printf("Removing all contents...\n");
             clear(H);
             break;
-        /* uncomment this for postlab
+
         case '~':
             printf("The sorted version of the heap:\n");
             sorted = heapSort(H);
-            for(key=1; key <= H->size; key++)
+            for (key = 1; key <= H->size; key++)
                 printf("%4d", sorted[key]);
             printf("\n");
             free(sorted);
             break;
-        */
+
         case 'Q':
             free(H->heap);
             free(H);
