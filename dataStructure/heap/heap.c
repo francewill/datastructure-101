@@ -81,6 +81,10 @@ int isEmpty(HEAP *H)
 */
 void clear(HEAP *H)
 {
+    for (int i = H->size;i!=0; i--)
+    {
+        deleteM(H);
+    }
 }
 
 /*
@@ -155,7 +159,7 @@ int deleteM(HEAP *H)
             }
             else
             {
-                int l, r, i = 1,indexCheck;
+                int l, r, i = 1, indexCheck;
                 if (H->size == 3)
                 {
                     if (array[left(1)] < array[1])
@@ -164,7 +168,9 @@ int deleteM(HEAP *H)
                         l = array[left(1)];
                         array[left(1)] = array[1];
                         array[1] = l;
-                    }else{
+                    }
+                    else
+                    {
                         H->size--;
                     }
                 }
@@ -177,7 +183,7 @@ int deleteM(HEAP *H)
                     // printf("\nleft= %d right = %d array[i] = %d\n", l, r, array[i]);
                     while (left(i) <= H->size)
                     {
-                        printf("\nI = %d size = %d\n",left(i),H->size);
+                        printf("\nI = %d size = %d\n", left(i), H->size);
                         l = array[left(i)];
                         r = array[right(i)];
                         if (l > array[i])
@@ -194,12 +200,12 @@ int deleteM(HEAP *H)
                         else
                         {
                             indexCheck = right(i);
-                            if (indexCheck < H->size&&l > r)
+                            if (indexCheck < H->size && l > r)
                             {
                                 array[right(i)] = array[i];
                                 array[i] = r;
                                 i = right(i);
-                                printf("\n>>>I = %d size = %d\n",left(i),H->size);
+                                printf("\n>>>I = %d size = %d\n", left(i), H->size);
                             }
                             else
                             {
