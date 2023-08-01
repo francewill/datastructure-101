@@ -104,21 +104,21 @@ void insert(HEAP *H, int key)
     else
     {
         int *array = H->heap;
-        int i = H->size + 1; // we use 1 indexing
-        array[i] = key;      // always access the first available space which is after the last element
-        for (i; i != 1; i = parent(i))  // percolate up
+        int i = H->size + 1;           // we use 1 indexing
+        array[i] = key;                // always access the first available space which is after the last element
+        for (i; i != 1; i = parent(i)) // percolate up
         {
-            if (H->size == 0)  // Just continue for the first element (root)
+            if (H->size == 0) // Just continue for the first element (root)
             {
                 continue;
             }
-            if (key < array[parent(i)])  // check the parent if less or more than key (min or max heap)
+            if (key < array[parent(i)]) // check the parent if less or more than key (min or max heap)
             {
                 array[i] = array[parent(i)];
                 array[parent(i)] = key;
             }
         }
-        H->size++;  // increase size
+        H->size++; // increase size
     }
 }
 
@@ -134,7 +134,7 @@ void insert(HEAP *H, int key)
 int deleteM(HEAP *H)
 {
     int val;
-    if (isEmpty(H))
+    if (isEmpty(H)) // prompt heap is empty if no node is existing
     {
         printf("\nHeap is empty!\n");
         return 0;
@@ -143,52 +143,51 @@ int deleteM(HEAP *H)
     {
         val = H->heap[1];
         int *array = H->heap;
-        if (H->size == 1)
+        if (H->size == 1) // if size is one then just decrease the size
         {
             H->size--;
             return val;
         }
         else
         {
-            array[1] = array[H->size];
+            array[1] = array[H->size]; // swap the value of the root and the last element
             array[H->size] = val;
-            if (H->size == 2)
+            if (H->size == 2) // just decrease the size if size is 2
             {
                 H->size--;
             }
             else
             {
                 int l, r, i = 1, indexCheck;
-                if (H->size == 3)
+                if (H->size == 3) // if more than 2 then compare the left and right child
                 {
-                    if (array[left(1)] < array[1])
+                    if (array[left(1)] < array[1]) // for min heap if left child is less than the root then swap
                     {
                         H->size--;
                         l = array[left(1)];
                         array[left(1)] = array[1];
                         array[1] = l;
                     }
-                    else
+                    else // for the right child then just decrease the size
                     {
                         H->size--;
                     }
                 }
-                else
+                else // if more than 3 then get the left and right then use it for comparing
                 {
 
                     H->size--;
                     l = array[left(i)];
                     r = array[right(i)];
-                    // printf("\nleft= %d right = %d array[i] = %d\n", l, r, array[i]);
-                    while (left(i) <= H->size)
+
+                    while (left(i) <= H->size) // until THE node has left child just continue
                     {
-                        printf("\nI = %d size = %d\n", left(i), H->size);
                         l = array[left(i)];
                         r = array[right(i)];
-                        if (l > array[i])
+                        if (l > array[i])  // If less child is greater than the element then check if it has right child
                         {
                             indexCheck = right(i);
-                            if (indexCheck < H->size && r < array[i])
+                            if (indexCheck < H->size && r < array[i]) 
                             { // if there is right child and r < array[i] then switch
                                 array[right(i)] = array[i];
                                 array[i] = r;
@@ -198,17 +197,16 @@ int deleteM(HEAP *H)
                         }
                         else
                         {
-                            indexCheck = right(i);
+                            indexCheck = right(i);  // check if node have right child and right is less than l
                             if (indexCheck < H->size && l > r)
                             {
-                                array[right(i)] = array[i];
+                                array[right(i)] = array[i];  // switch with right child
                                 array[i] = r;
                                 i = right(i);
-                                printf("\n>>>I = %d size = %d\n", left(i), H->size);
                             }
                             else
                             {
-                                array[left(i)] = array[i];
+                                array[left(i)] = array[i];  // switch with left child
                                 array[i] = l;
                                 i = left(i);
                             }
