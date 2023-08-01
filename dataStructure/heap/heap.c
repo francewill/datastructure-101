@@ -177,9 +177,6 @@ int deleteM(HEAP *H)
                 {
 
                     H->size--;
-                    l = array[left(i)];
-                    r = array[right(i)];
-
                     while (left(i) <= H->size) // until THE node has left child just continue
                     {
                         l = array[left(i)];
