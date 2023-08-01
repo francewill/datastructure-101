@@ -231,7 +231,7 @@ int deleteM(HEAP *H)
 */
 int *heapSort(HEAP *H)
 {
-    if (isEmpty(H))
+    if (isEmpty(H))  // if heap is empty just give a prompt and return null
     {
         printf("\nHeap is empty!\n");
         return NULL;
@@ -245,7 +245,7 @@ int *heapSort(HEAP *H)
             insert(temp, H->heap[i]);
         }
 
-        while (temp->size != 0)
+        while (temp->size != 0)  // delete all since deleting all will result a sorting (sorting depends if min or max heap is being used)
         {
             deleteM(temp);
         }
