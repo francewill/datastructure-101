@@ -81,7 +81,7 @@ int isEmpty(HEAP *H)
 */
 void clear(HEAP *H)
 {
-    for (int i = H->size; i != 0; i--)
+    for (int i = H->size; i != 0; i--) // Every element will be deleted
     {
         deleteM(H);
     }
@@ -97,28 +97,28 @@ void clear(HEAP *H)
 */
 void insert(HEAP *H, int key)
 {
-    if (isFull(H))
+    if (isFull(H)) // if heap is full
     {
         printf("\nHeap is full!\n");
     }
     else
     {
         int *array = H->heap;
-        int i = H->size + 1;
-        array[i] = key;
-        for (i; i != 1; i = parent(i))
+        int i = H->size + 1; // we use 1 indexing
+        array[i] = key;      // always access the first available space which is after the last element
+        for (i; i != 1; i = parent(i))  // percolate up
         {
-            if (H->size == 0)
+            if (H->size == 0)  // Just continue for the first element (root)
             {
                 continue;
             }
-            if (key < array[parent(i)])
+            if (key < array[parent(i)])  // check the parent if less or more than key (min or max heap)
             {
                 array[i] = array[parent(i)];
                 array[parent(i)] = key;
             }
         }
-        H->size++;
+        H->size++;  // increase size
     }
 }
 
