@@ -146,6 +146,40 @@ void put(HASH_TABLE *H, STRING key, STRING data)
  */
 STRING find(HASH_TABLE *H, STRING key, STRING data)
 {
+    if (H->size == 0)
+    {
+        printf("\nHashmap is empty!\n");
+    }
+    else
+    {
+        int i = 0, index, computedKey;
+        computedKey = asciiCounter(key);
+        index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize;
+        if (H->list[index] == NULL)
+        {
+            return NULL;
+        }
+        else
+        {
+            if (strcmp(H->list[index], data) == 0)
+            {
+                return H->list[index];
+            }
+            else
+            {
+                do
+                {
+                    if(H->list[index]==NULL){
+                        return NULL;
+                    }
+                    i++;
+                    index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize;
+                } while (strcmp(H->list[index],data)!=0);
+                return H->list[index];   
+            }
+        }
+        H->size++;
+    }
 }
 
 /*
