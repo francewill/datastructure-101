@@ -53,6 +53,11 @@ HASH_TABLE *createHashTable(uint tableSize)
 // you know what these are
 uint isEmpty(HASH_TABLE *H)
 {
+    if(H->size==0){
+        return 1;
+    }else{
+        return 0;
+    }
 }
 uint isFull(HASH_TABLE *H)
 {
