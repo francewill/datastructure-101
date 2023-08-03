@@ -157,6 +157,7 @@ STRING find(HASH_TABLE *H, STRING key, STRING data)
         index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize;
         if (H->list[index] == NULL)
         {
+            printf("\nAAAAAAAAAAA\n");
             return NULL;
         }
         else
@@ -167,15 +168,22 @@ STRING find(HASH_TABLE *H, STRING key, STRING data)
             }
             else
             {
-                do
+                printf("\nBBBBBBBBBBB\n");
+                while (H->list[index] != NULL)
                 {
-                    if(H->list[index]==NULL){
+                    if (strcmp(H->list[index], data) == 0)
+                    {
+
+                        printf("\nHERE IS YOUR SHIT: %s\n", H->list[index]);
+                        return H->list[index];
+                    }
+                    else if (H->list[index] == NULL)
+                    {
                         return NULL;
                     }
                     i++;
                     index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize;
-                } while (strcmp(H->list[index],data)!=0);
-                return H->list[index];   
+                }
             }
         }
     }
