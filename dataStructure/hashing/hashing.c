@@ -74,14 +74,14 @@ uint isFull(HASH_TABLE *H)
     }
 }
 
-void asciiCounter(STRING word)
+int asciiCounter(STRING word)
 {
     int total = 0;
     for (int i = 0; i < strlen(word); i++)
     {
         total = total + (int)(word[i]);
     }
-    printf("\nTotal = %d\n", total);
+    return total;
 }
 
 /*
@@ -94,16 +94,42 @@ void asciiCounter(STRING word)
       * inserts node at the list at position identified by
         the hash value of the key.
 */
+int secondHash(STRING key, int computedKey)
+{
+    int ans = 23 - computedKey % strlen(key);
+    return ans;
+}
+
 void put(HASH_TABLE *H, STRING key, STRING data)
 {
+    int i = 0, index, computedKey;
     if (isFull(H))
     {
         printf("\nHash tables is full!\n");
     }
     else
     {
-        asciiCounter(key);
-        printf("\nKey = %s\n", key);
+        computedKey = asciiCounter(key);
+        index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize;
+        STRING temp = (STRING)malloc(sizeof(char) * strlen(data));
+        strcpy(temp, data);
+        if (H->list[index] == NULL)
+        {
+            H->list[index] = temp;
+            printf("\nB\n");
+        }
+        else
+        {
+            do
+            {
+                i++;
+                printf("\nA\n");
+                index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize;
+            } while (H->list[index] != NULL);
+            printf("\nindex %d\n", index);
+            H->list[index] = temp;
+        }
+        H->size++;
     }
 }
 
