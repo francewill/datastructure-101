@@ -178,7 +178,6 @@ STRING find(HASH_TABLE *H, STRING key, STRING data)
                 return H->list[index];   
             }
         }
-        H->size++;
     }
 }
 
