@@ -53,19 +53,35 @@ HASH_TABLE *createHashTable(uint tableSize)
 // you know what these are
 uint isEmpty(HASH_TABLE *H)
 {
-    if(H->size==0){
+    if (H->size == 0)
+    {
         return 1;
-    }else{
+    }
+    else
+    {
         return 0;
     }
 }
 uint isFull(HASH_TABLE *H)
 {
-    if(H->size==H->tableSize){
+    if (H->size == H->tableSize)
+    {
         return 1;
-    }else{
+    }
+    else
+    {
         return 0;
     }
+}
+
+void asciiCounter(STRING word)
+{
+    int total = 0;
+    for (int i = 0; i < strlen(word); i++)
+    {
+        total = total + (int)(word[i]);
+    }
+    printf("\nTotal = %d\n", total);
 }
 
 /*
@@ -78,8 +94,17 @@ uint isFull(HASH_TABLE *H)
       * inserts node at the list at position identified by
         the hash value of the key.
 */
-void put(HASH_TABLE *H, STRING key, STRING data){
-    
+void put(HASH_TABLE *H, STRING key, STRING data)
+{
+    if (isFull(H))
+    {
+        printf("\nHash tables is full!\n");
+    }
+    else
+    {
+        asciiCounter(key);
+        printf("\nKey = %s\n", key);
+    }
 }
 
 /*
@@ -93,8 +118,8 @@ void put(HASH_TABLE *H, STRING key, STRING data){
  * returns the string data if found
  * returns NULL if not found
  */
-STRING find(HASH_TABLE *H, STRING key, STRING data){
-
+STRING find(HASH_TABLE *H, STRING key, STRING data)
+{
 }
 
 /*
