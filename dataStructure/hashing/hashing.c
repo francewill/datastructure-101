@@ -114,23 +114,21 @@ void put(HASH_TABLE *H, STRING key, STRING data)  // this is responsible for put
         index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize; // Calculate for index
         STRING temp = (STRING)malloc(sizeof(char) * strlen(data));  // create temp string holder
         strcpy(temp, data);
-        if (H->list[index] == NULL)  // if null then
+        if (H->list[index] == NULL)  // if null then automatically put it in the hashtable
         {
             H->list[index] = temp;
             printf("\nB\n");
         }
-        else
+        else  // probes through the table so we can find next available space
         {
             do
             {
                 i++;
-                printf("\nA\n");
                 index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize;
-            } while (H->list[index] != NULL);
-            printf("\nindex %d\n", index);
-            H->list[index] = temp;
+            } while (H->list[index] != NULL); // just find the next available space
+            H->list[index] = temp;  // when it got here expect that it already found an available space
         }
-        H->size++;
+        H->size++;  // increase size
     }
 }
 
