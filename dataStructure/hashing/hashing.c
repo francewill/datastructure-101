@@ -145,35 +145,31 @@ void put(HASH_TABLE *H, STRING key, STRING data)  // this is responsible for put
  */
 STRING find(HASH_TABLE *H, STRING key, STRING data)
 {
-    if (H->size == 0)
+    if (isEmpty(H))  // check if empty
     {
         printf("\nHashmap is empty!\n");
     }
-    else
+    else  // as you can notice it is similar in put function
     {
         int i = 0, index, computedKey;
         computedKey = asciiCounter(key);
         index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize;
-        if (H->list[index] == NULL)
+        if (H->list[index] == NULL)  // if null then automatically send null since input does not exist
         {
-            printf("\nAAAAAAAAAAA\n");
             return NULL;
         }
-        else
+        else 
         {
-            if (strcmp(H->list[index], data) == 0)
+            if (strcmp(H->list[index], data) == 0)  // compare the strings
             {
                 return H->list[index];
             }
-            else
+            else  // if not same then probe to the next position if that next position is null then input does not exist in hash table
             {
-                printf("\nBBBBBBBBBBB\n");
                 while (H->list[index] != NULL)
                 {
                     if (strcmp(H->list[index], data) == 0)
                     {
-
-                        printf("\nHERE IS YOUR SHIT: %s\n", H->list[index]);
                         return H->list[index];
                     }
                     else if (H->list[index] == NULL)
