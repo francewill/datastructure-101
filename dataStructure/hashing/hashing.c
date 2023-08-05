@@ -39,19 +39,19 @@ void printTable(HASH_TABLE *H)
  */
 HASH_TABLE *createHashTable(uint tableSize)
 {
-    HASH_TABLE *H = (HASH_TABLE *)malloc(sizeof(HASH_TABLE));
-    H->tableSize = tableSize;
-    H->size = 0;
+    HASH_TABLE *H = (HASH_TABLE *)malloc(sizeof(HASH_TABLE));  
+    H->tableSize = tableSize;  // max size
+    H->size = 0;  // current size
     H->list = (STRING_ARRAY_PTR)malloc(sizeof(STRING) * tableSize);
-    for (int i = 0; i < tableSize; i++)
+    for (int i = 0; i < tableSize; i++)  // initialize the elements of list as null
     {
         H->list[i] = NULL;
     }
     return H;
 }
 
-// you know what these are
-uint isEmpty(HASH_TABLE *H)
+
+uint isEmpty(HASH_TABLE *H)  // check if hash tablle is empty
 {
     if (H->size == 0)
     {
@@ -62,7 +62,8 @@ uint isEmpty(HASH_TABLE *H)
         return 0;
     }
 }
-uint isFull(HASH_TABLE *H)
+
+uint isFull(HASH_TABLE *H)  // check if hash table is full
 {
     if (H->size == H->tableSize)
     {
@@ -74,10 +75,10 @@ uint isFull(HASH_TABLE *H)
     }
 }
 
-int asciiCounter(STRING word)
+int asciiCounter(STRING word)  // a function that will count the total ascii of a string
 {
     int total = 0;
-    for (int i = 0; i < strlen(word); i++)
+    for (int i = 0; i < strlen(word); i++)  // for each character get it's equivalent ascii then add it to total
     {
         total = total + (int)(word[i]);
     }
@@ -94,26 +95,26 @@ int asciiCounter(STRING word)
       * inserts node at the list at position identified by
         the hash value of the key.
 */
-int secondHash(STRING key, int computedKey)
+int secondHash(STRING key, int computedKey)  // function for our second hash function
 {
     int ans = 23 - computedKey % strlen(key);
     return ans;
 }
 
-void put(HASH_TABLE *H, STRING key, STRING data)
+void put(HASH_TABLE *H, STRING key, STRING data)  // this is responsible for putting values in our hash map
 {
     int i = 0, index, computedKey;
-    if (isFull(H))
+    if (isFull(H))  // check first if hash table is full
     {
         printf("\nHash tables is full!\n");
     }
     else
     {
-        computedKey = asciiCounter(key);
-        index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize;
-        STRING temp = (STRING)malloc(sizeof(char) * strlen(data));
+        computedKey = asciiCounter(key);  // get the computed key by using the asciiCounter function
+        index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize; // Calculate for index
+        STRING temp = (STRING)malloc(sizeof(char) * strlen(data));  // create temp string holder
         strcpy(temp, data);
-        if (H->list[index] == NULL)
+        if (H->list[index] == NULL)  // if null then
         {
             H->list[index] = temp;
             printf("\nB\n");
