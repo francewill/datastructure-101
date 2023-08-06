@@ -208,7 +208,15 @@ STRING erase(HASH_TABLE *H, STRING key, STRING data)
         }else{
             computedAscii = asciiCounter(toDel);
             index = ((computedAscii%H->tableSize)+(i*secondHash(key,computedAscii))) %H->tableSize;
-            while()
+            while(strcmp(toDel,H->list[index])!= 0){  // bug to fix
+           
+                index = ((computedAscii%H->tableSize)+(i*secondHash(key,computedAscii))) %H->tableSize;
+                     i++;
+                printf("\nATA\n");
+
+            }
+            return data;
+            printf("\nBOOM FOUND\n");
             
         }
     }
