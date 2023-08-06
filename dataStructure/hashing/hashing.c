@@ -197,6 +197,21 @@ STRING find(HASH_TABLE *H, STRING key, STRING data)
  */
 STRING erase(HASH_TABLE *H, STRING key, STRING data)
 {
+    int computedAscii, i = 0, index;
+    if(isEmpty(H)){
+        printf("\nHash table is empty!\n");
+    }else{
+        STRING  toDel = find(H,key,data);
+        if(toDel == NULL){
+            printf("\nDoes not exist!\n");
+            return NULL;
+        }else{
+            computedAscii = asciiCounter(toDel);
+            index = ((computedAscii%H->tableSize)+(i*secondHash(key,computedAscii))) %H->tableSize;
+            while()
+            
+        }
+    }
 }
 
 /*
