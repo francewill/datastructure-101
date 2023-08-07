@@ -39,19 +39,18 @@ void printTable(HASH_TABLE *H)
  */
 HASH_TABLE *createHashTable(uint tableSize)
 {
-    HASH_TABLE *H = (HASH_TABLE *)malloc(sizeof(HASH_TABLE));  
-    H->tableSize = tableSize;  // max size
-    H->size = 0;  // current size
+    HASH_TABLE *H = (HASH_TABLE *)malloc(sizeof(HASH_TABLE));
+    H->tableSize = tableSize; // max size
+    H->size = 0;              // current size
     H->list = (STRING_ARRAY_PTR)malloc(sizeof(STRING) * tableSize);
-    for (int i = 0; i < tableSize; i++)  // initialize the elements of list as null
+    for (int i = 0; i < tableSize; i++) // initialize the elements of list as null
     {
         H->list[i] = NULL;
     }
     return H;
 }
 
-
-uint isEmpty(HASH_TABLE *H)  // check if hash tablle is empty
+uint isEmpty(HASH_TABLE *H) // check if hash tablle is empty
 {
     if (H->size == 0)
     {
@@ -63,7 +62,7 @@ uint isEmpty(HASH_TABLE *H)  // check if hash tablle is empty
     }
 }
 
-uint isFull(HASH_TABLE *H)  // check if hash table is full
+uint isFull(HASH_TABLE *H) // check if hash table is full
 {
     if (H->size == H->tableSize)
     {
@@ -75,10 +74,10 @@ uint isFull(HASH_TABLE *H)  // check if hash table is full
     }
 }
 
-int asciiCounter(STRING word)  // a function that will count the total ascii of a string
+int asciiCounter(STRING word) // a function that will count the total ascii of a string
 {
     int total = 0;
-    for (int i = 0; i < strlen(word); i++)  // for each character get it's equivalent ascii then add it to total
+    for (int i = 0; i < strlen(word); i++) // for each character get it's equivalent ascii then add it to total
     {
         total = total + (int)(word[i]);
     }
@@ -95,40 +94,40 @@ int asciiCounter(STRING word)  // a function that will count the total ascii of 
       * inserts node at the list at position identified by
         the hash value of the key.
 */
-int secondHash(STRING key, int computedKey)  // function for our second hash function
+int secondHash(STRING key, int computedKey) // function for our second hash function
 {
     int ans = 23 - computedKey % strlen(key);
     return ans;
 }
 
-void put(HASH_TABLE *H, STRING key, STRING data)  // this is responsible for putting values in our hash map
+void put(HASH_TABLE *H, STRING key, STRING data) // this is responsible for putting values in our hash map
 {
     int i = 0, index, computedKey;
-    if (isFull(H))  // check first if hash table is full
+    if (isFull(H)) // check first if hash table is full
     {
         printf("\nHash tables is full!\n");
     }
     else
     {
-        computedKey = asciiCounter(key);  // get the computed key by using the asciiCounter function
+        computedKey = asciiCounter(key);                                                          // get the computed key by using the asciiCounter function
         index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize; // Calculate for index
-        STRING temp = (STRING)malloc(sizeof(char) * strlen(data));  // create temp string holder
+        STRING temp = (STRING)malloc(sizeof(char) * strlen(data));                                // create temp string holder
         strcpy(temp, data);
-        if (H->list[index] == NULL)  // if null then automatically put it in the hashtable
+        if (H->list[index] == NULL) // if null then automatically put it in the hashtable
         {
             H->list[index] = temp;
             printf("\nB\n");
         }
-        else  // probes through the table so we can find next available space
+        else // probes through the table so we can find next available space
         {
             do
             {
                 i++;
                 index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize;
             } while (H->list[index] != NULL); // just find the next available space
-            H->list[index] = temp;  // when it got here expect that it already found an available space
+            H->list[index] = temp;            // when it got here expect that it already found an available space
         }
-        H->size++;  // increase size
+        H->size++; // increase size
     }
 }
 
@@ -145,26 +144,26 @@ void put(HASH_TABLE *H, STRING key, STRING data)  // this is responsible for put
  */
 STRING find(HASH_TABLE *H, STRING key, STRING data)
 {
-    if (isEmpty(H))  // check if empty
+    if (isEmpty(H)) // check if empty
     {
         printf("\nHashmap is empty!\n");
     }
-    else  // as you can notice it is similar in put function
+    else // as you can notice it is similar in put function
     {
         int i = 0, index, computedKey;
         computedKey = asciiCounter(key);
         index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize;
-        if (H->list[index] == NULL)  // if null then automatically send null since input does not exist
+        if (H->list[index] == NULL) // if null then automatically send null since input does not exist
         {
             return NULL;
         }
-        else 
+        else
         {
-            if (strcmp(H->list[index], data) == 0)  // compare the strings
+            if (strcmp(H->list[index], data) == 0) // compare the strings
             {
                 return H->list[index];
             }
-            else  // if not same then probe to the next position if that next position is null then input does not exist in hash table
+            else // if not same then probe to the next position if that next position is null then input does not exist in hash table
             {
                 while (H->list[index] != NULL)
                 {
@@ -198,26 +197,37 @@ STRING find(HASH_TABLE *H, STRING key, STRING data)
 STRING erase(HASH_TABLE *H, STRING key, STRING data)
 {
     int computedAscii, i = 0, index;
-    if(isEmpty(H)){
+    if (isEmpty(H))
+    {
         printf("\nHash table is empty!\n");
-    }else{
-        STRING  toDel = find(H,key,data);
-        if(toDel == NULL){
+    }
+    else
+    {
+        STRING toDel = find(H, key, data);
+        if (toDel == NULL)
+        {
             printf("\nDoes not exist!\n");
             return NULL;
-        }else{
+        }
+        else
+        {
             computedAscii = asciiCounter(toDel);
-            index = ((computedAscii%H->tableSize)+(i*secondHash(key,computedAscii))) %H->tableSize;
-            while(strcmp(toDel,H->list[index])!= 0){  // bug to fix
-           
-                index = ((computedAscii%H->tableSize)+(i*secondHash(key,computedAscii))) %H->tableSize;
-                     i++;
-                printf("\nATA\n");
-
+            index = ((computedAscii % H->tableSize) + (i * secondHash(key, computedAscii))) % H->tableSize;
+            int checker = strcmp(toDel, H->list[index]);
+            if(checker == 0){
+                  printf("\nBOOM FOUND\n");
+                return data;
             }
-            return data;
+            while (checker != 0)
+            { // bug to fix
+
+                checker = strcmp(toDel, H->list[index]);
+                i++;
+                index = ((computedAscii % H->tableSize) + (i * secondHash(key, computedAscii))) % H->tableSize;
+                printf("\nDEL: %s H -> list = %s checker = %d\n",toDel,H->list[index],checker);
+            }
             printf("\nBOOM FOUND\n");
-            
+            return data;
         }
     }
 }
