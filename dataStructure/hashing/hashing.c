@@ -211,7 +211,7 @@ STRING erase(HASH_TABLE *H, STRING key, STRING data)
         }
         else
         {
-            computedAscii = asciiCounter(toDel);
+            computedAscii = asciiCounter(key);
             index = ((computedAscii % H->tableSize) + (i * secondHash(key, computedAscii))) % H->tableSize;
             int checker = strcmp(toDel, H->list[index]);
             if (checker == 0)
@@ -219,16 +219,20 @@ STRING erase(HASH_TABLE *H, STRING key, STRING data)
                 printf("\nBOOM FOUND\n");
                 return data;
             }
-            while (checker != 0)
-            { // bug to fix
+            else
+            {
 
-                checker = strcmp(toDel, H->list[index]);
-                computedAscii = asciiCounter(toDel);
-                i++;
-                index = ((computedAscii % H->tableSize) + (i * secondHash(key, computedAscii))) % H->tableSize;
-                printf("\nDEL: %s H -> list = %s checker = %d\n", toDel, H->list[index], checker);
+                do
+                { // bug to fix
+
+                    i++;
+                    index = ((computedAscii % H->tableSize) + (i * secondHash(key, computedAscii))) % H->tableSize;
+                    checker = strcmp(toDel, H->list[index]);
+                    printf("\nDEL: %s H -> list = %s checker = %d\n", toDel, H->list[index], checker);
+                } while (checker != 0);
             }
-            printf("\nBOOM FOUND\n");
+
+            printf("\nBOOM FOUND HERE: DATA: %s\n", H->list[index]);
             return data;
         }
     }
