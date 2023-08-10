@@ -216,7 +216,7 @@ STRING erase(HASH_TABLE *H, STRING key, STRING data)
             int checker = strcmp(toDel, H->list[index]);
             if (checker == 0)
             {
-                printf("\nBOOM FOUND\n");
+                strcpy(H->list[index],"NULL");
                 return data;
             }
             else
@@ -230,7 +230,9 @@ STRING erase(HASH_TABLE *H, STRING key, STRING data)
                     checker = strcmp(toDel, H->list[index]);
                     printf("\nDEL: %s H -> list = %s checker = %d\n", toDel, H->list[index], checker);
                 } while (checker != 0);
+                strcpy(H->list[index],"NULL");
             }
+            
 
             printf("\nBOOM FOUND HERE: DATA: %s\n", H->list[index]);
             return data;
