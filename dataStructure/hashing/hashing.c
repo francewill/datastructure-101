@@ -113,7 +113,7 @@ void put(HASH_TABLE *H, STRING key, STRING data) // this is responsible for putt
         index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize; // Calculate for index
         STRING temp = (STRING)malloc(sizeof(char) * strlen(data));                                // create temp string holder
         strcpy(temp, data);
-        if (H->list[index] == NULL) // if null then automatically put it in the hashtable
+        if (H->list[index] == NULL || strcmp(H->list[index],"*empty*")==0) // if null then automatically put it in the hashtable
         {
             H->list[index] = temp;
             printf("\nB\n");
@@ -124,7 +124,7 @@ void put(HASH_TABLE *H, STRING key, STRING data) // this is responsible for putt
             {
                 i++;
                 index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize;
-            } while (H->list[index] != NULL); // just find the next available space
+            } while (H->list[index] != NULL && strcmp(H->list[index],"*empty*")!=0); // just find the next available space
             H->list[index] = temp;            // when it got here expect that it already found an available space
         }
         H->size++; // increase size
@@ -216,8 +216,7 @@ STRING erase(HASH_TABLE *H, STRING key, STRING data)
             int checker = strcmp(toDel, H->list[index]);
             if (checker == 0)
             {
-                strcpy(H->list[index],"NULL");
-                return data;
+                strcpy(H->list[index],"*empty*");
             }
             else
             {
@@ -228,13 +227,11 @@ STRING erase(HASH_TABLE *H, STRING key, STRING data)
                     i++;
                     index = ((computedAscii % H->tableSize) + (i * secondHash(key, computedAscii))) % H->tableSize;
                     checker = strcmp(toDel, H->list[index]);
-                    printf("\nDEL: %s H -> list = %s checker = %d\n", toDel, H->list[index], checker);
+                    // printf("\nDEL: %s H -> list = %s checker = %d\n", toDel, H->list[index], checker);
                 } while (checker != 0);
-                strcpy(H->list[index],"NULL");
+                strcpy(H->list[index],"*empty*");
             }
-            
-
-            printf("\nBOOM FOUND HERE: DATA: %s\n", H->list[index]);
+             H->size--;
             return data;
         }
     }
