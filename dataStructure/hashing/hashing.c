@@ -153,7 +153,7 @@ STRING find(HASH_TABLE *H, STRING key, STRING data)
         int i = 0, index, computedKey;
         computedKey = asciiCounter(key);
         index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize;
-        if (H->list[index] == NULL) // if null then automatically send null since input does not exist
+        if (H->list[index] == NULL || strcmp(H->list[index],"*empty*")==0) // if null then automatically send null since input does not exist
         {
             return NULL;
         }
@@ -165,7 +165,7 @@ STRING find(HASH_TABLE *H, STRING key, STRING data)
             }
             else // if not same then probe to the next position if that next position is null then input does not exist in hash table
             {
-                while (H->list[index] != NULL)
+                while (H->list[index] != NULL && strcmp(H->list[index],"*empty*")!=0)
                 {
                     if (strcmp(H->list[index], data) == 0)
                     {
