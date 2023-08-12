@@ -197,41 +197,40 @@ STRING find(HASH_TABLE *H, STRING key, STRING data)
 STRING erase(HASH_TABLE *H, STRING key, STRING data)
 {
     int computedAscii, i = 0, index;
-    if (isEmpty(H))
+    if (isEmpty(H))  // check if empty
     {
         printf("\nHash table is empty!\n");
     }
     else
     {
-        STRING toDel = find(H, key, data);
-        if (toDel == NULL)
+        STRING toDel = find(H, key, data);  // find the given node then store it to del
+        if (toDel == NULL)  // if null then it does not exist
         {
             printf("\nDoes not exist!\n");
             return NULL;
         }
-        else
+        else  
         {
-            computedAscii = asciiCounter(key);
-            index = ((computedAscii % H->tableSize) + (i * secondHash(key, computedAscii))) % H->tableSize;
-            int checker = strcmp(toDel, H->list[index]);
+            computedAscii = asciiCounter(key);  // check the total ascii 
+            index = ((computedAscii % H->tableSize) + (i * secondHash(key, computedAscii))) % H->tableSize;  // calculate the index
+            int checker = strcmp(toDel, H->list[index]);  // check if same
             if (checker == 0)
             {
-                strcpy(H->list[index], "*empty*");
+                strcpy(H->list[index], "*empty*");  // if same then delete it using lazy deletion
             }
             else
             {
 
                 do
-                { // bug to fix
+                { 
 
-                    i++;
+                    i++;  // probe to the next space
                     index = ((computedAscii % H->tableSize) + (i * secondHash(key, computedAscii))) % H->tableSize;
                     checker = strcmp(toDel, H->list[index]);
-                    // printf("\nDEL: %s H -> list = %s checker = %d\n", toDel, H->list[index], checker);
                 } while (checker != 0);
                 strcpy(H->list[index], "*empty*");
             }
-            H->size--;
+            H->size--;  // Decrement size
             return data;
         }
     }
@@ -253,7 +252,7 @@ void destroy(HASH_TABLE *H)
     }
     else
     {
-        for (int i = 0; i < H->tableSize; i++)
+        for (int i = 0; i < H->tableSize; i++)  // replace all nodes to null
         {
             if (H->list[i] != NULL)
             {
