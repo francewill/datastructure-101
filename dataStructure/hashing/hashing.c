@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 
+void rehashing(HASH_TABLE *H);
+
 // Function that prints the data of the hash table
 void printTable(HASH_TABLE *H)
 {
@@ -129,6 +131,7 @@ void put(HASH_TABLE *H, STRING key, STRING data) // this is responsible for putt
         }
         H->size++; // increase size
     }
+    rehashing(H);
 }
 
 /*
@@ -265,6 +268,18 @@ void destroy(HASH_TABLE *H)
             }
         }
     }
+}
+void rehashing(HASH_TABLE *H){
+    float loadFactor = (float) H->size/H->tableSize;
+    if(loadFactor<0.7){
+        printf("\nPassed\n loadfactor: %f H sizee = %d H tablesize = %d",loadFactor, H->size,H->tableSize);
+        return;
+    }else{
+    
+
+    }
+    
+
 }
 
 int main()
