@@ -45,12 +45,15 @@ HASH_TABLE *createHashTable(uint tableSize)
     H->tableSize = tableSize; // max size
     H->size = 0;              // current size
     H->list = (NODE **)malloc(sizeof(NODE *) * tableSize);
+
     for (int i = 0; i < tableSize; i++) // initialize the elements of list as null
     {
-        H->list[i] = (NODE *)malloc(sizeof(NODE)); // Allocate memory for each NODE
-        H->list[i]->key = NULL;                    // Initialize key to NULL
-        H->list[i]->data = NULL;                   // In
+        NODE *temp = (NODE*) malloc(sizeof(NODE));
+        temp->data = NULL;
+        temp->key = NULL;
+        H->list[i] = temp;
     }
+
     return H;
 }
 
