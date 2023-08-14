@@ -44,10 +44,12 @@ HASH_TABLE *createHashTable(uint tableSize)
     HASH_TABLE *H = (HASH_TABLE *)malloc(sizeof(HASH_TABLE));
     H->tableSize = tableSize; // max size
     H->size = 0;              // current size
-    H->list = (STRING_ARRAY_PTR)malloc(sizeof(STRING) * tableSize);
+    H->list = (NODE **)malloc(sizeof(NODE *) * tableSize);
     for (int i = 0; i < tableSize; i++) // initialize the elements of list as null
     {
-        H->list[i] = NULL;
+        H->list[i] = (NODE *)malloc(sizeof(NODE)); // Allocate memory for each NODE
+        H->list[i]->key = NULL;                    // Initialize key to NULL
+        H->list[i]->data = NULL;                   // In
     }
     return H;
 }
@@ -200,40 +202,40 @@ STRING find(HASH_TABLE *H, STRING key, STRING data)
 STRING erase(HASH_TABLE *H, STRING key, STRING data)
 {
     int computedAscii, i = 0, index;
-    if (isEmpty(H))  // check if empty
+    if (isEmpty(H)) // check if empty
     {
         printf("\nHash table is empty!\n");
     }
     else
     {
-        STRING toDel = find(H, key, data);  // find the given node then store it to del
-        if (toDel == NULL)  // if null then it does not exist
+        STRING toDel = find(H, key, data); // find the given node then store it to del
+        if (toDel == NULL)                 // if null then it does not exist
         {
             printf("\nDoes not exist!\n");
             return NULL;
         }
-        else  
+        else
         {
-            computedAscii = asciiCounter(key);  // check the total ascii 
-            index = ((computedAscii % H->tableSize) + (i * secondHash(key, computedAscii))) % H->tableSize;  // calculate the index
-            int checker = strcmp(toDel, H->list[index]);  // check if same
+            computedAscii = asciiCounter(key);                                                              // check the total ascii
+            index = ((computedAscii % H->tableSize) + (i * secondHash(key, computedAscii))) % H->tableSize; // calculate the index
+            int checker = strcmp(toDel, H->list[index]);                                                    // check if same
             if (checker == 0)
             {
-                strcpy(H->list[index], "*empty*");  // if same then delete it using lazy deletion
+                strcpy(H->list[index], "*empty*"); // if same then delete it using lazy deletion
             }
             else
             {
 
                 do
-                { 
+                {
 
-                    i++;  // probe to the next space
+                    i++; // probe to the next space
                     index = ((computedAscii % H->tableSize) + (i * secondHash(key, computedAscii))) % H->tableSize;
                     checker = strcmp(toDel, H->list[index]);
                 } while (checker != 0);
                 strcpy(H->list[index], "*empty*");
             }
-            H->size--;  // Decrement size
+            H->size--; // Decrement size
             return data;
         }
     }
@@ -255,7 +257,7 @@ void destroy(HASH_TABLE *H)
     }
     else
     {
-        for (int i = 0; i < H->tableSize; i++)  // replace all nodes to null
+        for (int i = 0; i < H->tableSize; i++) // replace all nodes to null
         {
             if (H->list[i] != NULL)
             {
@@ -269,17 +271,33 @@ void destroy(HASH_TABLE *H)
         }
     }
 }
-void rehashing(HASH_TABLE *H){
-    float loadFactor = (float) H->size/H->tableSize;
-    if(loadFactor<0.7){
-        printf("\nPassed\n loadfactor: %f H sizee = %d H tablesize = %d",loadFactor, H->size,H->tableSize);
+void rehashing(HASH_TABLE *H)
+{
+    int newSize;
+    float loadFactor = (float)H->size / H->tableSize;
+    if (loadFactor < 0.7)
+    {
         return;
-    }else{
-    
-
     }
-    
+    else
+    {
+        newSize = 1.3 * H->tableSize;
+        HASH_TABLE *temp = createHashTable(newSize);
+        printf("\nSIZE: %d\n", newSize);
 
+        for (int i = 0; i < H->tableSize; i++) // replace all nodes to null
+        {
+            if (H->list[i] != NULL)
+            {
+                H->list[i] = NULL;
+                H->size--;
+            }
+            else
+            {
+                continue;
+            }
+        }
+    }
 }
 
 int main()

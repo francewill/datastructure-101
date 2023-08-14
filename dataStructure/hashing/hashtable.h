@@ -16,6 +16,12 @@ typedef struct hash_tag {
   STRING_ARRAY_PTR list;
 } HASH_TABLE;
 
+typedef struct node
+{
+    char* key;
+    char* data;
+} NODE;
+
 
 /*
  *  function: createHashTable
