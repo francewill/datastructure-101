@@ -326,6 +326,10 @@ void rehashing(HASH_TABLE *H)
                 continue;
             }
         }
+
+        destroy(H);
+        NODE **temp = H->list;
+        free(temp);
     }
 }
 
