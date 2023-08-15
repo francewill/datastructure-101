@@ -5,6 +5,14 @@ typedef unsigned int uint;
 typedef char* STRING;
 typedef char** STRING_ARRAY_PTR;
 
+
+
+typedef struct node
+{
+    char* key;
+    char* data;
+} NODE;
+
 typedef struct hash_tag {
   // the current number of data elements
   // stored in the table
@@ -13,14 +21,10 @@ typedef struct hash_tag {
   // i.e. the number of lists
   uint tableSize;
   // an array of character pointers
-  STRING_ARRAY_PTR list;
+  NODE** list;
 } HASH_TABLE;
 
-typedef struct node
-{
-    char* key;
-    char* data;
-} NODE;
+
 
 
 /*

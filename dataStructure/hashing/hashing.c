@@ -20,13 +20,22 @@ void printTable(HASH_TABLE *H)
         printf("Cell#%d: ", index);
         if (H->list[index])
         {
-            printf("%s\n", H->list[index]);
+            printf("%s\n", H->list[index]->data);
         }
         else
         {
             printf("*empty*\n");
         }
     }
+}
+
+NODE *createNode(STRING key, STRING data){
+    NODE *temp = (NODE*) malloc (sizeof(NODE));
+    temp->key = (STRING) malloc (sizeof(char) * strlen(key));
+    temp->data = (STRING) malloc (sizeof(char) * strlen(data));
+    strcpy(temp->key,key);
+    strcpy(temp->data,data);
+    return temp;
 }
 
 /*
@@ -48,9 +57,7 @@ HASH_TABLE *createHashTable(uint tableSize)
 
     for (int i = 0; i < tableSize; i++) // initialize the elements of list as null
     {
-        NODE *temp = (NODE*) malloc(sizeof(NODE));
-        temp->data = NULL;
-        temp->key = NULL;
+        NODE *temp = NULL;
         H->list[i] = temp;
     }
 
@@ -107,6 +114,7 @@ int secondHash(STRING key, int computedKey) // function for our second hash func
     return ans;
 }
 
+
 void put(HASH_TABLE *H, STRING key, STRING data) // this is responsible for putting values in our hash map
 {
     int i = 0, index, computedKey;
@@ -118,12 +126,15 @@ void put(HASH_TABLE *H, STRING key, STRING data) // this is responsible for putt
     {
         computedKey = asciiCounter(key);                                                          // get the computed key by using the asciiCounter function
         index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize; // Calculate for index
-        STRING temp = (STRING)malloc(sizeof(char) * strlen(data));                                // create temp string holder
-        strcpy(temp, data);
-        if (H->list[index] == NULL || strcmp(H->list[index], "*empty*") == 0) // if null then automatically put it in the hashtable
+        // STRING temp = (STRING)malloc(sizeof(char) * strlen(data));                                // create temp string holder
+        // strcpy(temp, data);
+        
+        NODE *temp = createNode(key,data);
+      
+        if (H->list[index] == NULL) // if null then automatically put it in the hashtable
         {
             H->list[index] = temp;
-            printf("\nB\n");
+            
         }
         else // probes through the table so we can find next available space
         {
@@ -131,7 +142,7 @@ void put(HASH_TABLE *H, STRING key, STRING data) // this is responsible for putt
             {
                 i++;
                 index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize;
-            } while (H->list[index] != NULL && strcmp(H->list[index], "*empty*") != 0); // just find the next available space
+            } while (H->list[index] != NULL && strcmp(H->list[index]->data, "*empty*") != 0); // just find the next available space
             H->list[index] = temp;                                                      // when it got here expect that it already found an available space
         }
         H->size++; // increase size
@@ -152,43 +163,43 @@ void put(HASH_TABLE *H, STRING key, STRING data) // this is responsible for putt
  */
 STRING find(HASH_TABLE *H, STRING key, STRING data)
 {
-    if (isEmpty(H)) // check if empty
-    {
-        printf("\nHashmap is empty!\n");
-    }
-    else // as you can notice it is similar in put function
-    {
-        int i = 0, index, computedKey;
-        computedKey = asciiCounter(key);
-        index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize;
-        if (H->list[index] == NULL || strcmp(H->list[index], "*empty*") == 0) // if null then automatically send null since input does not exist
-        {
-            return NULL;
-        }
-        else
-        {
-            if (strcmp(H->list[index], data) == 0) // compare the strings
-            {
-                return H->list[index];
-            }
-            else // if not same then probe to the next position if that next position is null then input does not exist in hash table
-            {
-                while (H->list[index] != NULL && strcmp(H->list[index], "*empty*") != 0)
-                {
-                    if (strcmp(H->list[index], data) == 0)
-                    {
-                        return H->list[index];
-                    }
-                    else if (H->list[index] == NULL)
-                    {
-                        return NULL;
-                    }
-                    i++;
-                    index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize;
-                }
-            }
-        }
-    }
+    // if (isEmpty(H)) // check if empty
+    // {
+    //     printf("\nHashmap is empty!\n");
+    // }
+    // else // as you can notice it is similar in put function
+    // {
+    //     int i = 0, index, computedKey;
+    //     computedKey = asciiCounter(key);
+    //     index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize;
+    //     if (H->list[index] == NULL || strcmp(H->list[index], "*empty*") == 0) // if null then automatically send null since input does not exist
+    //     {
+    //         return NULL;
+    //     }
+    //     else
+    //     {
+    //         if (strcmp(H->list[index], data) == 0) // compare the strings
+    //         {
+    //             return H->list[index];
+    //         }
+    //         else // if not same then probe to the next position if that next position is null then input does not exist in hash table
+    //         {
+    //             while (H->list[index] != NULL && strcmp(H->list[index], "*empty*") != 0)
+    //             {
+    //                 if (strcmp(H->list[index], data) == 0)
+    //                 {
+    //                     return H->list[index];
+    //                 }
+    //                 else if (H->list[index] == NULL)
+    //                 {
+    //                     return NULL;
+    //                 }
+    //                 i++;
+    //                 index = ((computedKey % H->tableSize) + i * secondHash(key, computedKey)) % H->tableSize;
+    //             }
+    //         }
+    //     }
+    // }
 }
 
 /*
@@ -204,44 +215,44 @@ STRING find(HASH_TABLE *H, STRING key, STRING data)
  */
 STRING erase(HASH_TABLE *H, STRING key, STRING data)
 {
-    int computedAscii, i = 0, index;
-    if (isEmpty(H)) // check if empty
-    {
-        printf("\nHash table is empty!\n");
-    }
-    else
-    {
-        STRING toDel = find(H, key, data); // find the given node then store it to del
-        if (toDel == NULL)                 // if null then it does not exist
-        {
-            printf("\nDoes not exist!\n");
-            return NULL;
-        }
-        else
-        {
-            computedAscii = asciiCounter(key);                                                              // check the total ascii
-            index = ((computedAscii % H->tableSize) + (i * secondHash(key, computedAscii))) % H->tableSize; // calculate the index
-            int checker = strcmp(toDel, H->list[index]);                                                    // check if same
-            if (checker == 0)
-            {
-                strcpy(H->list[index], "*empty*"); // if same then delete it using lazy deletion
-            }
-            else
-            {
+    // int computedAscii, i = 0, index;
+    // if (isEmpty(H)) // check if empty
+    // {
+    //     printf("\nHash table is empty!\n");
+    // }
+    // else
+    // {
+    //     STRING toDel = find(H, key, data); // find the given node then store it to del
+    //     if (toDel == NULL)                 // if null then it does not exist
+    //     {
+    //         printf("\nDoes not exist!\n");
+    //         return NULL;
+    //     }
+    //     else
+    //     {
+    //         computedAscii = asciiCounter(key);                                                              // check the total ascii
+    //         index = ((computedAscii % H->tableSize) + (i * secondHash(key, computedAscii))) % H->tableSize; // calculate the index
+    //         int checker = strcmp(toDel, H->list[index]);                                                    // check if same
+    //         if (checker == 0)
+    //         {
+    //             strcpy(H->list[index], "*empty*"); // if same then delete it using lazy deletion
+    //         }
+    //         else
+    //         {
 
-                do
-                {
+    //             do
+    //             {
 
-                    i++; // probe to the next space
-                    index = ((computedAscii % H->tableSize) + (i * secondHash(key, computedAscii))) % H->tableSize;
-                    checker = strcmp(toDel, H->list[index]);
-                } while (checker != 0);
-                strcpy(H->list[index], "*empty*");
-            }
-            H->size--; // Decrement size
-            return data;
-        }
-    }
+    //                 i++; // probe to the next space
+    //                 index = ((computedAscii % H->tableSize) + (i * secondHash(key, computedAscii))) % H->tableSize;
+    //                 checker = strcmp(toDel, H->list[index]);
+    //             } while (checker != 0);
+    //             strcpy(H->list[index], "*empty*");
+    //         }
+    //         H->size--; // Decrement size
+    //         return data;
+    //     }
+    // }
 }
 
 /*
@@ -254,53 +265,53 @@ STRING erase(HASH_TABLE *H, STRING key, STRING data)
  */
 void destroy(HASH_TABLE *H)
 {
-    if (isEmpty(H))
-    {
-        printf("\nHash table is empty!\n");
-    }
-    else
-    {
-        for (int i = 0; i < H->tableSize; i++) // replace all nodes to null
-        {
-            if (H->list[i] != NULL)
-            {
-                H->list[i] = NULL;
-                H->size--;
-            }
-            else
-            {
-                continue;
-            }
-        }
-    }
+    // if (isEmpty(H))
+    // {
+    //     printf("\nHash table is empty!\n");
+    // }
+    // else
+    // {
+    //     for (int i = 0; i < H->tableSize; i++) // replace all nodes to null
+    //     {
+    //         if (H->list[i] != NULL)
+    //         {
+    //             H->list[i] = NULL;
+    //             H->size--;
+    //         }
+    //         else
+    //         {
+    //             continue;
+    //         }
+    //     }
+    // }
 }
 void rehashing(HASH_TABLE *H)
 {
-    int newSize;
-    float loadFactor = (float)H->size / H->tableSize;
-    if (loadFactor < 0.7)
-    {
-        return;
-    }
-    else
-    {
-        newSize = 1.3 * H->tableSize;
-        HASH_TABLE *temp = createHashTable(newSize);
-        printf("\nSIZE: %d\n", newSize);
+    // int newSize;
+    // float loadFactor = (float)H->size / H->tableSize;
+    // if (loadFactor < 0.7)
+    // {
+    //     return;
+    // }
+    // else
+    // {
+    //     newSize = 1.3 * H->tableSize;
+    //     HASH_TABLE *temp = createHashTable(newSize);
+    //     printf("\nSIZE: %d\n", newSize);
 
-        for (int i = 0; i < H->tableSize; i++) // replace all nodes to null
-        {
-            if (H->list[i] != NULL)
-            {
-                H->list[i] = NULL;
-                H->size--;
-            }
-            else
-            {
-                continue;
-            }
-        }
-    }
+    //     for (int i = 0; i < H->tableSize; i++) // replace all nodes to null
+    //     {
+    //         if (H->list[i] != NULL)
+    //         {
+    //             H->list[i] = NULL;
+    //             H->size--;
+    //         }
+    //         else
+    //         {
+    //             continue;
+    //         }
+    //     }
+    // }
 }
 
 int main()
