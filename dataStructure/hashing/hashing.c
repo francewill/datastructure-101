@@ -281,8 +281,10 @@ void destroy(HASH_TABLE *H)
                     H->list[i] = NULL;
                     H->size--;
                     printf("\nSize = %d\n", H->size);
-                }else{
-                                        NODE *temp = H->list[i];
+                }
+                else
+                {
+                    NODE *temp = H->list[i];
                     free(temp);
                     H->list[i] = NULL;
                 }
@@ -296,31 +298,35 @@ void destroy(HASH_TABLE *H)
 }
 void rehashing(HASH_TABLE *H)
 {
-    // int newSize;
-    // float loadFactor = (float)H->size / H->tableSize;
-    // if (loadFactor < 0.7)
-    // {
-    //     return;
-    // }
-    // else
-    // {
-    //     newSize = 1.3 * H->tableSize;
-    //     HASH_TABLE *temp = createHashTable(newSize);
-    //     printf("\nSIZE: %d\n", newSize);
+    int newSize;
+    float loadFactor = (float)H->size / H->tableSize;
+    if (loadFactor < 0.7)
+    {
+        return;
+    }
+    else
+    {
+        newSize = 1.3 * H->tableSize;
+        HASH_TABLE *temp = createHashTable(newSize);
+        printf("\nSIZE: %d\n", newSize);
 
-    //     for (int i = 0; i < H->tableSize; i++) // replace all nodes to null
-    //     {
-    //         if (H->list[i] != NULL)
-    //         {
-    //             H->list[i] = NULL;
-    //             H->size--;
-    //         }
-    //         else
-    //         {
-    //             continue;
-    //         }
-    //     }
-    // }
+        for (int i = 0; i < H->tableSize; i++) 
+        {
+            if (H->list[i] != NULL)
+            {
+                if (strcmp(H->list[i]->data, "*empty*") != 0)
+                {
+                    put(temp,H->list[i]->key,H->list[i]->data);
+                }
+
+                
+            }
+            else
+            {
+                continue;
+            }
+        }
+    }
 }
 
 int main()
