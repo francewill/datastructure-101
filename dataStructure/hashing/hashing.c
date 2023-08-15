@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void rehashing(HASH_TABLE *H);
+HASH_TABLE *rehashing(HASH_TABLE **H);
 
 // Function that prints the data of the hash table
 void printTable(HASH_TABLE *H)
@@ -146,7 +146,7 @@ void put(HASH_TABLE *H, STRING key, STRING data) // this is responsible for putt
         }
         H->size++; // increase size
     }
-    rehashing(H);
+    rehashing(&H);
 }
 
 /*
@@ -296,40 +296,39 @@ void destroy(HASH_TABLE *H)
         }
     }
 }
-void rehashing(HASH_TABLE *H)
+HASH_TABLE *rehashing(HASH_TABLE **H)
 {
     int newSize;
-    float loadFactor = (float)H->size / H->tableSize;
+    float loadFactor = (float)(*H)->size / (*H)->tableSize;
     if (loadFactor < 0.7)
     {
-        return;
+        printf("\nPassed\n");
+        return NULL;
     }
     else
     {
-        newSize = 1.3 * H->tableSize;
+        printf("\nRehashed\n");
+        newSize = 1.3 * (*H)->tableSize;
         HASH_TABLE *temp = createHashTable(newSize);
         printf("\nSIZE: %d\n", newSize);
 
-        for (int i = 0; i < H->tableSize; i++) 
+        for (int i = 0; i < (*H)->tableSize; i++)
         {
-            if (H->list[i] != NULL)
+            if ((*H)->list[i] != NULL)
             {
-                if (strcmp(H->list[i]->data, "*empty*") != 0)
+                if (strcmp((*H)->list[i]->data, "*empty*") != 0)
                 {
-                    put(temp,H->list[i]->key,H->list[i]->data);
+                    put(temp, (*H)->list[i]->key, (*H)->list[i]->data);
                 }
-
-                
             }
             else
             {
                 continue;
             }
         }
+        printTable(temp);
 
-        destroy(H);
-        NODE **temp = H->list;
-        free(temp);
+        return temp;
     }
 }
 
@@ -364,6 +363,15 @@ int main()
             scanf(" k:%s d:%s", key, data);
             printf("Inserting data %s with key %s\n", data, key);
             put(H, key, data);
+            HASH_TABLE *temp = rehashing(&H);
+            if (temp != NULL)
+            {
+                destroy(H); // ensure deletion
+                free(H->list);
+                free(H);
+                H = temp;
+            }
+
             break;
         case '-':
             scanf(" k:%s d:%s", key, data);
