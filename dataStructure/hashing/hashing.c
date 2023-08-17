@@ -300,19 +300,18 @@ HASH_TABLE *rehashing(HASH_TABLE **H)
 {
     int newSize;
     float loadFactor = (float)(*H)->size / (*H)->tableSize;
-    if (loadFactor < 0.7)
+    if (loadFactor < 0.7) // 
     {
-        printf("\nPassed\n");
         return NULL;
     }
     else
     {
-        printf("\nRehashed\n");
+        // printf("\nRehashed\n");
         newSize = 1.3 * (*H)->tableSize;
-        HASH_TABLE *temp = createHashTable(newSize);
-        printf("\nSIZE: %d\n", newSize);
+        HASH_TABLE *temp = createHashTable(newSize);  // make a temporary hash table
+        // printf("\nSIZE: %d\n", newSize);
 
-        for (int i = 0; i < (*H)->tableSize; i++)
+        for (int i = 0; i < (*H)->tableSize; i++) // transfer all the data to temp
         {
             if ((*H)->list[i] != NULL)
             {
@@ -326,7 +325,6 @@ HASH_TABLE *rehashing(HASH_TABLE **H)
                 continue;
             }
         }
-        printTable(temp);
 
         return temp;
     }
@@ -364,9 +362,9 @@ int main()
             printf("Inserting data %s with key %s\n", data, key);
             put(H, key, data);
             HASH_TABLE *temp = rehashing(&H);
-            if (temp != NULL)
+            if (temp != NULL)  // rehashing!
             {
-                destroy(H); // ensure deletion
+                destroy(H); 
                 free(H->list);
                 free(H);
                 H = temp;
