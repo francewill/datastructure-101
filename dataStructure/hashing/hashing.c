@@ -308,6 +308,9 @@ HASH_TABLE *rehashing(HASH_TABLE **H)
     {
         // printf("\nRehashed\n");
         newSize = 1.3 * (*H)->tableSize;
+        if(newSize%2==0){
+            newSize++;
+        }
         HASH_TABLE *temp = createHashTable(newSize);  // make a temporary hash table
         // printf("\nSIZE: %d\n", newSize);
 
