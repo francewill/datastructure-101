@@ -44,6 +44,12 @@ void insertEdge(GRAPH *G, int u, int v){
 */
 int *createVisited(GRAPH *G){
 
+    int *visited = (int*) malloc (sizeof(int)*G->num_vertices);
+    for(int i = 0; i<G->num_vertices;i++){
+        visited[i]= 0;
+    }
+    return 0;
+
 }
 
 /*
