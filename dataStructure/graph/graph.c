@@ -130,7 +130,8 @@ int isEmpty(LIST *L){
 	inserts `node` before the current `head` of the list
 */
 void push(LIST *L, NODE* node){
-
+    node->next = L->head;
+    L->head= node;
 }
 
 
