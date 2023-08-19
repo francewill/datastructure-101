@@ -11,6 +11,15 @@
 	- returns the newly created graph
 */
 GRAPH *createGraph(int vertices){
+    GRAPH *G = (GRAPH *) malloc (sizeof(GRAPH));
+    G->num_vertices = vertices;
+    G->matrix = (int **) malloc (sizeof(int*)*vertices);
+    for(int i = 0; i<vertices;i++){
+        for(int j = 0; j<vertices;j++){
+            G->matrix[i][j] = 0;
+        }
+    }
+    return G;
 
 }
 
@@ -29,7 +38,7 @@ void insertEdge(GRAPH *G, int u, int v){
 	- 1: visited, 0: not visited yet
 */
 int *createVisited(GRAPH *G){
-    
+
 }
 
 /*
@@ -38,7 +47,7 @@ int *createVisited(GRAPH *G){
 	- you may use the functions in the stack.h file 
 */
 void dfs(GRAPH *G, int start){
-    
+
 }
 
 /*
@@ -47,7 +56,7 @@ void dfs(GRAPH *G, int start){
 	- follow the layout provided in the sample run
 */
 void printMatrix(GRAPH *G){
-    
+
 }
 
 /*
@@ -55,7 +64,7 @@ void printMatrix(GRAPH *G){
 	- frees the allocated memory for the adjacency matrix
 */
 void freeMatrix(GRAPH *G){
-    
+
 }
 
 
