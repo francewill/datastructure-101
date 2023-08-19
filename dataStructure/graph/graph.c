@@ -14,6 +14,9 @@ GRAPH *createGraph(int vertices){
     GRAPH *G = (GRAPH *) malloc (sizeof(GRAPH));
     G->num_vertices = vertices;
     G->matrix = (int **) malloc (sizeof(int*)*vertices);
+    for(int i = 0;i<vertices;i++){
+        G->matrix[i] = (int *) malloc (sizeof(int)*vertices);
+    }
     for(int i = 0; i<vertices;i++){
         for(int j = 0; j<vertices;j++){
             G->matrix[i][j] = 0;
@@ -56,6 +59,12 @@ void dfs(GRAPH *G, int start){
 	- follow the layout provided in the sample run
 */
 void printMatrix(GRAPH *G){
+    for(int i =0; i<G->num_vertices;i++){
+        for(int j = 0; j<G->num_vertices;j++){
+            printf("%d     ",G->matrix[i][j]);
+        }
+        printf("\n");
+    }
 
 }
 
