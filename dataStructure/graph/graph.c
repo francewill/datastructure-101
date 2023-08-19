@@ -53,6 +53,7 @@ int *createVisited(GRAPH *G){
 }
 
 // Stack functions
+
 /*
 ** printStack()
 ** requirements: none
@@ -162,7 +163,27 @@ int pop(LIST *L){
 	- you may use the functions in the stack.h file 
 */
 void dfs(GRAPH *G, int start){
+    printf("Aaaaaa");
+    LIST *S = createStack();
+   
     int *visited = createVisited(G);
+    push(S,createNode(start));
+
+    // do{
+    //     int u = pop(S);
+    //     if(!visited[u]){
+    //         visited[u] = 1;
+    //         printf("%d ", u);
+    //         for(int v = 0; v < G->num_vertices;v++){
+    //             if(!visited[u]){
+    //                 push(S, createNode(v));
+    //             }
+    //         }
+            
+    //     }
+       
+    // }while(!isEmpty(S));
+
 
 }
 
