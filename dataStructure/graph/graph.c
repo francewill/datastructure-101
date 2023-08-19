@@ -31,6 +31,8 @@ GRAPH *createGraph(int vertices){
 	- plots the adjacent vertices in the adjacency matrix
 */
 void insertEdge(GRAPH *G, int u, int v){
+    G->matrix[u][v]= 1;
+    G->matrix[v][u]=1;
 
 }
 
