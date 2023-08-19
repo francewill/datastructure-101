@@ -143,7 +143,16 @@ void push(LIST *L, NODE* node){
 	returns the value of the deleted node
 */
 int pop(LIST *L){
-
+    if(isEmpty(L)){
+        printf("\nStack is empty\n");
+        return -1;
+    }else{
+        NODE *del = L->head;        
+        int val = del->value;
+        L->head = del->next;
+        free(del);
+        return val;
+    }
 }
 
 /*
