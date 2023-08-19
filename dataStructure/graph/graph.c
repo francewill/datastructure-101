@@ -60,7 +60,16 @@ int *createVisited(GRAPH *G){
 	if list is empty, prints "*empty*"
 	otherwise, prints the contents of a list
 */
-void printStack(LIST *L);
+void printStack(LIST *L){
+    if(isEmpty(L)){
+        printf("\nStack is empty\n");
+    }else{
+        for(NODE *temp = L->head; temp!=NULL;temp = temp->next){
+            printf("%d ", temp->value);
+        }
+    }
+    
+}
 
 
 
@@ -72,7 +81,12 @@ void printStack(LIST *L);
 	initializes fields of the structure
 	returns the created node
 */
-NODE* createNode(int data);
+NODE* createNode(int data){
+    NODE *temp = (NODE *) malloc (sizeof(NODE));
+    temp->next = NULL;
+    temp->value = data;
+    return temp;
+}
 
 
 
@@ -84,7 +98,11 @@ NODE* createNode(int data);
 	initializes `head` field of the structure
 	returns the created list
 */
-LIST* createStack();
+LIST* createStack(){
+    LIST *S = (LIST *) malloc (sizeof(LIST));
+    S->head = NULL;
+    return S;
+}
 
 
 
@@ -95,7 +113,13 @@ LIST* createStack();
 	returns 1 if the list is empty
 	otherwise returns 0
 */
-int isEmpty(LIST *L);
+int isEmpty(LIST *L){
+    if(L->head==NULL){
+        return 1;
+    }else{
+        return 0;
+    }
+}
 
 
 
@@ -105,7 +129,9 @@ int isEmpty(LIST *L);
 ** results:
 	inserts `node` before the current `head` of the list
 */
-void push(LIST *L, NODE* node);
+void push(LIST *L, NODE* node){
+
+}
 
 
 
@@ -116,7 +142,9 @@ void push(LIST *L, NODE* node);
 	deletes the `head` node of the list
 	returns the value of the deleted node
 */
-int pop(LIST *L);
+int pop(LIST *L){
+
+}
 
 /*
 	DFS
