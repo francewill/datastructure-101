@@ -48,7 +48,7 @@ int *createVisited(GRAPH *G){
     for(int i = 0; i<G->num_vertices;i++){
         visited[i]= 0;
     }
-    return 0;
+    return visited;
 
 }
 
@@ -169,20 +169,18 @@ void dfs(GRAPH *G, int start){
     int *visited = createVisited(G);
     push(S,createNode(start));
 
-    // do{
-    //     int u = pop(S);
-    //     if(!visited[u]){
-    //         visited[u] = 1;
-    //         printf("%d ", u);
-    //         for(int v = 0; v < G->num_vertices;v++){
-    //             if(!visited[u]){
-    //                 push(S, createNode(v));
-    //             }
-    //         }
+    do{
+        int u = pop(S);
+        if(!visited[u]){
+            visited[u] = 1;
+            // printf("\nVisited[u] = %d\n",visited[u]);
+            for(int v = 0; v < G->num_vertices;v++){
+                printf("%d ", visited[v]);
+            }
             
-    //     }
+        }
        
-    // }while(!isEmpty(S));
+    }while(!isEmpty(S));
 
 
 }
