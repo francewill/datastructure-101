@@ -172,26 +172,24 @@ int pop(LIST *L)
 */
 void dfs(GRAPH *G, int start)
 {
-    LIST *S = createStack();
+    LIST *S = createStack();         // create a stack
+    int *visited = createVisited(G); // create the visited array to track visited vertex
+    push(S, createNode(start));  // push the start node
 
-    int *visited = createVisited(G);
-    push(S, createNode(start));
-
-    do
+    do  // loop
     {
-        int u = pop(S);
-        if (!visited[u])
+        int u = pop(S);  // pop the node in stack
+        if (!visited[u])  // check node that is not visited
         {
-            visited[u] = 1;
-            printf("%d ", u + 1);
+            visited[u] = 1;  // mark them visited
+            printf("%d ", u + 1);  // print it
 
-            for (int v = G->num_vertices - 1; v >= 0; v--)
+            for (int v = G->num_vertices - 1; v >= 0; v--)  // loop reversely so we can prioritize smallest index value
             {
-                if (G->matrix[u][v])
+                if (G->matrix[u][v])  // find adjacent
                 {
-                    if (!visited[v])
+                    if (!visited[v])  // if not visited then push
                     {
-
                         push(S, createNode(v));
                     }
                 }
