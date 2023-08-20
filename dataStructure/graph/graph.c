@@ -163,7 +163,6 @@ int pop(LIST *L){
 	- you may use the functions in the stack.h file 
 */
 void dfs(GRAPH *G, int start){
-    printf("Aaaaaa");
     LIST *S = createStack();
    
     int *visited = createVisited(G);
@@ -173,9 +172,15 @@ void dfs(GRAPH *G, int start){
         int u = pop(S);
         if(!visited[u]){
             visited[u] = 1;
-            // printf("\nVisited[u] = %d\n",visited[u]);
-            for(int v = 0; v < G->num_vertices;v++){
-                printf("%d ", visited[v]);
+            printf("%d ",u+1);
+
+            for(int v = G->num_vertices-1; v >=0;v--){
+                if(G->matrix[u][v]){
+                    if(!visited[v]){
+                        
+                        push(S,createNode(v));
+                    }
+                }
             }
             
         }
