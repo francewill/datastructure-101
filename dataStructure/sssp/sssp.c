@@ -55,7 +55,13 @@ int *createVisited(GRAPH *G){
 	- this will be used in the dijkstra() function to keep track of the distance of the vertices
 	- initialize to 99999 (maximum distance possible)
 */
-int *createDistance(GRAPH *G);
+int *createDistance(GRAPH *G){
+	int *distance = (int*)  malloc (sizeof(int)*G->num_vertices);
+	for(int i = 0; i< G->num_vertices;i++){
+		distance[i] = 99999;
+	}
+	return distance;
+}
 
 
 /*
@@ -64,7 +70,13 @@ int *createDistance(GRAPH *G);
 	- this will be used in the dijisktra() function to keep track of the parent of a visited vertex
 	- initialize to -1 (no parent yet)
 */
-int *createParent(GRAPH *G);
+int *createParent(GRAPH *G){
+	int *parent = (int *) malloc (sizeof(int)*G->num_vertices);
+	for(int i = 0; i<G->num_vertices;i++){
+		parent[i] = 0;
+	}
+	return parent;
+}
 
 
 /*
