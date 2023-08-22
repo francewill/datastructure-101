@@ -92,7 +92,14 @@ void dijkstra(GRAPH *G, int source, int target);
 	- prints the values of the adjacency matrix
 	- follow the layout provided in the sample run
 */
-void printMatrix(GRAPH *G);
+void printMatrix(GRAPH *G){
+	for(int i = 0; i<G->num_vertices;i++){
+		for(int j = 0; j<G->num_vertices;j++){
+			printf("%d     ",G->matrix[i][j]);
+		}
+		printf("\n");
+	}
+}
 
 
 /*
