@@ -9,7 +9,15 @@
 	- initializes the members of the structure + arrays
 	- returns the newly created graph
 */
-GRAPH *createGraph(int vertices);
+GRAPH *createGraph(int vertices){
+	GRAPH *G = (GRAPH*) malloc (sizeof(GRAPH));
+	G->num_vertices = vertices;
+	G->matrix = (int**) malloc(sizeof(int*)*vertices);
+	for(int i =0;i<G->num_vertices;i++){
+		G->matrix[i] = (int*) malloc(sizeof(int)*vertices);
+	}
+	return G;
+}
 
 
 /*
