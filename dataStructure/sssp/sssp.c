@@ -117,6 +117,10 @@ void printMatrix(GRAPH *G)
 */
 void freeMatrix(GRAPH *G)
 {
+	for(int i =0; i<G->num_vertices;i++){
+		free(G->matrix[i]);
+	}
+	free(G->matrix);
 }
 
 int main()
