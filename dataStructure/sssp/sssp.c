@@ -16,6 +16,11 @@ GRAPH *createGraph(int vertices){
 	for(int i =0;i<G->num_vertices;i++){
 		G->matrix[i] = (int*) malloc(sizeof(int)*vertices);
 	}
+	for(int i = 0;i<G->num_vertices;i++){
+		for(int j = 0; j<G->num_vertices;j++){
+			G->matrix[i][j] = 0;
+		}
+	}
 	return G;
 }
 
