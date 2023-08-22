@@ -40,7 +40,13 @@ void insertEdge(GRAPH *G, int u, int v, int w){
 	- this will be used in the dijkstra() function to mark visited nodes
 	- 1: visited, 0: not visited yet
 */
-int *createVisited(GRAPH *G);
+int *createVisited(GRAPH *G){
+	int *visited = (int*) malloc (sizeof(int)*G->num_vertices);
+	for(int i = 0; i< G->num_vertices;i++){
+		visited[i] = 0;
+	}
+	return visited;
+}
 
 
 /*
