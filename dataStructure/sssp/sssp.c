@@ -29,7 +29,9 @@ GRAPH *createGraph(int vertices){
 	INSERT EDGE
 	- plots the adjacent vertices in the adjacency matrix
 */
-void insertEdge(GRAPH *G, int u, int v, int w);
+void insertEdge(GRAPH *G, int u, int v, int w){
+	G->matrix[u][v] = w;
+}
 
 
 /*
