@@ -92,6 +92,11 @@ int *createParent(GRAPH *G)
 */
 void dijkstra(GRAPH *G, int source, int target)
 {
+	int *visited = createVisited(G);
+	int *parent = createParent(G);
+	int *distance = createDistance(G);
+
+	
 }
 
 /*
