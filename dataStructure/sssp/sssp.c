@@ -90,11 +90,12 @@ int *createParent(GRAPH *G)
 	- computes for the distance of the path
 	- you may create additional functions for the different operations needed in the dijkstra's algorithm
 */
-void dijkstra(GRAPH *G, int source, int target)
+void dijkstra(GRAPH *G, int source, int target)  // REVIEW THIS ONE
 {
 	int *visited = createVisited(G);  // create arrays
 	int *parent = createParent(G);
 	int *distance = createDistance(G);
+
 
 	
 }
