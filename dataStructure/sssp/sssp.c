@@ -95,23 +95,61 @@ void dijkstra(GRAPH *G, int source, int target)  // REVIEW THIS ONE
 	int *visited = createVisited(G);  // create arrays
 	int *parent = createParent(G);
 	int *distance = createDistance(G);
-	int u = distance[0];
-	distance[source] = 0;
-	for(int i = 0; i<G->num_vertices;i++){
-		for(int j = 0; j<G->num_vertices;j++){
-			if(u>distance[j]){
-				u=j;
+
+	
+	int u = source;
+	distance[u] = 0;	
+	// printf("\nU=%d\n",u);
+	// for(int i = 0; i<G->num_vertices;i++){
+		for(int j = 0; j<G->num_vertices;j++){  // check for the lowest distance
+		 printf("\nJ = %d\n",j);
+			if(!visited[j]){
+					printf("\n%d. Distance[u] = %d|Distance[j] =%d U = %d\n",j,distance[u],distance[j],u);
+				if(distance[u]<distance[j]){
+	
+									u=j;
+									
+				}
+
 			}
 		}
 		visited[u]=1;
-		for(int v = 0; v<G->num_vertices;v++){
-			if(G->matrix[u][v] && !visited[v]){
-				distance[v]= G->matrix[u][v];
-				parent[v] = u;
-			}
-		}
+		printf("\nU=%d\n",u);
 		
+		for(int v = 0; v<G->num_vertices;v++){
+			if(G->matrix[u][v]){
+				if(!visited[v]){
+					// printf("\nDistance = %d | altDISTANCE = %d distance[u]=%d\n | u= %d",distance[v],G->matrix[u][v]+distance [u],distance[u],u);
+					if(distance[v]>(G->matrix[u][v]+ distance[u])){
+						distance[v]= G->matrix[u][v] +distance[u];
+						parent[v] = u;
+						u=v;
+						printf("HAHAHAHA\n");
+						
+					}
+					printf("BABABABABABA\n");
+			
+				}
+
+			}
+		// }
+
 	}
+		printf("\nVisited: ");
+		for(int i = 0; i<G->num_vertices;i++){
+			printf("%d ",visited[i]);
+		}
+
+		printf("\nDistance: ");
+		for(int i= 0; i<G->num_vertices;i++){
+			printf("%d ", distance[i]);
+		}
+
+		printf("\nParent: ");
+		for(int i= 0;i<G->num_vertices;i++){
+			printf("%d ",parent[i]);
+		}
+
 
 
 	
