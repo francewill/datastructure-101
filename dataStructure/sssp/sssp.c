@@ -100,12 +100,12 @@ void dijkstra(GRAPH *G, int source, int target)  // REVIEW THIS ONE
 	int u = source;
 	distance[u] = 0;	
 	// printf("\nU=%d\n",u);
-	// for(int i = 0; i<G->num_vertices;i++){
+	for(int i = 0; i<G->num_vertices;i++){
 		for(int j = 0; j<G->num_vertices;j++){  // check for the lowest distance
 		 printf("\nJ = %d\n",j);
 			if(!visited[j]){
-					printf("\n%d. Distance[u] = %d|Distance[j] =%d U = %d\n",j,distance[u],distance[j],u);
-				if(distance[u]<distance[j]){
+					// printf("\n%d. Distance[u] = %d|Distance[j] =%d U = %d\n",j,distance[u],distance[j],u);
+				if(distance[u]>distance[j]){
 	
 									u=j;
 									
@@ -114,7 +114,7 @@ void dijkstra(GRAPH *G, int source, int target)  // REVIEW THIS ONE
 			}
 		}
 		visited[u]=1;
-		printf("\nU=%d\n",u);
+		// printf("\nU=%d\n",u);
 		
 		for(int v = 0; v<G->num_vertices;v++){
 			if(G->matrix[u][v]){
@@ -123,18 +123,23 @@ void dijkstra(GRAPH *G, int source, int target)  // REVIEW THIS ONE
 					if(distance[v]>(G->matrix[u][v]+ distance[u])){
 						distance[v]= G->matrix[u][v] +distance[u];
 						parent[v] = u;
-						u=v;
-						printf("HAHAHAHA\n");
+						
+						// printf("HAHAHAHA\n");
 						
 					}
-					printf("BABABABABABA\n");
-			
+					// printf("BABABABABABA\n");
+					
 				}
-
+				// printf("\nHit\n");
 			}
-		// }
-
+		}
+	for(int i = 0; i<G->num_vertices;i++){
+		if(!visited[i]){
+			u=i;
+		}
 	}
+	}
+
 		printf("\nVisited: ");
 		for(int i = 0; i<G->num_vertices;i++){
 			printf("%d ",visited[i]);
