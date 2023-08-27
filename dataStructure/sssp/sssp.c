@@ -79,7 +79,7 @@ int *createParent(GRAPH *G)
 	int *parent = (int *)malloc(sizeof(int) * G->num_vertices);
 	for (int i = 0; i < G->num_vertices; i++)
 	{
-		parent[i] = 0;
+		parent[i] = -1;
 	}
 	return parent;
 }
@@ -95,6 +95,23 @@ void dijkstra(GRAPH *G, int source, int target)  // REVIEW THIS ONE
 	int *visited = createVisited(G);  // create arrays
 	int *parent = createParent(G);
 	int *distance = createDistance(G);
+	int u = distance[0];
+	distance[source] = 0;
+	for(int i = 0; i<G->num_vertices;i++){
+		for(int j = 0; j<G->num_vertices;j++){
+			if(u>distance[j]){
+				u=j;
+			}
+		}
+		visited[u]=1;
+		for(int v = 0; v<G->num_vertices;v++){
+			if(G->matrix[u][v] && !visited[v]){
+				distance[v]= G->matrix[u][v];
+				parent[v] = u;
+			}
+		}
+		
+	}
 
 
 	
