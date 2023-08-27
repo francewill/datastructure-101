@@ -98,23 +98,22 @@ void dijkstra(GRAPH *G, int source, int target) // REVIEW THIS ONE
 
 	int u = source;
 	distance[u] = 0;
-	// printf("\nU=%d\n",u);
+
 	for (int i = 0; i < G->num_vertices; i++)
 	{
 		for (int j = 0; j < G->num_vertices; j++)
 		{ // check for the lowest distance
-			printf("\nJ = %d\n", j);
 			if (!visited[j])
 			{
-				// printf("\n%d. Distance[u] = %d|Distance[j] =%d U = %d\n",j,distance[u],distance[j],u);
+
 				if (distance[u] > distance[j])
 				{
 					u = j;
 				}
 			}
 		}
+
 		visited[u] = 1;
-		// printf("\nU=%d\n",u);
 
 		for (int v = 0; v < G->num_vertices; v++)
 		{
@@ -122,17 +121,13 @@ void dijkstra(GRAPH *G, int source, int target) // REVIEW THIS ONE
 			{
 				if (!visited[v])
 				{
-					// printf("\nDistance = %d | altDISTANCE = %d distance[u]=%d\n | u= %d",distance[v],G->matrix[u][v]+distance [u],distance[u],u);
+
 					if (distance[v] > (G->matrix[u][v] + distance[u]))
 					{
 						distance[v] = G->matrix[u][v] + distance[u];
 						parent[v] = u;
-
-						// printf("HAHAHAHA\n");
 					}
-					// printf("BABABABABABA\n");
 				}
-				// printf("\nHit\n");
 			}
 		}
 		for (int i = 0; i < G->num_vertices; i++)
@@ -143,39 +138,50 @@ void dijkstra(GRAPH *G, int source, int target) // REVIEW THIS ONE
 			}
 		}
 	}
-	int *path = (int *) malloc (sizeof(int)* G->num_vertices);
-	int node,count = 0;
+	int *path = (int *)malloc(sizeof(int) * G->num_vertices);
+	int node, count = 0, dist;
 	node = parent[target];
 	path[count] = node;
-	
-	while(node!=-1){
+
+	while (node != -1)
+	{
 		count++;
-		node = parent[path[count-1]];
+		node = parent[path[count - 1]];
 		path[count] = node;
 	}
 
-	printf("\nYour path from %d to %d: ",source+1,target+1);
-	for(int i = count-1; i>=0;i--){
-		printf("%d ",path[i]+1);
+	dist = distance[target];
+
+	if (dist == 99999)
+	{
+		printf("\nPath from %d to %d is impossible.",source+1,target+1);
+	}
+	else
+	{
+		printf("\nYour path from %d to %d: ", source + 1, target + 1);
+		for (int i = count - 1; i >= 0; i--)
+		{
+			printf("%d ", path[i] + 1);
+		}
 	}
 
-	printf("\nVisited: ");
-	for (int i = 0; i < G->num_vertices; i++)
-	{
-		printf("%d ", visited[i]);
-	}
+	// printf("\nVisited: ");
+	// for (int i = 0; i < G->num_vertices; i++)
+	// {
+	// 	printf("%d ", visited[i]);
+	// }
 
-	printf("\nDistance: ");
-	for (int i = 0; i < G->num_vertices; i++)
-	{
-		printf("%d ", distance[i]);
-	}
+	// printf("\nDistance: ");
+	// for (int i = 0; i < G->num_vertices; i++)
+	// {
+	// 	printf("%d ", distance[i]);
+	// }
 
-	printf("\nParent: ");
-	for (int i = 0; i < G->num_vertices; i++)
-	{
-		printf("%d ", parent[i]);
-	}
+	// printf("\nParent: ");
+	// for (int i = 0; i < G->num_vertices; i++)
+	// {
+	// 	printf("%d ", parent[i]);
+	// }
 }
 
 /*
