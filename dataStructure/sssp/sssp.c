@@ -10,14 +10,14 @@
 */
 GRAPH *createGraph(int vertices)
 {
-	GRAPH *G = (GRAPH *)malloc(sizeof(GRAPH));
+	GRAPH *G = (GRAPH *)malloc(sizeof(GRAPH)); // intialize graph
 	G->num_vertices = vertices;
 	G->matrix = (int **)malloc(sizeof(int *) * vertices);
-	for (int i = 0; i < G->num_vertices; i++)
+	for (int i = 0; i < G->num_vertices; i++)  
 	{
 		G->matrix[i] = (int *)malloc(sizeof(int) * vertices);
 	}
-	for (int i = 0; i < G->num_vertices; i++)
+	for (int i = 0; i < G->num_vertices; i++)  // populate graph with zeroes
 	{
 		for (int j = 0; j < G->num_vertices; j++)
 		{
@@ -45,7 +45,7 @@ void insertEdge(GRAPH *G, int u, int v, int w)
 int *createVisited(GRAPH *G)
 {
 	int *visited = (int *)malloc(sizeof(int) * G->num_vertices);
-	for (int i = 0; i < G->num_vertices; i++)
+	for (int i = 0; i < G->num_vertices; i++)  // populate visited array 
 	{
 		visited[i] = 0;
 	}
@@ -61,7 +61,7 @@ int *createVisited(GRAPH *G)
 int *createDistance(GRAPH *G)
 {
 	int *distance = (int *)malloc(sizeof(int) * G->num_vertices);
-	for (int i = 0; i < G->num_vertices; i++)
+	for (int i = 0; i < G->num_vertices; i++)  // populate distance array 
 	{
 		distance[i] = 99999;
 	}
@@ -77,7 +77,7 @@ int *createDistance(GRAPH *G)
 int *createParent(GRAPH *G)
 {
 	int *parent = (int *)malloc(sizeof(int) * G->num_vertices);
-	for (int i = 0; i < G->num_vertices; i++)
+	for (int i = 0; i < G->num_vertices; i++)  // populate parent array
 	{
 		parent[i] = -1;
 	}
@@ -113,9 +113,9 @@ void dijkstra(GRAPH *G, int source, int target) // REVIEW THIS ONE
 			}
 		}
 
-		visited[u] = 1;
+		visited[u] = 1;  // visit the node with lowest distance
 
-		for (int v = 0; v < G->num_vertices; v++)
+		for (int v = 0; v < G->num_vertices; v++)  // check unvisited neighbors
 		{
 			if (G->matrix[u][v])
 			{
@@ -124,13 +124,13 @@ void dijkstra(GRAPH *G, int source, int target) // REVIEW THIS ONE
 
 					if (distance[v] > (G->matrix[u][v] + distance[u]))
 					{
-						distance[v] = G->matrix[u][v] + distance[u];
+						distance[v] = G->matrix[u][v] + distance[u];  // add the distance
 						parent[v] = u;
 					}
 				}
 			}
 		}
-		for (int i = 0; i < G->num_vertices; i++)
+		for (int i = 0; i < G->num_vertices; i++)  // find unvisited node (this step is needed to track the next lowest unvisited node)
 		{
 			if (!visited[i])
 			{
@@ -138,33 +138,39 @@ void dijkstra(GRAPH *G, int source, int target) // REVIEW THIS ONE
 			}
 		}
 	}
-	int *path = (int *)malloc(sizeof(int) * G->num_vertices);
+	int *path = (int *)malloc(sizeof(int) * G->num_vertices);  // create the path
 	int node, count = 0, dist;
-	node = parent[target];
+
+	path[count] = target;
+	node = parent[target];	count++;
 	path[count] = node;
 
-	while (node != -1)
+
+	while (node != -1)  // adding the remaining paths
 	{
 		count++;
 		node = parent[path[count - 1]];
 		path[count] = node;
 	}
 
-	dist = distance[target];
+	dist = distance[target];  // get the distance
 
-	if (dist == 99999)
+	if (dist == 99999)  // prompts
 	{
 		printf("\nPath from %d to %d is impossible.",source+1,target+1);
 	}
 	else
 	{
 		printf("\nYour path from %d to %d: ", source + 1, target + 1);
-		for (int i = count - 1; i >= 0; i--)
+		for (int i = count - 1; i >= 0; i--)  // print backwards for readability
 		{
 			printf("%d ", path[i] + 1);
 		}
+		printf("\nTotal distance: %d", distance[target]);
 	}
 
+	// Check the arrays if you want
+	
 	// printf("\nVisited: ");
 	// for (int i = 0; i < G->num_vertices; i++)
 	// {
