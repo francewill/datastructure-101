@@ -15,7 +15,8 @@ It includes basic exercises of C
 - AVL
 - Heaps
 - Hashing
-- BFS
 - DFS
+- SSSP
 
-Will add more and will try to add sorting techniques 
+# Sorting
+- Quicksort
