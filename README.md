@@ -10,6 +10,7 @@ It includes basic exercises of C
 # Data Structure and Algorithm
 
 - Stack
+    Stack have 2 operations, the push and pop. Push is the operation we use for adding while pop is the operation we use for deleting. In Stack we always add and delete at head. It follows the concept of LIFO (Last In First Out)
 - Queues
 - BST
 - AVL
