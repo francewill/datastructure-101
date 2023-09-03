@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+
 
 int partition(int *array, int start, int end)  // this will divide the array and responsible for swapping
 {
@@ -49,8 +51,9 @@ int main()
 {
 
     int *array = (int *)malloc(sizeof(int) * 10);
-
-
+    array[9] = 99999;
+    // random numbers
+    srand ( time(NULL) );
     for( int i = 0; i< 9; i++){
         array[i] = rand() % (99 + 1 - 0) + 0;
     }
