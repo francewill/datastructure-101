@@ -57,10 +57,15 @@ int main()
     for( int i = 0; i< 9; i++){
         array[i] = rand() % (99 + 1 - 0) + 0;
     }
-    
+    printf("\nUnsorted array: ");
+     for (int i = 0; i < 10; i++)
+    {
+        printf("%d ", array[i]);
+    }
     quicksort(array, 9);  // call the quicksort function
 
     printf("\nSorted array: ");
+
     for (int i = 0; i < 10; i++)
     {
         printf("%d ", array[i]);
