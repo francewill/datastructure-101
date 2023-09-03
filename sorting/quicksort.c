@@ -13,7 +13,7 @@ int partition(int *array, int start, int end)
         do
         {
             j--;
-        } while (array[j] >= pivot);
+        } while (array[j] > pivot);
 
         if (i < j)
         {
@@ -28,13 +28,20 @@ int partition(int *array, int start, int end)
     return j;
 }
 
-void quicksort(int *array, int start, int end){
+void quicksortRecursion(int *array, int start, int end){
     int helper;
     if(start< end){
+     
         helper = partition(array, start, end);
-        quicksort(array, start, helper);
-        quicksort(array, helper+1, end);
+        quicksortRecursion(array, start, helper);
+        quicksortRecursion(array, helper+1, end);
     }
+    
+}
+
+void quicksort(int *array, int length){
+    quicksortRecursion(array, 0, length);
+    
 }
 
 int main()
@@ -54,7 +61,7 @@ int main()
     // for( int i = 0; i< 9; i++){
     //     array[i] = rand() % (99 + 1 - 0) + 0;
     // }
-    partition(array, 0, 9);
+    quicksort(array, 9);
     for (int i = 0; i < 10; i++)
     {
         printf("%d ", array[i]);
