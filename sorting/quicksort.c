@@ -1,27 +1,35 @@
-#include<stdio.h>
-#include<stdlib.h>
-int partition(int *array, int start, int end){
-    int pivot = array[start], i = start, j= end, temp;
-    while(i<j){
-        do{
+#include <stdio.h>
+#include <stdlib.h>
+int partition(int *array, int start, int end)
+{
+    int pivot = array[start], i = start, j = end, temp;
+    while (i < j)
+    {
+        do
+        {
             i++;
-        }while(array[i]>pivot);
-        do{
-            j++;
-        }while(array[j]<pivot);
-        temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
+        } while (array[i] <= pivot);
+        do
+        {
+            j--;
+        } while (array[j] >= pivot);
+
+        if (i < j)
+        {
+            temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
     }
-    temp = pivot; 
-    pivot = array[j];
+    temp = pivot;
+    array[start] = array[j];
     array[j] = temp;
-
-    
+    return j;
 }
-int main(){
+int main()
+{
 
-    int *array = (int *) malloc (sizeof(int)*10);
+    int *array = (int *)malloc(sizeof(int) * 10);
     array[0] = 10;
     array[1] = 16;
     array[2] = 8;
@@ -33,10 +41,11 @@ int main(){
     array[8] = 5;
     array[9] = 99999;
     // for( int i = 0; i< 9; i++){
-    //     array[i] = rand() % (99 + 1 - 0) + 0; 
+    //     array[i] = rand() % (99 + 1 - 0) + 0;
     // }
-
-    for(int i = 0; i < 10; i++){
+    partition(array, 0, 9);
+    for (int i = 0; i < 10; i++)
+    {
         printf("%d ", array[i]);
     }
     return 0;
