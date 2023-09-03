@@ -28,20 +28,21 @@ int partition(int *array, int start, int end)
     return j;
 }
 
-void quicksortRecursion(int *array, int start, int end){
+void quicksortRecursion(int *array, int start, int end)
+{
     int helper;
-    if(start< end){
-     
+    if (start < end)
+    {
+
         helper = partition(array, start, end);
         quicksortRecursion(array, start, helper);
-        quicksortRecursion(array, helper+1, end);
+        quicksortRecursion(array, helper + 1, end);
     }
-    
 }
 
-void quicksort(int *array, int length){
+void quicksort(int *array, int length)
+{
     quicksortRecursion(array, 0, length);
-    
 }
 
 int main()
