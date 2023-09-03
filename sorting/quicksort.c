@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 int partition(int *array, int start, int end)
 {
     int pivot = array[start], i = start, j = end, temp;
@@ -26,6 +27,16 @@ int partition(int *array, int start, int end)
     array[j] = temp;
     return j;
 }
+
+void quicksort(int *array, int start, int end){
+    int helper;
+    if(start< end){
+        helper = partition(array, start, end);
+        quicksort(array, start, helper);
+        quicksort(array, helper+1, end);
+    }
+}
+
 int main()
 {
 
