@@ -16,6 +16,7 @@ It includes basic exercises of C
 - BST
     It is composed of nodes connected to each other. Each node has a maximum children of 2. BST have a time complexity of O(n). The node from the left is always less than to its parent while the node from the right is always greater than to its parent. It has many operation including insertion, searching and deletion.
 - AVL
+    like a bst but there are rotations
 - Heaps
 - Hashing
 - DFS
