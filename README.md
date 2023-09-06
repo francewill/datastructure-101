@@ -18,6 +18,7 @@ It includes basic exercises of C
 - AVL
     like a bst but there are rotations
 - Heaps
+    Balance tree
 - Hashing
 - DFS
 - SSSP
